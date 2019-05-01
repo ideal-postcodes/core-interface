@@ -1,3 +1,5 @@
+import { Agent } from "./agent";
+
 export interface Config {
   tls: boolean;
   api_key: string;
@@ -5,6 +7,7 @@ export interface Config {
   version: string;
   strictAuthorisation: boolean;
   timeout: number;
+  agent: Agent;
 }
 
 export class Client {
@@ -14,6 +17,7 @@ export class Client {
   readonly version: string;
   readonly strictAuthorisation: boolean;
   readonly timeout: number;
+  readonly agent: Agent;
 
   constructor(config: Config) {
     this.tls = config.tls;
@@ -22,6 +26,7 @@ export class Client {
     this.version = config.version;
     this.strictAuthorisation = config.strictAuthorisation;
     this.timeout = config.timeout;
+    this.agent = config.agent;
   }
 
   get url() {

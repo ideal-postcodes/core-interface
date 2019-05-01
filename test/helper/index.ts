@@ -1,3 +1,9 @@
+import {
+  Agent,
+  HttpRequest,
+  HttpResponse,
+  HttpCallback,
+} from "../../lib/agent";
 import { Config } from "../../lib/client";
 import {
   TIMEOUT,
@@ -7,6 +13,40 @@ import {
   VERSION,
 } from "../../lib/index";
 
+// Exports default config
+export const newConfig = (): Config => {
+  return { ...defaultConfig };
+};
+
+type CallbackResponse = [undefined | Error, HttpResponse];
+
+export class TestAgent implements Agent {
+  private requests: HttpRequest[] = [];
+  private pending: CallbackResponse[] = [];
+  private timer = 10;
+
+  public http(httpRequest: HttpRequest, callback: HttpCallback) {
+    this.requests.push(httpRequest);
+    setTimeout(() => {
+      const [head, ...tail] = this.pending;
+      this.pending = tail || [];
+      if (head === undefined)
+        throw new Error(
+          "Responses must be `enqueued` before you make a request"
+        );
+      callback.apply(callback, head);
+    }, this.timer);
+  }
+
+  public enqueue(response: CallbackResponse) {
+    this.pending.push(response);
+  }
+
+  public setTimer(n: number) {
+    this.timer = n;
+  }
+}
+
 export const defaultConfig: Config = Object.freeze({
   tls: TLS,
   api_key: "api_key",
@@ -14,9 +54,5 @@ export const defaultConfig: Config = Object.freeze({
   version: VERSION,
   strictAuthorisation: STRICT_AUTHORISATION,
   timeout: TIMEOUT,
+  agent: new TestAgent(),
 });
-
-// Exports default config
-export const newConfig = (): Config => {
-  return { ...defaultConfig };
-};
