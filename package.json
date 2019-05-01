@@ -1,0 +1,103 @@
+{
+  "name": "@ideal-postcodes/core-interface",
+  "version": "0.0.1",
+  "description": "Interface specification for javascript based API Clients to api.ideal-postcodes.co.uk",
+  "author": {
+    "name": "Ideal Postcodes",
+    "email": "support@ideal-postcodes.co.uk",
+    "url": "https://ideal-postcodes.co.uk"
+  },
+  "bugs": {
+    "url": "https://github.com/ideal-postcodes/core-interface/issues",
+    "email": "support@ideal-postcodes.co.uk"
+  },
+  "homepage": "https://github.com/ideal-postcodes/core-interface",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ideal-postcodes/core-interface.git"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "npm run lint && NODE_ENV=test node_modules/.bin/nyc node_modules/.bin/mocha",
+    "lint": "node_modules/.bin/tslint -c tslint.json -p tsconfig.json lib/**/*.ts",
+    "build": "npm run lint && node_modules/.bin/tsc",
+    "coverage": "node_modules/.bin/nyc report --reporter=text-lcov | node_modules/.bin/coveralls || true",
+    "docs": "./node_modules/.bin/typedoc --mode file --target ES3 --out docs/ --name 'Ideal Postcodes API Fixtures' --theme minimal --excludePrivate --hideGenerator --excludeExternals lib/",
+    "prepare": "npm run test && npm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "prettier": {
+    "trailingComma": "es5"
+  },
+  "nyc": {
+    "include": [
+      "lib/**/*.ts",
+      "generate/**/*.ts"
+    ],
+    "exclude": [
+      "dist/*",
+      "**/*.d.ts",
+      "generate/index.ts"
+    ],
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "all": true
+  },
+  "mocha": {
+    "extension": [
+      "ts"
+    ],
+    "exit": true,
+    "fullTrace": true,
+    "require": [
+      "ts-node/register",
+      "source-map-support/register"
+    ]
+  },
+  "engines": {
+    "node": ">=8.0"
+  },
+  "keywords": [
+    "API",
+    "Interface",
+    "UK",
+    "Address",
+    "Postcode",
+    "Search",
+    "Ideal Postcodes"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@cablanchard/tsconfig": "0.0.1",
+    "@cablanchard/tslint": "0.0.1",
+    "@ideal-postcodes/api-fixtures": "0.0.4",
+    "@ideal-postcodes/api-typings": "~1.0.1",
+    "@types/chai": "~4.1.7",
+    "@types/mocha": "~5.2.5",
+    "@types/node": "~11.13.0",
+    "@types/prettier": "~1.16.0",
+    "chai": "~4.2.0",
+    "coveralls": "~3.0.2",
+    "mocha": "~6.1.1",
+    "nyc": "~14.0.0",
+    "prettier": "~1.17.0",
+    "source-map-support": "~0.5.10",
+    "ts-node": "~8.1.0",
+    "tslint": "~5.16.0",
+    "typedoc": "~0.14.2",
+    "typescript": "~3.4.1"
+  }
+}
