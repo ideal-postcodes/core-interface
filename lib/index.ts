@@ -4,7 +4,7 @@
 export const API_URL = "api.ideal-postcodes.co.uk";
 export const TLS = true;
 export const VERSION = "v1";
-export const DEFAULT_TIMEOUT = 10000;
+export const TIMEOUT = 10000;
 
 /*
  * STRICT_AUTHORISATION forces authorization header usage on

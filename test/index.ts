@@ -3,7 +3,7 @@ import {
   API_URL,
   TLS,
   VERSION,
-  DEFAULT_TIMEOUT,
+  TIMEOUT,
   STRICT_AUTHORISATION,
   Client,
 } from "../lib/index";
@@ -16,7 +16,7 @@ describe("Main", () => {
     assert.equal(API_URL, "api.ideal-postcodes.co.uk");
     assert.isTrue(TLS);
     assert.equal(VERSION, "v1");
-    assert.equal(DEFAULT_TIMEOUT, TEN_SECONDS);
+    assert.equal(TIMEOUT, TEN_SECONDS);
     assert.isFalse(STRICT_AUTHORISATION);
   });
 
