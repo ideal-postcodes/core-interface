@@ -3,21 +3,41 @@ import {
   IdealPostcodesError,
   IdpcKeyNotFoundError,
   IdpcResourceNotFoundError,
+  IdpcUdprnNotFoundError,
+  IdpcUmprnNotFoundError,
   IdpcPostcodeNotFoundError,
 } from "../lib/error";
 import { defaultResponse } from "./helper/index";
-import { errors, postcodes } from "@ideal-postcodes/api-fixtures";
+import { errors, postcodes, umprn, udprn } from "@ideal-postcodes/api-fixtures";
 import { assert } from "chai";
 
 // IdpcBadRequestError,
 // IdpcUnauthorisedError
 // IdpcRequestFailedERror,
-// IdpcUdprnNotFoundError,
-// IdpcUmprnNotFoundError,
 
 const { invalidKey } = errors;
 
 describe("parse", () => {
+  it("returns IdpcUdprnNotFoundError", () => {
+    const { body, httpStatus } = udprn.notFound;
+    const response = {
+      ...defaultResponse,
+      ...{ httpStatus, body },
+    };
+    const error = parse(response);
+    assert.instanceOf(error, IdpcUdprnNotFoundError);
+  });
+
+  it("returns IdpcUmprnNotFoundError", () => {
+    const { body, httpStatus } = umprn.notFound;
+    const response = {
+      ...defaultResponse,
+      ...{ httpStatus, body },
+    };
+    const error = parse(response);
+    assert.instanceOf(error, IdpcUmprnNotFoundError);
+  });
+
   it("returns IdpcPostcodeNotFoundError", () => {
     const { body, httpStatus } = postcodes.notFound;
     const response = {
@@ -27,6 +47,7 @@ describe("parse", () => {
     const error = parse(response);
     assert.instanceOf(error, IdpcPostcodeNotFoundError);
   });
+
   it("returns IdpcKeyNotFoundError", () => {
     const { body, httpStatus } = invalidKey;
     const response = {

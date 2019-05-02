@@ -180,6 +180,8 @@ const NOT_FOUND = 404;
 
 const INVALID_KEY = 4010;
 const POSTCODE_NOT_FOUND = 4040;
+const UDPRN_NOT_FOUND = 4044;
+const UMPRN_NOT_FOUND = 4046;
 
 const isSuccess = (code: number): boolean => {
   if (code < OK) return false;
@@ -209,6 +211,8 @@ const toApiError = (response: HttpResponse): IdpcApiError | undefined => {
   if (code === INVALID_KEY) return new IdpcKeyNotFoundError(options);
   if (code === POSTCODE_NOT_FOUND)
     return new IdpcPostcodeNotFoundError(options);
+  if (code === UDPRN_NOT_FOUND) return new IdpcUdprnNotFoundError(options);
+  if (code === UMPRN_NOT_FOUND) return new IdpcUmprnNotFoundError(options);
   return;
 };
 
