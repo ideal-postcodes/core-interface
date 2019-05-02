@@ -4,6 +4,7 @@ import {
   IdpcKeyNotFoundError,
   IdpcApiError,
   IdpcResourceNotFoundError,
+  IdpcServerError,
   IdpcUdprnNotFoundError,
   IdpcUmprnNotFoundError,
   IdpcPostcodeNotFoundError,
@@ -120,6 +121,23 @@ describe("parse", () => {
     const error = parse(response);
     assert.instanceOf(error, IdpcResourceNotFoundError);
     assert.equal((error as IdpcApiError).httpStatus, httpStatus);
+    assert.equal((error as IdpcApiError).apiResponseMessage, body.message);
+  });
+
+  it("returns IdpcServerError", () => {
+    const body = {
+      code: 500,
+      message: "Server error",
+    };
+    const httpStatus = 500;
+    const response = {
+      ...defaultResponse,
+      ...{ httpStatus, body },
+    };
+    const error = parse(response);
+    assert.instanceOf(error, IdpcServerError);
+    assert.equal((error as IdpcApiError).httpStatus, httpStatus);
+    assert.equal((error as IdpcApiError).apiResponseMessage, body.message);
   });
 
   it("returns a generic error if body is not json object", () => {

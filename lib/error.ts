@@ -180,6 +180,7 @@ const BAD_REQUEST = 400;
 const UNAUTHORISED = 401;
 const PAYMENT_REQUIRED = 402;
 const NOT_FOUND = 404;
+const SERVER_ERROR = 500;
 
 const INVALID_KEY = 4010;
 const POSTCODE_NOT_FOUND = 4040;
@@ -233,6 +234,7 @@ export const parse = (response: HttpResponse): Error | void => {
     if (httpStatus === PAYMENT_REQUIRED)
       return new IdpcRequestFailedError(response);
     if (httpStatus === UNAUTHORISED) return new IdpcUnauthorisedError(response);
+    if (httpStatus === SERVER_ERROR) return new IdpcServerError(response);
   }
 
   // Generate generic error (backstop)
