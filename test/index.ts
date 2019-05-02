@@ -6,6 +6,7 @@ import {
   TIMEOUT,
   STRICT_AUTHORISATION,
   Client,
+  errors,
 } from "../lib/index";
 import { Client as ApiClient } from "../lib/client";
 
@@ -22,5 +23,9 @@ describe("Main", () => {
 
   it("exports API client", () => {
     assert.equal(Client, ApiClient);
+  });
+
+  it("exports errors module", () => {
+    assert.isDefined(errors);
   });
 });

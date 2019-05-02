@@ -16,3 +16,6 @@ export const STRICT_AUTHORISATION = false;
 export { Client } from "./client";
 
 export { Agent, HttpRequest, HttpResponse, HttpCallback } from "./agent";
+
+import * as errors from "./error";
+export { errors };
