@@ -176,6 +176,7 @@ export class IdpcServerError extends IdpcApiError {}
 
 const OK = 200;
 const REDIRECT = 300;
+const NOT_FOUND = 404;
 
 const isSuccess = (code: number): boolean => {
   if (code < OK) return false;
@@ -183,7 +184,47 @@ const isSuccess = (code: number): boolean => {
   return true;
 };
 
+const isObject = (o: unknown): o is object => {
+  if (o === null) return false;
+  if (typeof o !== "object") return false;
+  return true;
+};
+
+const isErrorResponse = (body: unknown): body is ApiErrorResponse => {
+  if (!isObject(body)) return false;
+  if (typeof (body as ApiErrorResponse).message !== "string") return false;
+  if (typeof (body as ApiErrorResponse).code !== "number") return false;
+  return true;
+};
+
+const toApiError = (response: HttpResponse): IdpcApiError | undefined => {
+  const { body, httpStatus } = response;
+  if (!isErrorResponse(body)) return;
+  const { code } = body;
+  const options = { code, body, httpStatus };
+  if (code === NOT_FOUND) return new IdpcResourceNotFoundError(options);
+  return;
+};
+
+/**
+ * parse
+ *
+ * Parses API responses and returns an error for non 2xx responses
+ *
+ * Upon detecting an error an instance of IdealPostcodesError is returned
+ */
 export const parse = (response: HttpResponse): Error | void => {
-  const { httpStatus } = response;
+  const { httpStatus, body } = response;
+
   if (isSuccess(httpStatus)) return;
+
+  // Test error code in response body
+  const apiError = toApiError(response);
+  if (apiError) return apiError;
+
+  // Generate error based on HTTP code
+  // if (httpStatus === NOT_FOUND) return IdpcResourceNotFoundError({
+
+  // Generate generic error (backstop)
+  return new IdealPostcodesError({ httpStatus, message: String(body) });
 };
