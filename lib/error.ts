@@ -179,6 +179,7 @@ const REDIRECT = 300;
 const NOT_FOUND = 404;
 
 const INVALID_KEY = 4010;
+const POSTCODE_NOT_FOUND = 4040;
 
 const isSuccess = (code: number): boolean => {
   if (code < OK) return false;
@@ -206,6 +207,8 @@ const toApiError = (response: HttpResponse): IdpcApiError | undefined => {
   const options = { code, body, httpStatus };
   if (code === NOT_FOUND) return new IdpcResourceNotFoundError(options);
   if (code === INVALID_KEY) return new IdpcKeyNotFoundError(options);
+  if (code === POSTCODE_NOT_FOUND)
+    return new IdpcPostcodeNotFoundError(options);
   return;
 };
 
