@@ -1,5 +1,5 @@
-import { Agent } from "./agent";
-// import { BaseApiResponse } from "@ideal-postcodes/api-typings";
+import { Agent, HttpResponse } from "./agent";
+import { ApiBaseResponse } from "@ideal-postcodes/api-typings";
 
 type Protocol = "http" | "https";
 
@@ -11,6 +11,14 @@ export interface Config {
   strictAuthorisation: boolean;
   timeout: number;
   agent: Agent;
+}
+
+interface Callback {
+  (
+    error: Error | void,
+    body?: ApiBaseResponse,
+    httpResponse?: HttpResponse
+  ): void;
 }
 
 export class Client {
@@ -38,5 +46,23 @@ export class Client {
 
   get protocol(): Protocol {
     return this.tls ? "https" : "http";
+  }
+
+  ping(callback: Callback) {
+    const method = "GET";
+    const url = `${this.protocol}://${this.baseUrl}/`;
+    this.agent.http(
+      {
+        method,
+        url,
+        header: {},
+        query: {},
+        timeout: this.timeout,
+      },
+      (error, response) => {
+        if (error) return callback(error);
+        return callback(undefined, response.body, response);
+      }
+    );
   }
 }

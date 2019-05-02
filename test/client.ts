@@ -1,6 +1,7 @@
 import { assert } from "chai";
+import { spy, SinonSpy } from "sinon";
 import { Client } from "../lib/client";
-import { defaultConfig } from "./helper/index";
+import { defaultConfig, newConfig, TestAgent } from "./helper/index";
 
 describe("Client", () => {
   it("assigns instance variables", () => {
@@ -49,6 +50,45 @@ describe("Client", () => {
       const config = { tls: false };
       const client = new Client({ ...defaultConfig, ...config });
       assert.equal(client.protocol, "http");
+    });
+  });
+
+  describe("ping", () => {
+    let http: SinonSpy;
+    let client: Client;
+
+    beforeEach(() => {
+      client = new Client(newConfig());
+      const { agent } = client;
+      (<TestAgent>agent).enqueue([
+        undefined,
+        {
+          httpStatus: 200,
+          headers: {},
+          body: {
+            message: "Success",
+            code: 2000,
+          },
+        },
+      ]);
+      http = spy(agent, "http");
+    });
+
+    afterEach(() => {
+      http.restore();
+    });
+
+    it("requests '/'", () => {
+      const expectedRequest = {
+        method: "GET",
+        header: {},
+        query: {},
+        timeout: client.timeout,
+        url: `${client.protocol}://${client.baseUrl}/`,
+      };
+      client.ping(() => {});
+      assert.isTrue(http.calledOnce);
+      assert.deepEqual(http.args[0][0], expectedRequest);
     });
   });
 });

@@ -1,3 +1,4 @@
+import { Omit } from "type-zoo";
 import {
   Agent,
   HttpRequest,
@@ -18,7 +19,9 @@ export const newConfig = (): Config => {
   return { ...defaultConfig };
 };
 
-type CallbackResponse = [undefined | Error, HttpResponse];
+type CallbackResponse = [undefined | Error, QueuedResponse];
+
+interface QueuedResponse extends Omit<HttpResponse, "httpRequest"> {}
 
 export class TestAgent implements Agent {
   private requests: HttpRequest[] = [];
@@ -34,7 +37,8 @@ export class TestAgent implements Agent {
         throw new Error(
           "Responses must be `enqueued` before you make a request"
         );
-      callback.apply(callback, head);
+      const httpResponse: HttpResponse = { ...head[1], ...{ httpRequest } };
+      callback.apply(callback, [head[0], httpResponse]);
     }, this.timer);
   }
 
