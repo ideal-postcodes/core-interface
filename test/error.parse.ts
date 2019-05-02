@@ -2,18 +2,18 @@ import {
   parse,
   IdealPostcodesError,
   IdpcKeyNotFoundError,
+  IdpcApiError,
   IdpcResourceNotFoundError,
   IdpcUdprnNotFoundError,
   IdpcUmprnNotFoundError,
   IdpcPostcodeNotFoundError,
+  IdpcBadRequestError,
+  IdpcUnauthorisedError,
+  IdpcRequestFailedError,
 } from "../lib/error";
 import { defaultResponse } from "./helper/index";
 import { errors, postcodes, umprn, udprn } from "@ideal-postcodes/api-fixtures";
 import { assert } from "chai";
-
-// IdpcBadRequestError,
-// IdpcUnauthorisedError
-// IdpcRequestFailedERror,
 
 const { invalidKey } = errors;
 
@@ -58,6 +58,55 @@ describe("parse", () => {
     assert.instanceOf(error, IdpcKeyNotFoundError);
   });
 
+  it("returns IdpcRequestFailedError", () => {
+    const body = {
+      code: 402,
+      message: "Request failed",
+    };
+    const httpStatus = 402;
+    const response = {
+      ...defaultResponse,
+      ...{ httpStatus, body },
+    };
+    const error = parse(response);
+    assert.instanceOf(error, IdpcRequestFailedError);
+    assert.equal((error as IdpcApiError).apiResponseCode, body.code);
+    assert.equal((error as IdpcApiError).apiResponseMessage, body.message);
+  });
+
+  it("returns IdpcBadRequestError", () => {
+    const body = {
+      code: 400,
+      message: "Bad request",
+    };
+    const httpStatus = 400;
+    const response = {
+      ...defaultResponse,
+      ...{ httpStatus, body },
+    };
+    const error = parse(response);
+    assert.instanceOf(error, IdpcBadRequestError);
+    assert.equal((error as IdpcApiError).httpStatus, httpStatus);
+    assert.equal((error as IdpcApiError).apiResponseCode, body.code);
+    assert.equal((error as IdpcApiError).apiResponseMessage, body.message);
+  });
+
+  it("returns IdpcUnauthorisedError", () => {
+    const body = {
+      code: 401,
+      message: "Unauthorised access",
+    };
+    const httpStatus = 401;
+    const response = {
+      ...defaultResponse,
+      ...{ httpStatus, body },
+    };
+    const error = parse(response);
+    assert.instanceOf(error, IdpcUnauthorisedError);
+    assert.equal((error as IdpcApiError).apiResponseCode, body.code);
+    assert.equal((error as IdpcApiError).apiResponseMessage, body.message);
+  });
+
   it("returns IdpcResourceNotFoundError", () => {
     const body = {
       code: 404,
@@ -70,6 +119,7 @@ describe("parse", () => {
     };
     const error = parse(response);
     assert.instanceOf(error, IdpcResourceNotFoundError);
+    assert.equal((error as IdpcApiError).httpStatus, httpStatus);
   });
 
   it("returns a generic error if body is not json object", () => {
@@ -83,7 +133,7 @@ describe("parse", () => {
     assert.instanceOf(error, IdealPostcodesError);
 
     assert.equal((error as IdealPostcodesError).httpStatus, httpStatus);
-    assert.equal((error as IdealPostcodesError).message, body);
+    assert.equal((error as IdealPostcodesError).message, JSON.stringify(body));
   });
 
   it("returns a generic error if malformed message", () => {

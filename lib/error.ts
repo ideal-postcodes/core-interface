@@ -176,6 +176,9 @@ export class IdpcServerError extends IdpcApiError {}
 
 const OK = 200;
 const REDIRECT = 300;
+const BAD_REQUEST = 400;
+const UNAUTHORISED = 401;
+const PAYMENT_REQUIRED = 402;
 const NOT_FOUND = 404;
 
 const INVALID_KEY = 4010;
@@ -202,20 +205,6 @@ const isErrorResponse = (body: unknown): body is ApiErrorResponse => {
   return true;
 };
 
-const toApiError = (response: HttpResponse): IdpcApiError | undefined => {
-  const { body, httpStatus } = response;
-  if (!isErrorResponse(body)) return;
-  const { code } = body;
-  const options = { code, body, httpStatus };
-  if (code === NOT_FOUND) return new IdpcResourceNotFoundError(options);
-  if (code === INVALID_KEY) return new IdpcKeyNotFoundError(options);
-  if (code === POSTCODE_NOT_FOUND)
-    return new IdpcPostcodeNotFoundError(options);
-  if (code === UDPRN_NOT_FOUND) return new IdpcUdprnNotFoundError(options);
-  if (code === UMPRN_NOT_FOUND) return new IdpcUmprnNotFoundError(options);
-  return;
-};
-
 /**
  * parse
  *
@@ -228,13 +217,24 @@ export const parse = (response: HttpResponse): Error | void => {
 
   if (isSuccess(httpStatus)) return;
 
-  // Test error code in response body
-  const apiError = toApiError(response);
-  if (apiError) return apiError;
+  if (isErrorResponse(body)) {
+    // Test for specific API errors of interest
+    const { code } = body;
+    if (code === INVALID_KEY) return new IdpcKeyNotFoundError(response);
+    if (code === POSTCODE_NOT_FOUND)
+      return new IdpcPostcodeNotFoundError(response);
+    if (code === UDPRN_NOT_FOUND) return new IdpcUdprnNotFoundError(response);
+    if (code === UMPRN_NOT_FOUND) return new IdpcUmprnNotFoundError(response);
 
-  // Generate error based on HTTP code
-  // if (httpStatus === NOT_FOUND) return IdpcResourceNotFoundError({
+    // If no API errors of interest detected, fall back to http status code
+    if (httpStatus === NOT_FOUND)
+      return new IdpcResourceNotFoundError(response);
+    if (httpStatus === BAD_REQUEST) return new IdpcBadRequestError(response);
+    if (httpStatus === PAYMENT_REQUIRED)
+      return new IdpcRequestFailedError(response);
+    if (httpStatus === UNAUTHORISED) return new IdpcUnauthorisedError(response);
+  }
 
   // Generate generic error (backstop)
-  return new IdealPostcodesError({ httpStatus, message: String(body) });
+  return new IdealPostcodesError({ httpStatus, message: JSON.stringify(body) });
 };
