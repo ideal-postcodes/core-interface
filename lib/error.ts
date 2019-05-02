@@ -178,6 +178,8 @@ const OK = 200;
 const REDIRECT = 300;
 const NOT_FOUND = 404;
 
+const INVALID_KEY = 4010;
+
 const isSuccess = (code: number): boolean => {
   if (code < OK) return false;
   if (code >= REDIRECT) return false;
@@ -203,6 +205,7 @@ const toApiError = (response: HttpResponse): IdpcApiError | undefined => {
   const { code } = body;
   const options = { code, body, httpStatus };
   if (code === NOT_FOUND) return new IdpcResourceNotFoundError(options);
+  if (code === INVALID_KEY) return new IdpcKeyNotFoundError(options);
   return;
 };
 

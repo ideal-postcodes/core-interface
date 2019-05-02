@@ -1,12 +1,26 @@
 import {
   parse,
   IdealPostcodesError,
+  IdpcKeyNotFoundError,
   IdpcResourceNotFoundError,
 } from "../lib/error";
 import { defaultResponse } from "./helper/index";
+import { errors } from "@ideal-postcodes/api-fixtures";
 import { assert } from "chai";
 
+const { invalidKey } = errors;
+
 describe("parse", () => {
+  it("returns IdpcKeyNotFoundError", () => {
+    const { body, httpStatus } = invalidKey;
+    const response = {
+      ...defaultResponse,
+      ...{ httpStatus, body },
+    };
+    const error = parse(response);
+    assert.instanceOf(error, IdpcKeyNotFoundError);
+  });
+
   it("returns IdpcResourceNotFoundError", () => {
     const body = {
       code: 404,
@@ -34,6 +48,7 @@ describe("parse", () => {
     assert.equal((error as IdealPostcodesError).httpStatus, httpStatus);
     assert.equal((error as IdealPostcodesError).message, body);
   });
+
   it("returns a generic error if malformed message", () => {
     const body = { code: 4040 };
     const httpStatus = 888;
@@ -46,6 +61,7 @@ describe("parse", () => {
 
     assert.equal((error as IdealPostcodesError).httpStatus, httpStatus);
   });
+
   it("returns a generic error if malformed code", () => {
     const body = {
       message: "404 Page not found",
@@ -58,6 +74,7 @@ describe("parse", () => {
     const error = parse(response);
     assert.instanceOf(error, IdealPostcodesError);
   });
+
   it("returns a generic error for unknown code", () => {
     const body = {
       message: "404 Page not found",
