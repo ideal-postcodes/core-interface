@@ -63,7 +63,7 @@ describe("Client", () => {
       const { agent } = client;
       response = {
         httpStatus: 200,
-        headers: {},
+        header: {},
         body: {
           message: "Success",
           code: 2000,

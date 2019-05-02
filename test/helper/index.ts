@@ -69,3 +69,20 @@ export const defaultConfig: Config = Object.freeze({
   timeout: TIMEOUT,
   agent: new TestAgent(),
 });
+
+const TEN_SECONDS = 10000;
+
+export const defaultRequest: HttpRequest = Object.freeze({
+  method: "GET",
+  header: {},
+  query: {},
+  timeout: TEN_SECONDS,
+  url: "https://api.ideal-postcodes.co.uk/v1/",
+});
+
+export const defaultResponse: HttpResponse = Object.freeze({
+  httpStatus: 200,
+  header: {},
+  body: {},
+  httpRequest: { ...defaultRequest },
+});

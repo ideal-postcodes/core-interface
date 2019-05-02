@@ -1,3 +1,4 @@
+import { HttpResponse } from "./agent";
 import { ApiErrorResponse } from "@ideal-postcodes/api-typings";
 
 /**
@@ -172,3 +173,17 @@ export class IdpcUmprnNotFoundError extends IdpcResourceNotFoundError {}
  * Captures API responses that return a 500 (Server Error) response
  */
 export class IdpcServerError extends IdpcApiError {}
+
+const OK = 200;
+const REDIRECT = 300;
+
+const isSuccess = (code: number): boolean => {
+  if (code < OK) return false;
+  if (code >= REDIRECT) return false;
+  return true;
+};
+
+export const parse = (response: HttpResponse): Error | void => {
+  const { httpStatus } = response;
+  if (isSuccess(httpStatus)) return;
+};

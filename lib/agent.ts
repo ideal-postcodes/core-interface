@@ -81,7 +81,7 @@ export interface HttpResponse {
   // HTTP status code
   httpStatus: number;
   // HTTP response headers
-  headers: Header;
+  header: Header;
   // JSON response body
   body: any;
   // Original HTTP request
