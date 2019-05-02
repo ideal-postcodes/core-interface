@@ -51,6 +51,15 @@ export class TestAgent implements Agent {
   }
 }
 
+export const enqueue = (
+  agent: Agent,
+  error: Error | undefined,
+  response: QueuedResponse
+): Agent => {
+  (<TestAgent>agent).enqueue([error, response]);
+  return agent;
+};
+
 export const defaultConfig: Config = Object.freeze({
   tls: TLS,
   api_key: "api_key",

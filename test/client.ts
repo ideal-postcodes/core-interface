@@ -1,7 +1,7 @@
 import { assert } from "chai";
 import { spy, SinonSpy } from "sinon";
 import { Client } from "../lib/client";
-import { defaultConfig, newConfig, TestAgent } from "./helper/index";
+import { defaultConfig, newConfig, enqueue } from "./helper/index";
 
 describe("Client", () => {
   it("assigns instance variables", () => {
@@ -56,21 +56,20 @@ describe("Client", () => {
   describe("ping", () => {
     let http: SinonSpy;
     let client: Client;
+    let response;
 
     beforeEach(() => {
       client = new Client(newConfig());
       const { agent } = client;
-      (<TestAgent>agent).enqueue([
-        undefined,
-        {
-          httpStatus: 200,
-          headers: {},
-          body: {
-            message: "Success",
-            code: 2000,
-          },
+      response = {
+        httpStatus: 200,
+        headers: {},
+        body: {
+          message: "Success",
+          code: 2000,
         },
-      ]);
+      };
+      enqueue(agent, undefined, response);
       http = spy(agent, "http");
     });
 
@@ -78,7 +77,7 @@ describe("Client", () => {
       http.restore();
     });
 
-    it("requests '/'", () => {
+    it("requests '/'", async () => {
       const expectedRequest = {
         method: "GET",
         header: {},
