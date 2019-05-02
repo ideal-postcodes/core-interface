@@ -11,6 +11,7 @@ describe("Client", () => {
     assert.equal(client.version, defaultConfig.version);
     assert.equal(client.strictAuthorisation, defaultConfig.strictAuthorisation);
     assert.equal(client.timeout, defaultConfig.timeout);
+    assert.equal(client.agent, defaultConfig.agent);
   });
 
   describe("url", () => {
@@ -34,6 +35,20 @@ describe("Client", () => {
       const config = { baseUrl: "api.ideal-postcodes.co.uk:8000" };
       const client = new Client({ ...defaultConfig, ...config });
       assert.equal(client.url, "https://api.ideal-postcodes.co.uk:8000/v1");
+    });
+  });
+
+  describe("protocol", () => {
+    it("returns https if tls is true", () => {
+      const config = { tls: true };
+      const client = new Client({ ...defaultConfig, ...config });
+      assert.equal(client.protocol, "https");
+    });
+
+    it("returns https if tls is true", () => {
+      const config = { tls: false };
+      const client = new Client({ ...defaultConfig, ...config });
+      assert.equal(client.protocol, "http");
     });
   });
 });

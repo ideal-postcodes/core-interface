@@ -1,4 +1,7 @@
 import { Agent } from "./agent";
+// import { BaseApiResponse } from "@ideal-postcodes/api-typings";
+
+type Protocol = "http" | "https";
 
 export interface Config {
   tls: boolean;
@@ -29,7 +32,11 @@ export class Client {
     this.agent = config.agent;
   }
 
-  get url() {
-    return `http${this.tls ? "s" : ""}://${this.baseUrl}/${this.version}`;
+  get url(): string {
+    return `${this.protocol}://${this.baseUrl}/${this.version}`;
+  }
+
+  get protocol(): Protocol {
+    return this.tls ? "https" : "http";
   }
 }
