@@ -3,7 +3,7 @@
 [![CircleCI](https://circleci.com/gh/ideal-postcodes/core-interface/tree/master.svg?style=svg)](https://circleci.com/gh/ideal-postcodes/core-interface/tree/master)
 [![Coverage Status](https://coveralls.io/repos/github/ideal-postcodes/core-interface/badge.svg?branch=master)](https://coveralls.io/github/ideal-postcodes/core-interface?branch=master)
 ![Dependency Status](https://david-dm.org/ideal-postcodes/core-interface.svg) 
-![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=RlN3VXIwTzJqcFhXaUFVb1pvc1lRTkFvc0d2VDJwS1lyL0R6VUpVbTJxWT0tLXRFaG9vbUI1c1NybmxSZG5kc2h0NGc9PQ==--90b7bb2059049ace502b49913e2b650d9f9a2c6b)
+[![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=RGl2bTU2Z3l4MGZNR1ZZREpyajlNaXZFMElZMkNCNENKRHNCMCtyVTBrbz0tLXdVODl3TlRJejA1MWpiTzYzaTBsZ1E9PQ==--8eb0b38bd782e0145dc4dc01e093c861828dbfa8)](https://www.browserstack.com/automate/public-build/RGl2bTU2Z3l4MGZNR1ZZREpyajlNaXZFMElZMkNCNENKRHNCMCtyVTBrbz0tLXdVODl3TlRJejA1MWpiTzYzaTBsZ1E9PQ==--8eb0b38bd782e0145dc4dc01e093c861828dbfa8)
 
 This package is an environment agnostic implementation of the Ideal Postcodes javascript API client interface.
 
