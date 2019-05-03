@@ -1,5 +1,7 @@
 "use strict";
 
+process.env.CHROME_BIN = require("puppeteer").executablePath();
+
 const frameworks = ["mocha", "karma-typescript"];
 const preprocessors = {
   "**/*.ts": ["karma-typescript"],
