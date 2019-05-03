@@ -1,5 +1,5 @@
 import { HttpResponse } from "./agent";
-import { ApiErrorResponse } from "@ideal-postcodes/api-typings";
+import { ApiErrorResponse } from "../node_modules/@ideal-postcodes/api-typings";
 
 /**
  * IdealPostcodesErrorOptions

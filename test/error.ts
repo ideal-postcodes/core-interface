@@ -1,4 +1,4 @@
-import { ApiErrorResponse } from "@ideal-postcodes/api-typings";
+import { ApiErrorResponse } from "../node_modules/@ideal-postcodes/api-typings";
 import { assert } from "chai";
 
 const BAD_REQUEST = 400;

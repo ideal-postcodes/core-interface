@@ -1,5 +1,5 @@
 import { Agent, HttpResponse } from "./agent";
-import { ApiBaseResponse } from "@ideal-postcodes/api-typings";
+import { ApiBaseResponse } from "../node_modules/@ideal-postcodes/api-typings";
 
 type Protocol = "http" | "https";
 

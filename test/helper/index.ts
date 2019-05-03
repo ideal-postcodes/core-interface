@@ -1,4 +1,4 @@
-import { Omit } from "type-zoo";
+import { Omit } from "../../node_modules/type-zoo";
 import {
   Agent,
   HttpRequest,
