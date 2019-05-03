@@ -20,15 +20,32 @@ jobs:
           key: v1-dependencies-{{ checksum "package-lock.json" }}
       - run: npm test
       - run: npm run coverage
+  browser_tests:
+    docker:
+      - image: circleci/node:12-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package-lock.json" }}
+      - run: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
+      - run: npm run karma
 
 workflows:
   version: 2
   push:
     jobs:
       - local_tests
+      - browser_tests
   scheduled:
     jobs:
       - local_tests
+      - browser_tests
     triggers:
       - schedule:
           cron: "55 8 * * *"
