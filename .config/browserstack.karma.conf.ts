@@ -1,3 +1,4 @@
+import { hostname } from "os";
 import { Config } from "karma";
 
 import * as basic from "./config";
@@ -142,6 +143,9 @@ const OLDEST_BROWSERS = {
 
 const browserStack = {
   browserStack: {
+    project: "core-interface",
+    name: hostname(),
+    build: `${new Date().toJSON()}`,
     username: process.env.BROWSERSTACK_USERNAME,
     accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
   },
@@ -174,9 +178,6 @@ const browserStack = {
     "Samsung-5",
     "Edge-14",
   ],
-
-  name: "core-interface-browserstack",
-  build: `${new Date().toJSON()}`,
 };
 
 module.exports = (config: Config): void =>
