@@ -35,6 +35,21 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package-lock.json" }}
       - run: npm run karma
+  browserstack:
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package-lock.json" }}
+      - run: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
+      - run: npm run browserstack
 
 workflows:
   version: 2
@@ -42,10 +57,12 @@ workflows:
     jobs:
       - local_tests
       - browser_tests
+      - browserstack
   scheduled:
     jobs:
       - local_tests
       - browser_tests
+      - browserstack
     triggers:
       - schedule:
           cron: "55 8 * * *"
