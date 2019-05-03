@@ -21,7 +21,7 @@
   "scripts": {
     "test": "npm run lint && NODE_ENV=test node_modules/.bin/nyc node_modules/.bin/mocha",
     "karma": "./node_modules/.bin/karma start",
-    "browserstack": "./node_modules/.bin/karma start browserstack.karma.conf.ts",
+    "browserstack": "./node_modules/.bin/karma start .config/browserstack.karma.conf.ts",
     "lint": "node_modules/.bin/tslint -c tslint.json -p tsconfig.json lib/**/*.ts",
     "build": "npm run lint && node_modules/.bin/tsc",
     "coverage": "node_modules/.bin/nyc report --reporter=text-lcov | node_modules/.bin/coveralls || true",

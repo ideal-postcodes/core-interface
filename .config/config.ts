@@ -16,3 +16,5 @@ export const reporters = ["dots", "karma-typescript"];
 export const singleRun = true;
 
 export const polyfill = ["Promise"];
+
+export const basePath = "../";
