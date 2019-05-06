@@ -4,41 +4,33 @@ import { Config } from "karma";
 import * as basic from "./config";
 
 const LATEST_BROWSERS = {
-  "Chrome-74.0": {
+  "Chrome-74.0-windows": {
     base: "BrowserStack",
     browser: "Chrome",
     browser_version: "74",
     os: "Windows",
     os_version: "10",
   },
-  "Safari-iPhone": {
-    base: "BrowserStack",
-    browserName: "iPhone",
-    device: "iPhone XS",
-    os: "ios",
-    os_version: "12",
-  },
-  "Google-Latest": {
-    base: "BrowserStack",
-    browserName: "android",
-    platform: "ANDROID",
-    os_version: "9.0",
-    os: "android",
-    device: "Google Pixel 3",
-  },
-  "Safari-iPad": {
-    base: "BrowserStack",
-    browserName: "iPad",
-    device: "iPad 6th",
-    os: "ios",
-    os_version: "11",
-  },
-  "Firefox-66.0": {
+  "Firefox-66.0-windows": {
     base: "BrowserStack",
     browser: "Firefox",
     browser_version: "66.0",
     os: "Windows",
     os_version: "10",
+  },
+  "Chrome-74.0-macos": {
+    base: "BrowserStack",
+    browser: "Chrome",
+    browser_version: "74",
+    os: "OS X",
+    os_version: "Mojave",
+  },
+  "Firefox-66.0-macos": {
+    base: "BrowserStack",
+    browser: "Firefox",
+    browser_version: "66.0",
+    os: "OS X",
+    os_version: "Mojave",
   },
   "Safari-12.1": {
     base: "BrowserStack",
@@ -65,14 +57,6 @@ const OLDEST_BROWSERS = {
     os: "Windows",
     os_version: "10",
   },
-  "Google-5": {
-    base: "BrowserStack",
-    browserName: "android",
-    platform: "ANDROID",
-    os_version: "5.0",
-    os: "android",
-    device: "Google Nexus 5",
-  },
   "Opera-58.0": {
     base: "BrowserStack",
     browser: "Opera",
@@ -80,31 +64,10 @@ const OLDEST_BROWSERS = {
     os: "Windows",
     os_version: "10",
   },
-  "Chrome-49.0": {
-    base: "BrowserStack",
-    browser: "Chrome",
-    browser_version: "49",
-    os: "Windows",
-    os_version: "10",
-  },
-  "Chrome-61.0": {
-    base: "BrowserStack",
-    browser: "Chrome",
-    browser_version: "61",
-    os: "Windows",
-    os_version: "10",
-  },
   "Chrome-40.0": {
     base: "BrowserStack",
     browser: "Chrome",
     browser_version: "40",
-    os: "Windows",
-    os_version: "10",
-  },
-  "Firefox-60.0": {
-    base: "BrowserStack",
-    browser: "Firefox",
-    browser_version: "60",
     os: "Windows",
     os_version: "10",
   },
@@ -122,14 +85,22 @@ const OLDEST_BROWSERS = {
     os: "Windows",
     os_version: "10",
   },
-  "Samsung-5": {
-    base: "BrowserStack",
-    browserName: "android",
-    platform: "ANDROID",
-    os_version: "5.0",
-    os: "android",
-    device: "Samsung Galaxy S6",
-  },
+  "Android-4": {
+		base: "BrowserStack",
+		browserName: "android",
+		platform: "ANDROID",
+		os: "android",
+		os_version: "4.0",
+		device: "Google Nexus"
+	},
+	"ios-5.1": {
+		base: "BrowserStack",
+		browserName: "iPhone",
+		platform: "MAC",
+		os: "ios",
+		os_version: "5.1",
+		device: "iPhone 4S"
+	}	,
   "Edge-14": {
     base: "BrowserStack",
     browser: "Edge",
@@ -138,6 +109,11 @@ const OLDEST_BROWSERS = {
     os_version: "10",
   },
 };
+
+const browsers = [
+  ...Object.keys(LATEST_BROWSERS),
+  ...Object.keys(OLDEST_BROWSERS),
+];
 
 const browserStack = {
   browserStack: {
@@ -153,29 +129,7 @@ const browserStack = {
     ...OLDEST_BROWSERS,
   },
 
-  browsers: [
-    // Latest
-    "Chrome-74.0",
-    "Safari-iPhone",
-    "Google-Latest",
-    "Safari-iPad",
-    "Firefox-66.0",
-    "Safari-12.1",
-    "Edge-18",
-
-    // Oldest Supported
-    "IE-11.0",
-    "Google-5",
-    "Opera-58.0",
-    "Chrome-49.0",
-    "Chrome-61.0",
-    "Chrome-40.0",
-    "Firefox-60.0",
-    "Safari-9.1",
-    "Firefox-48.0",
-    "Samsung-5",
-    "Edge-14",
-  ],
+  browsers,
 };
 
 module.exports = (config: Config): void =>
