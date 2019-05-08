@@ -13,6 +13,19 @@ describe("Client", () => {
     assert.equal(client.strictAuthorisation, defaultConfig.strictAuthorisation);
     assert.equal(client.timeout, defaultConfig.timeout);
     assert.equal(client.agent, defaultConfig.agent);
+    assert.deepEqual(client.header, defaultConfig.header);
+  });
+
+  it("allows headers to be overriden and appended", () => {
+    const config = { ...defaultConfig };
+    config.header.Accept = "foo";
+    config.header.bar = "baz";
+    const { header } = new Client(config);
+    assert.deepEqual(header, {
+      Accept: "foo",
+      bar: "baz",
+      "Content-Type": defaultConfig.header["Content-Type"],
+    });
   });
 
   describe("url", () => {
@@ -32,6 +45,7 @@ describe("Client", () => {
       const client = new Client({ ...defaultConfig, ...config });
       assert.equal(client.url, "https://api.ideal-postcodes.co.uk/v2");
     });
+
     it("supports port number definitions", () => {
       const config = { baseUrl: "api.ideal-postcodes.co.uk:8000" };
       const client = new Client({ ...defaultConfig, ...config });

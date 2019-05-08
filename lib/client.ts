@@ -1,4 +1,4 @@
-import { Agent, HttpResponse } from "./agent";
+import { Agent, HttpResponse, Header } from "./agent";
 import { ApiBaseResponse } from "../node_modules/@ideal-postcodes/api-typings";
 
 type Protocol = "http" | "https";
@@ -11,6 +11,7 @@ export interface Config {
   strictAuthorisation: boolean;
   timeout: number;
   agent: Agent;
+  header: Header;
 }
 
 interface Callback {
@@ -21,6 +22,10 @@ interface Callback {
   ): void;
 }
 
+const defaultHeaders = {
+  Accept: "application/json",
+  "Content-Type": "application/x-www-form-urlencoded",
+};
 export class Client {
   readonly tls: boolean;
   readonly api_key: string;
@@ -29,6 +34,7 @@ export class Client {
   readonly strictAuthorisation: boolean;
   readonly timeout: number;
   readonly agent: Agent;
+  readonly header: Header;
 
   constructor(config: Config) {
     this.tls = config.tls;
@@ -38,6 +44,7 @@ export class Client {
     this.strictAuthorisation = config.strictAuthorisation;
     this.timeout = config.timeout;
     this.agent = config.agent;
+    this.header = { ...defaultHeaders, ...config.header };
   }
 
   get url(): string {
