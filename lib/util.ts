@@ -1,4 +1,5 @@
 import { Client } from "./client";
+import { Header } from "./agent";
 
 export interface OptionalStringMap {
   [key: string]: string | undefined;
@@ -34,7 +35,21 @@ const isNumber = (n: any): n is number => typeof n === "number";
  * Returns timeout value from request object. Delegates to default client
  * timeout if not specified
  */
-export const toTimeout = ({ timeout }: OptionalTimeout, client: Client) => {
+export const toTimeout = (
+  { timeout }: OptionalTimeout,
+  client: Client
+): number => {
   if (isNumber(timeout)) return timeout;
   return client.timeout;
+};
+
+interface OptionalHeader {
+  header?: OptionalStringMap;
+}
+
+export const toHeader = (
+  { header = {} }: OptionalHeader,
+  client: Client
+): Header => {
+  return { ...client.header, ...toStringMap(header) };
 };

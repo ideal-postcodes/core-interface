@@ -1,6 +1,6 @@
 import { Client } from "../lib/client";
-import { defaultConfig } from "./helper/index";
-import { toStringMap, toTimeout } from "../lib/util";
+import { defaultConfig, defaultHeader } from "./helper/index";
+import { toStringMap, toTimeout, toHeader } from "../lib/util";
 import { assert } from "chai";
 
 describe("toStringMap", () => {
@@ -17,6 +17,37 @@ describe("toStringMap", () => {
   });
   it("returns empty object if undefined", () => {
     assert.deepEqual(toStringMap(), {});
+  });
+});
+
+describe("toHeader", () => {
+  it("generates header object assigning greatest precedence to request header", () => {
+    const client = new Client({ ...defaultConfig });
+    const header = { Accept: "foo", bar: undefined, baz: "quux" };
+
+    assert.deepEqual(toHeader({ header }, client), {
+      Accept: "foo",
+      baz: "quux",
+      "Content-Type": defaultHeader["Content-Type"],
+    });
+  });
+  it("applies client default headers with lower precedence vis request", () => {
+    const client = new Client({ ...defaultConfig });
+    const header = { bar: undefined, baz: "quux" };
+
+    assert.deepEqual(toHeader({ header }, client), {
+      Accept: defaultHeader.Accept,
+      baz: "quux",
+      "Content-Type": defaultHeader["Content-Type"],
+    });
+  });
+
+  it("applies client default headers if request header undefined", () => {
+    const client = new Client({ ...defaultConfig });
+    assert.deepEqual(toHeader({}, client), {
+      Accept: defaultHeader.Accept,
+      "Content-Type": defaultHeader["Content-Type"],
+    });
   });
 });
 
