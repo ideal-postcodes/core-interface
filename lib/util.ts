@@ -9,7 +9,8 @@ import { StringMap } from "./agent";
  *
  * Shallow copies object while omitting undefined attributes
  */
-export const toStringMap = (optional: OptionalStringMap): StringMap => {
+export const toStringMap = (optional?: OptionalStringMap): StringMap => {
+  if (optional === undefined) return {};
   return Object.keys(optional).reduce<StringMap>((result, key) => {
     const value = optional[key];
     if (isString(value)) result[key] = value;

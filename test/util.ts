@@ -13,4 +13,7 @@ describe("toStringMap", () => {
       }
     );
   });
+  it("returns empty object if undefined", () => {
+    assert.deepEqual(toStringMap(), {});
+  });
 });
