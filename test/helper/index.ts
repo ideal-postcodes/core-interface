@@ -1,3 +1,5 @@
+import { Fixture } from "@ideal-postcodes/api-fixtures";
+import { toStringMap } from "../../lib/util";
 import { Agent, HttpRequest, HttpResponse } from "../../lib/agent";
 import { Config } from "../../lib/client";
 import {
@@ -47,3 +49,16 @@ export const defaultResponse: HttpResponse = Object.freeze({
   body: {},
   httpRequest: { ...defaultRequest },
 });
+
+export const toResponse = (
+  fixture: Fixture,
+  httpRequest: HttpRequest
+): HttpResponse => {
+  const { httpStatus, headers, body } = fixture;
+  return {
+    httpStatus,
+    header: toStringMap(headers),
+    body,
+    httpRequest,
+  };
+};

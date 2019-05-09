@@ -1,9 +1,12 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import { Client } from "../lib/client";
-import { newConfig } from "./helper/index";
+import { newConfig, defaultResponse } from "./helper/index";
+import { HttpVerb } from "../lib/agent";
 
 describe("Client", () => {
+  afterEach(() => sinon.restore());
+
   it("assigns instance variables", () => {
     const config = newConfig();
     const client = new Client(config);
@@ -82,21 +85,21 @@ describe("Client", () => {
   });
 
   describe("ping", () => {
-    it("requests '/'", async () => {
+    it("requests '/'", done => {
       const client = new Client(newConfig());
-      const mock = sinon.mock(client.agent);
-      mock
-        .expects("http")
-        .once()
-        .withExactArgs({
-          method: "GET",
-          header: {},
-          query: {},
-          timeout: client.timeout,
-          url: `${client.protocol}://${client.baseUrl}/`,
-        });
-      await client.ping();
-      mock.verify();
+      const expectedRequest = {
+        method: "GET" as HttpVerb,
+        header: {},
+        query: {},
+        timeout: client.timeout,
+        url: `${client.protocol}://${client.baseUrl}/`,
+      };
+      const stub = sinon.stub(client.agent, "http").resolves(defaultResponse);
+      client.ping().then(() => {
+        sinon.assert.calledOnce(stub);
+        sinon.assert.calledWithExactly(stub, expectedRequest);
+        done();
+      });
     });
   });
 });

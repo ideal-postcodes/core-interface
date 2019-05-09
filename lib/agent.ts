@@ -96,5 +96,5 @@ export interface HttpResponse {
   // Original HTTP request
   httpRequest: HttpRequest;
   // Any additional meta data, e.g. XMLHttpRequest objects
-  metadata: Metadata;
+  metadata?: Metadata;
 }
