@@ -47,6 +47,13 @@ interface OptionalHeader {
   header?: OptionalStringMap;
 }
 
+/**
+ * toHeader
+ *
+ * Extracts HTTP Header object from request and client default headers
+ *
+ * Precendence is given to request specific headers
+ */
 export const toHeader = (
   { header = {} }: OptionalHeader,
   client: Client
