@@ -1,9 +1,15 @@
-import { ApiErrorResponse } from "../node_modules/@ideal-postcodes/api-typings";
+import {
+  errors,
+  postcodes,
+  udprn,
+  umprn,
+} from "../node_modules/@ideal-postcodes/api-fixtures";
+import { HttpResponse } from "../lib/agent";
+import { toResponse, defaultRequest } from "./helper/index";
 import { assert } from "chai";
 
 const BAD_REQUEST = 400;
 const UNAUTHORISED = 401;
-const PAYMENT_REQUESTED = 402;
 const NOT_FOUND = 404;
 const SERVER_ERROR = 500;
 
@@ -48,26 +54,19 @@ describe("Error", () => {
     });
   });
 
-  interface ApiErrorOptions {
-    httpStatus: number;
-    body: ApiErrorResponse;
-  }
-
   interface SuiteTestOptions {
-    ErrorKlass: { new (options: ApiErrorOptions): IdpcApiError };
-    httpStatus: number;
-    body: ApiErrorResponse;
+    ErrorKlass: { new (httpResponse: HttpResponse): IdpcApiError };
+    httpResponse: HttpResponse;
   }
 
   const idpcApiErrorSuite = (options: SuiteTestOptions) => {
-    const { body, httpStatus, ErrorKlass } = options;
-    const error = new ErrorKlass({ body, httpStatus });
+    const { httpResponse, ErrorKlass } = options;
+    const error = new ErrorKlass(httpResponse);
 
     it("assigns properties correctly", () => {
-      assert.deepEqual(error.body, body);
-      assert.equal(error.message, body.message);
-      assert.equal(error.apiResponseCode, body.code);
-      assert.equal(error.httpStatus, httpStatus);
+      assert.deepEqual(error.response, httpResponse);
+      assert.equal(error.message, httpResponse.body.message);
+      assert.equal(error.httpStatus, httpResponse.httpStatus);
       assert.equal(error.name, "Ideal Postcodes Error");
     });
 
@@ -81,36 +80,41 @@ describe("Error", () => {
 
   describe("IdpcApiError", () => {
     describe("instantiation", () => {
-      const httpStatus = UNAUTHORISED;
-      const body = {
-        code: 4010,
-        message: "Invalid Key.",
-      };
-      idpcApiErrorSuite({ body, httpStatus, ErrorKlass: IdpcApiError });
+      idpcApiErrorSuite({
+        httpResponse: toResponse(errors.invalidKey),
+        ErrorKlass: IdpcApiError,
+      });
     });
   });
 
   describe("IdpcBadRequestError", () => {
     describe("instantiation", () => {
-      const httpStatus = BAD_REQUEST;
-      const body = {
-        code: 4000,
-        message: "Invalid syntax submitted.",
+      const httpResponse = {
+        httpStatus: BAD_REQUEST,
+        header: {},
+        httpRequest: defaultRequest,
+        body: {
+          code: 4000,
+          message: "Invalid syntax submitted.",
+        },
       };
-      idpcApiErrorSuite({ body, httpStatus, ErrorKlass: IdpcBadRequestError });
+      idpcApiErrorSuite({ httpResponse, ErrorKlass: IdpcBadRequestError });
     });
   });
 
   describe("IdpcUnauthorisedError", () => {
     describe("instantiation", () => {
-      const httpStatus = UNAUTHORISED;
-      const body = {
-        code: 4012,
-        message: "Forbidden",
+      const httpResponse = {
+        httpStatus: UNAUTHORISED,
+        header: {},
+        httpRequest: defaultRequest,
+        body: {
+          code: 4012,
+          message: "Forbidden",
+        },
       };
       idpcApiErrorSuite({
-        body,
-        httpStatus,
+        httpResponse,
         ErrorKlass: IdpcUnauthorisedError,
       });
     });
@@ -118,14 +122,8 @@ describe("Error", () => {
 
   describe("IdpcResourceNotFoundError", () => {
     describe("instantiation", () => {
-      const httpStatus = NOT_FOUND;
-      const body = {
-        code: 4040,
-        message: "Postcode not found",
-      };
       idpcApiErrorSuite({
-        body,
-        httpStatus,
+        httpResponse: toResponse(errors.invalidUrl),
         ErrorKlass: IdpcResourceNotFoundError,
       });
     });
@@ -133,14 +131,8 @@ describe("Error", () => {
 
   describe("IdpcPostcodeNotFoundError", () => {
     describe("instantiation", () => {
-      const httpStatus = NOT_FOUND;
-      const body = {
-        code: 4040,
-        message: "Postcode not found",
-      };
       idpcApiErrorSuite({
-        body,
-        httpStatus,
+        httpResponse: toResponse(postcodes.notFound),
         ErrorKlass: IdpcPostcodeNotFoundError,
       });
     });
@@ -148,25 +140,26 @@ describe("Error", () => {
 
   describe("IdpcKeyNotFoundError", () => {
     describe("instantiation", () => {
-      const httpStatus = NOT_FOUND;
-      const body = {
-        code: 4042,
-        message: "Key Balance depleted",
+      const httpResponse = {
+        httpStatus: NOT_FOUND,
+        header: {},
+        httpRequest: defaultRequest,
+        body: {
+          code: 4042,
+          message: "Key not found",
+        },
       };
-      idpcApiErrorSuite({ body, httpStatus, ErrorKlass: IdpcKeyNotFoundError });
+      idpcApiErrorSuite({
+        httpResponse,
+        ErrorKlass: IdpcKeyNotFoundError,
+      });
     });
   });
 
   describe("IdpcUdprnNotFoundError", () => {
     describe("instantiation", () => {
-      const httpStatus = NOT_FOUND;
-      const body = {
-        code: 4044,
-        message: "No UDPRN found",
-      };
       idpcApiErrorSuite({
-        body,
-        httpStatus,
+        httpResponse: toResponse(udprn.notFound),
         ErrorKlass: IdpcUdprnNotFoundError,
       });
     });
@@ -174,14 +167,8 @@ describe("Error", () => {
 
   describe("IdpcUmprnNotFoundError", () => {
     describe("instantiation", () => {
-      const httpStatus = NOT_FOUND;
-      const body = {
-        code: 4046,
-        message: "No UMPRN found",
-      };
       idpcApiErrorSuite({
-        body,
-        httpStatus,
+        httpResponse: toResponse(umprn.notFound),
         ErrorKlass: IdpcUmprnNotFoundError,
       });
     });
@@ -189,26 +176,28 @@ describe("Error", () => {
 
   describe("IdpcRequestFailedError", () => {
     describe("instantiation", () => {
-      const httpStatus = PAYMENT_REQUESTED;
-      const body = {
-        code: 4020,
-        message: "Key Balance depleted",
-      };
       idpcApiErrorSuite({
-        body,
-        httpStatus,
+        httpResponse: toResponse(errors.balanceDepleted),
         ErrorKlass: IdpcRequestFailedError,
       });
     });
   });
+
   describe("IdpcServerError", () => {
     describe("instantiation", () => {
-      const httpStatus = SERVER_ERROR;
-      const body = {
-        code: 5000,
-        message: "Something went wrong",
+      const httpResponse = {
+        httpStatus: SERVER_ERROR,
+        header: {},
+        httpRequest: defaultRequest,
+        body: {
+          code: 5000,
+          message: "Server error",
+        },
       };
-      idpcApiErrorSuite({ body, httpStatus, ErrorKlass: IdpcServerError });
+      idpcApiErrorSuite({
+        httpResponse,
+        ErrorKlass: IdpcServerError,
+      });
     });
   });
 });

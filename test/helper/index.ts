@@ -1,7 +1,7 @@
 import { Fixture } from "@ideal-postcodes/api-fixtures";
 import { toStringMap } from "../../lib/util";
-import { Agent, HttpRequest, HttpResponse } from "../../lib/agent";
-import { Config } from "../../lib/client";
+import { HttpVerb, Agent, HttpRequest, HttpResponse } from "../../lib/agent";
+import { Config, Client } from "../../lib/client";
 import {
   TIMEOUT,
   STRICT_AUTHORISATION,
@@ -52,13 +52,26 @@ export const defaultResponse: HttpResponse = Object.freeze({
 
 export const toResponse = (
   fixture: Fixture,
-  httpRequest: HttpRequest
+  httpRequest?: HttpRequest
 ): HttpResponse => {
   const { httpStatus, headers, body } = fixture;
   return {
     httpStatus,
     header: toStringMap(headers),
     body,
-    httpRequest,
+    httpRequest: httpRequest ? httpRequest : toRequest(fixture),
+  };
+};
+
+export const toRequest = (fixture: Fixture): HttpRequest => {
+  const { header } = Client.defaults;
+  const { url, query, method } = fixture;
+  const timeout = TIMEOUT;
+  return {
+    timeout,
+    method: method as HttpVerb,
+    url,
+    header,
+    query: toStringMap(query),
   };
 };

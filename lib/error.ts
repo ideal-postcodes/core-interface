@@ -45,17 +45,6 @@ export class IdealPostcodesError extends Error {
 }
 
 /**
- * IdpcApiErrorOptions
- *
- * IdpcApiError requires both a HTTP status and a response body
- * To process an error with no JSON response body use IdealPostcodesError
- */
-interface IdpcApiErrorOptions {
-  httpStatus: number;
-  body: ApiErrorResponse;
-}
-
-/**
  * IdpcApiError
  *
  * Base error class for API responses with a JSON body. Typically a subclass
@@ -63,32 +52,19 @@ interface IdpcApiErrorOptions {
  */
 export class IdpcApiError extends IdealPostcodesError {
   /**
-   * Response code returned by JSON body. If no JSON body is present, this reads as null
+   * Raw HTTP response
    */
-  public apiResponseCode: number;
-
-  /**
-   * Reponse message return by JSON body
-   */
-  public apiResponseMessage: string;
-
-  /**
-   * Raw API response
-   */
-  public body: ApiErrorResponse;
+  public response: HttpResponse;
 
   /**
    * Returns an API error instance
    */
-  constructor(options: IdpcApiErrorOptions) {
+  constructor(httpResponse: HttpResponse) {
     super({
-      ...options,
-      message: options.body.message,
+      httpStatus: httpResponse.httpStatus,
+      message: httpResponse.body.message,
     });
-    const { body } = options;
-    this.body = body;
-    this.apiResponseCode = body.code;
-    this.apiResponseMessage = body.message;
+    this.response = httpResponse;
   }
 }
 

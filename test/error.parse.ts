@@ -71,8 +71,8 @@ describe("parse", () => {
     };
     const error = parse(response);
     assert.instanceOf(error, IdpcRequestFailedError);
-    assert.equal((error as IdpcApiError).apiResponseCode, body.code);
-    assert.equal((error as IdpcApiError).apiResponseMessage, body.message);
+    assert.equal((error as IdpcApiError).httpStatus, response.httpStatus);
+    assert.equal((error as IdpcApiError).message, body.message);
   });
 
   it("returns IdpcBadRequestError", () => {
@@ -88,8 +88,7 @@ describe("parse", () => {
     const error = parse(response);
     assert.instanceOf(error, IdpcBadRequestError);
     assert.equal((error as IdpcApiError).httpStatus, httpStatus);
-    assert.equal((error as IdpcApiError).apiResponseCode, body.code);
-    assert.equal((error as IdpcApiError).apiResponseMessage, body.message);
+    assert.equal((error as IdpcApiError).message, body.message);
   });
 
   it("returns IdpcUnauthorisedError", () => {
@@ -104,8 +103,8 @@ describe("parse", () => {
     };
     const error = parse(response);
     assert.instanceOf(error, IdpcUnauthorisedError);
-    assert.equal((error as IdpcApiError).apiResponseCode, body.code);
-    assert.equal((error as IdpcApiError).apiResponseMessage, body.message);
+    assert.equal((error as IdpcApiError).httpStatus, response.httpStatus);
+    assert.equal((error as IdpcApiError).message, body.message);
   });
 
   it("returns IdpcResourceNotFoundError", () => {
@@ -121,7 +120,7 @@ describe("parse", () => {
     const error = parse(response);
     assert.instanceOf(error, IdpcResourceNotFoundError);
     assert.equal((error as IdpcApiError).httpStatus, httpStatus);
-    assert.equal((error as IdpcApiError).apiResponseMessage, body.message);
+    assert.equal((error as IdpcApiError).message, body.message);
   });
 
   it("returns IdpcServerError", () => {
@@ -137,7 +136,7 @@ describe("parse", () => {
     const error = parse(response);
     assert.instanceOf(error, IdpcServerError);
     assert.equal((error as IdpcApiError).httpStatus, httpStatus);
-    assert.equal((error as IdpcApiError).apiResponseMessage, body.message);
+    assert.equal((error as IdpcApiError).message, body.message);
   });
 
   it("returns a generic error if body is not json object", () => {
