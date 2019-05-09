@@ -1,42 +1,41 @@
-import { spy } from "sinon";
-import { HttpVerb } from "../lib/agent";
-import { create, PostcodeResource } from "../lib/resources/postcodes";
-import { postcodes } from "@ideal-postcodes/api-fixtures";
+import * as sinon from "sinon";
+import { create } from "../lib/resources/postcodes";
 import { Client } from "../lib/client";
-import { defaultConfig, enqueue, toEnqueuedResponse } from "./helper/index";
-import { assert } from "chai";
+import { newConfig } from "./helper/index";
 
 describe("PostcodesResource", () => {
   describe("get", () => {
-    let client: Client;
-    let resource: PostcodeResource;
     const api_key = "foo";
     const query = { api_key };
+    const postcode = "id11qd";
 
-    beforeEach(() => {
-      client = new Client({ ...defaultConfig });
-      resource = create(client);
+    describe("contract", () => {
+      it("generates API request on agent", async () => {
+        const client = new Client(newConfig());
+        const resource = create(client);
+        const mock = sinon.mock(client.agent);
+        mock
+          .expects("http")
+          .once()
+          .withExactArgs({
+            method: "GET",
+            header: Client.defaults.header,
+            query,
+            timeout: client.timeout,
+            url: "https://api.ideal-postcodes.co.uk/v1/postcodes/id11qd",
+          });
+        try {
+          await resource.get({ postcode, query });
+        } catch (_) {
+          // Ignore error as we're just interested in verifying the contract
+          // between agent and resource
+        }
+        mock.verify();
+      });
     });
 
-    it("generates API request", () => {
-      const { agent } = client;
-      enqueue(agent, undefined, toEnqueuedResponse(postcodes.success));
-      const http = spy(agent, "http");
-
-      const expectedRequest = {
-        method: "GET" as HttpVerb,
-        header: Client.defaults.header,
-        query,
-        timeout: client.timeout,
-        url: "https://api.ideal-postcodes.co.uk/v1/postcodes/id11qd",
-      };
-
-      resource.get({ postcode: "id11qd", query });
-
-      assert.isTrue(http.calledOnce);
-      assert.deepEqual(http.args[0][0], expectedRequest);
-    });
-    it("returns connection error", () => {});
+    it("returns postcode data", () => {});
+    it("returns non API errors (e.g. connection error)", () => {});
     it("returns API errors", () => {});
   });
 });

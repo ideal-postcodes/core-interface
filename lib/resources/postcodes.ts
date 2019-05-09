@@ -28,24 +28,19 @@ export interface PostcodeResource {
 export const create = (client: Client): PostcodeResource => {
   return {
     get: request => {
-      const { postcode } = request;
-      const method = "GET";
-      const timeout = toTimeout(request, client);
-      const header = toHeader(request, client);
-      const query = toStringMap(request.query);
-      const url = `${client.url}/postcodes/${postcode}`;
-
-      return new Promise((resolve, reject) => {
-        client.agent.http(
-          { method, url, query, header, timeout },
-          (connError, response) => {
-            if (connError) return reject(connError);
-            const error = parse(response);
-            if (error) return reject(error);
-            resolve(response);
-          }
-        );
-      });
+      return client.agent
+        .http({
+          method: "GET",
+          url: `${client.url}/postcodes/${request.postcode}`,
+          query: toStringMap(request.query),
+          header: toHeader(request, client),
+          timeout: toTimeout(request, client),
+        })
+        .then(response => {
+          const error = parse(response);
+          if (error) return Promise.reject(error);
+          return Promise.resolve(response);
+        });
     },
   };
 };

@@ -1,5 +1,5 @@
 import { Client } from "../lib/client";
-import { defaultConfig } from "./helper/index";
+import { newConfig } from "./helper/index";
 import { toStringMap, toTimeout, toHeader } from "../lib/util";
 import { assert } from "chai";
 
@@ -24,7 +24,7 @@ describe("toStringMap", () => {
 
 describe("toHeader", () => {
   it("generates header object assigning greatest precedence to request header", () => {
-    const client = new Client({ ...defaultConfig });
+    const client = new Client({ ...newConfig() });
     const header = { Accept: "foo", bar: undefined, baz: "quux" };
 
     assert.deepEqual(toHeader({ header }, client), {
@@ -34,7 +34,7 @@ describe("toHeader", () => {
     });
   });
   it("applies client default headers with lower precedence vis request", () => {
-    const client = new Client({ ...defaultConfig });
+    const client = new Client({ ...newConfig() });
     const header = { bar: undefined, baz: "quux" };
 
     assert.deepEqual(toHeader({ header }, client), {
@@ -45,7 +45,7 @@ describe("toHeader", () => {
   });
 
   it("applies client default headers if request header undefined", () => {
-    const client = new Client({ ...defaultConfig });
+    const client = new Client({ ...newConfig() });
     assert.deepEqual(toHeader({}, client), {
       Accept: defaultHeader.Accept,
       "Content-Type": defaultHeader["Content-Type"],
@@ -55,14 +55,14 @@ describe("toHeader", () => {
 
 describe("toTimeout", () => {
   it("returns request timeout", () => {
-    const client = new Client({ ...defaultConfig });
+    const client = new Client({ ...newConfig() });
     const timeout = 888;
     const request = { timeout };
     assert.equal(toTimeout(request, client), timeout);
   });
 
   it("returns client timeout if not specified in request", () => {
-    const client = new Client({ ...defaultConfig });
+    const client = new Client({ ...newConfig() });
     const request = {};
     assert.equal(toTimeout(request, client), client.timeout);
   });

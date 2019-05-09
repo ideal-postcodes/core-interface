@@ -19,10 +19,8 @@
  *
  * ```javascript
  * class AxiosAgent implements Agent {
- *   public http(options, callback) {
- *     axios.request(options)
- *      .then(response => callback(undefined, response))
- *      .catch(error => callback(error));
+ *   public http(options) {
+ *     return axios.request(options);
  *   }
  * }
  * ```
@@ -37,7 +35,7 @@ export interface Agent {
  * Dispatches HTTP JSON http request
  */
 export interface Http {
-  (httpRequest: HttpRequest, callback: HttpCallback): void;
+  (httpRequest: HttpRequest): Promise<HttpResponse>;
 }
 
 export type HttpVerb = "GET" | "POST" | "DELETE" | "PUT" | "PATCH" | "DELETE";
@@ -48,6 +46,7 @@ export type HttpVerb = "GET" | "POST" | "DELETE" | "PUT" | "PATCH" | "DELETE";
  * Describes HTTP request
  */
 export interface HttpRequest {
+  // HTTP method to invoke
   method: HttpVerb;
   // JSON request body
   body?: any;
@@ -70,10 +69,6 @@ export interface StringMap {
  */
 export type Header = StringMap;
 export type Query = StringMap;
-
-export interface HttpCallback {
-  (error: undefined | Error, response: HttpResponse): void;
-}
 
 /**
  * HttpResponse
