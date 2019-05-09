@@ -1,9 +1,11 @@
 import { Omit } from "../../node_modules/type-zoo";
+import { Fixture } from "@ideal-postcodes/api-fixtures";
 import {
   Agent,
   HttpRequest,
   HttpResponse,
   HttpCallback,
+  StringMap,
 } from "../../lib/agent";
 import { Config } from "../../lib/client";
 import {
@@ -86,4 +88,17 @@ export const defaultResponse: HttpResponse = Object.freeze({
   header: {},
   body: {},
   httpRequest: { ...defaultRequest },
+});
+
+/**
+ * Converts a HTTP Fixture to queued HTTP Response
+ */
+export const toEnqueuedResponse = ({
+  httpStatus,
+  headers,
+  body,
+}: Fixture): QueuedResponse => ({
+  httpStatus,
+  body,
+  header: headers as StringMap,
 });

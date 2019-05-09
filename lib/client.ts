@@ -26,6 +26,11 @@ interface Callback {
   ): void;
 }
 
+import {
+  create as createPostcodeResource,
+  PostcodeResource,
+} from "./resources/postcodes";
+
 export class Client {
   static defaults: Defaults = {
     header: {
@@ -42,6 +47,7 @@ export class Client {
   readonly timeout: number;
   readonly agent: Agent;
   readonly header: Header;
+  readonly postcodes: PostcodeResource;
 
   constructor(config: Config) {
     this.tls = config.tls;
@@ -51,8 +57,8 @@ export class Client {
     this.strictAuthorisation = config.strictAuthorisation;
     this.timeout = config.timeout;
     this.agent = config.agent;
-    this.header = { ...defaultHeaders, ...config.header };
     this.header = { ...Client.defaults.header, ...config.header };
+    this.postcodes = createPostcodeResource(this);
   }
 
   get url(): string {
