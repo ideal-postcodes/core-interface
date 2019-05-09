@@ -71,6 +71,17 @@ export type Header = StringMap;
 export type Query = StringMap;
 
 /**
+ * Metadata
+ *
+ * Stores any meta data that an agent may decide to decorate the response with
+ *
+ * E.g. for a browser client, the agent could add an XMLHttpRequest object
+ */
+interface Metadata {
+  [key: string]: unknown;
+}
+
+/**
  * HttpResponse
  *
  * Represents HTTP Response of request
@@ -84,4 +95,6 @@ export interface HttpResponse {
   body: any;
   // Original HTTP request
   httpRequest: HttpRequest;
+  // Any additional meta data, e.g. XMLHttpRequest objects
+  metadata: Metadata;
 }
