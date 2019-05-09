@@ -40,7 +40,7 @@ export interface Http {
   (httpRequest: HttpRequest, callback: HttpCallback): void;
 }
 
-type HttpVerb = "GET" | "POST" | "DELETE" | "PUT" | "PATCH" | "DELETE";
+export type HttpVerb = "GET" | "POST" | "DELETE" | "PUT" | "PATCH" | "DELETE";
 
 /**
  * HttpRequest
@@ -61,12 +61,15 @@ export interface HttpRequest {
   query: Query;
 }
 
-interface StringMap {
+export interface StringMap {
   [key: string]: string;
 }
 
-type Header = StringMap;
-type Query = StringMap;
+/**
+ * Header
+ */
+export type Header = StringMap;
+export type Query = StringMap;
 
 export interface HttpCallback {
   (error: undefined | Error, response: HttpResponse): void;
