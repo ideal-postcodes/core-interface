@@ -13,18 +13,22 @@ describe("Client", () => {
     assert.equal(client.strictAuthorisation, defaultConfig.strictAuthorisation);
     assert.equal(client.timeout, defaultConfig.timeout);
     assert.equal(client.agent, defaultConfig.agent);
-    assert.deepEqual(client.header, defaultConfig.header);
+    assert.deepEqual(client.header, Client.defaults.header);
   });
 
   it("allows headers to be overriden and appended", () => {
     const config = { ...defaultConfig };
-    config.header.Accept = "foo";
-    config.header.bar = "baz";
+    config.header = {
+      Accept: "foo",
+      bar: "baz",
+    };
+
     const { header } = new Client(config);
+
     assert.deepEqual(header, {
       Accept: "foo",
       bar: "baz",
-      "Content-Type": defaultConfig.header["Content-Type"],
+      "Content-Type": Client.defaults.header["Content-Type"],
     });
   });
 
@@ -64,6 +68,15 @@ describe("Client", () => {
       const config = { tls: false };
       const client = new Client({ ...defaultConfig, ...config });
       assert.equal(client.protocol, "http");
+    });
+  });
+
+  describe("Client.defaults", () => {
+    it("exports default header", () => {
+      assert.deepEqual(Client.defaults.header, {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      });
     });
   });
 

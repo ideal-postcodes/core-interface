@@ -60,11 +60,6 @@ export const enqueue = (
   return agent;
 };
 
-export const defaultHeader = {
-  Accept: "application/json",
-  "Content-Type": "application/x-www-form-urlencoded",
-};
-
 export const defaultConfig: Config = Object.freeze({
   tls: TLS,
   api_key: "api_key",
@@ -73,7 +68,7 @@ export const defaultConfig: Config = Object.freeze({
   strictAuthorisation: STRICT_AUTHORISATION,
   timeout: TIMEOUT,
   agent: new TestAgent(),
-  header: defaultHeader,
+  header: {},
 });
 
 const TEN_SECONDS = 10000;

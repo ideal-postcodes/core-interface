@@ -1,7 +1,9 @@
 import { Client } from "../lib/client";
-import { defaultConfig, defaultHeader } from "./helper/index";
+import { defaultConfig } from "./helper/index";
 import { toStringMap, toTimeout, toHeader } from "../lib/util";
 import { assert } from "chai";
+
+const defaultHeader = Object.freeze({ ...Client.defaults.header });
 
 describe("toStringMap", () => {
   it("shallow clones an object omitting non string values", () => {

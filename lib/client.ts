@@ -14,6 +14,10 @@ export interface Config {
   header: Header;
 }
 
+interface Defaults {
+  header: Header;
+}
+
 interface Callback {
   (
     error: Error | void,
@@ -22,11 +26,14 @@ interface Callback {
   ): void;
 }
 
-const defaultHeaders = {
-  Accept: "application/json",
-  "Content-Type": "application/x-www-form-urlencoded",
-};
 export class Client {
+  static defaults: Defaults = {
+    header: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  };
+
   readonly tls: boolean;
   readonly api_key: string;
   readonly baseUrl: string;
@@ -45,6 +52,7 @@ export class Client {
     this.timeout = config.timeout;
     this.agent = config.agent;
     this.header = { ...defaultHeaders, ...config.header };
+    this.header = { ...Client.defaults.header, ...config.header };
   }
 
   get url(): string {
