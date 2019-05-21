@@ -1,9 +1,4 @@
-import {
-  errors,
-  postcodes,
-  udprn,
-  umprn,
-} from "../node_modules/@ideal-postcodes/api-fixtures";
+import { errors, postcodes, udprn, umprn } from "@ideal-postcodes/api-fixtures";
 import { HttpResponse } from "../lib/agent";
 import { toResponse, defaultRequest } from "./helper/index";
 import { assert } from "chai";

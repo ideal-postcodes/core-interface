@@ -1,4 +1,4 @@
-import { PostcodesResponse } from "@ideal-postcodes/api-typings";
+import { PostcodesResponse } from "../../node_modules/@ideal-postcodes/api-typings";
 import { toStringMap, OptionalStringMap, toTimeout, toHeader } from "../util";
 import { parse } from "../error";
 import { Client } from "../client";
