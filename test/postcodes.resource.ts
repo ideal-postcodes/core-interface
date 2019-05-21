@@ -10,7 +10,7 @@ import { newConfig, toResponse } from "./helper/index";
 describe("PostcodesResource", () => {
   afterEach(() => sinon.restore());
 
-  describe("get", () => {
+  describe("retrieve", () => {
     const api_key = "foo";
     const query = { api_key };
     const postcode = "id11qd";
@@ -35,7 +35,7 @@ describe("PostcodesResource", () => {
           .stub(client.agent, "http")
           .resolves(toResponse(postcodes.success, expectedRequest));
 
-        resource.get({ postcode, query }).then(() => {
+        resource.retrieve({ postcode, query }).then(() => {
           sinon.assert.calledOnce(stub);
           sinon.assert.calledWithExactly(stub, expectedRequest);
           done();
@@ -48,7 +48,7 @@ describe("PostcodesResource", () => {
         .stub(client.agent, "http")
         .resolves(toResponse(postcodes.success, expectedRequest));
 
-      resource.get({ postcode, query }).then(response => {
+      resource.retrieve({ postcode, query }).then(response => {
         assert.deepEqual(response.body, postcodes.success.body);
         done();
       });
@@ -58,7 +58,7 @@ describe("PostcodesResource", () => {
       sinon.stub(client.agent, "http").rejects(new Error("timeout!"));
 
       resource
-        .get({ postcode, query })
+        .retrieve({ postcode, query })
         .then(() => {
           done(new Error("Promise should be rejected"));
         })
@@ -74,7 +74,7 @@ describe("PostcodesResource", () => {
         .resolves(toResponse(postcodes.notFound, expectedRequest));
 
       resource
-        .get({ postcode, query })
+        .retrieve({ postcode, query })
         .then(() => done(new Error("Promise should be rejected")))
         .catch(error => {
           assert.instanceOf(error, IdpcPostcodeNotFoundError);

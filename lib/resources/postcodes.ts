@@ -15,7 +15,7 @@ interface Header extends OptionalStringMap {
   Authorization?: string;
 }
 
-interface GetRequest {
+interface RetrieveRequest {
   query?: Query;
   header?: Header;
   timeout?: number;
@@ -23,7 +23,7 @@ interface GetRequest {
 }
 
 export interface PostcodeResource {
-  get(request: GetRequest): Promise<Response>;
+  retrieve(request: RetrieveRequest): Promise<Response>;
 }
 
 interface Response extends HttpResponse {
@@ -32,7 +32,7 @@ interface Response extends HttpResponse {
 
 export const create = (client: Client): PostcodeResource => {
   return {
-    get: request => {
+    retrieve: request => {
       return client.agent
         .http({
           method: "GET",
