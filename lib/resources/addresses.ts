@@ -1,4 +1,7 @@
-import { AddressQueryResponse } from "@ideal-postcodes/api-typings";
+import {
+  AddressQueryResponse,
+  AddressSuggestionResponse,
+} from "@ideal-postcodes/api-typings";
 import { toStringMap, OptionalStringMap, toTimeout, toHeader } from "../util";
 import { parse } from "../error";
 import { Client } from "../client";
@@ -15,18 +18,23 @@ interface Header extends OptionalStringMap {
   Authorization?: string;
 }
 
-interface ListRequest {
+interface Request {
   query?: Query;
   header?: Header;
   timeout?: number;
 }
 
 export interface AddressResource {
-  list(request: ListRequest): Promise<Response>;
+  list(request: Request): Promise<AddressesResponse>;
+  autocomplete(request: Request): Promise<AutocompleteResponse>;
 }
 
-interface Response extends HttpResponse {
+interface AddressesResponse extends HttpResponse {
   body: AddressQueryResponse;
+}
+
+interface AutocompleteResponse extends HttpResponse {
+  body: AddressSuggestionResponse;
 }
 
 export const create = (client: Client): AddressResource => {
@@ -40,7 +48,23 @@ export const create = (client: Client): AddressResource => {
           header: toHeader(request, client),
           timeout: toTimeout(request, client),
         })
-        .then((response: Response) => {
+        .then((response: AddressesResponse) => {
+          const error = parse(response);
+          if (error) return Promise.reject(error);
+          return Promise.resolve(response);
+        });
+    },
+
+    autocomplete: request => {
+      return client.agent
+        .http({
+          method: "GET",
+          url: `${client.url}/autocomplete/addresses`,
+          query: toStringMap(request.query),
+          header: toHeader(request, client),
+          timeout: toTimeout(request, client),
+        })
+        .then((response: AutocompleteResponse) => {
           const error = parse(response);
           if (error) return Promise.reject(error);
           return Promise.resolve(response);
