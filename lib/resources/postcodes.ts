@@ -1,3 +1,4 @@
+import { PostcodesResponse } from "@ideal-postcodes/api-typings";
 import { toStringMap, OptionalStringMap, toTimeout, toHeader } from "../util";
 import { parse } from "../error";
 import { Client } from "../client";
@@ -22,7 +23,11 @@ interface GetRequest {
 }
 
 export interface PostcodeResource {
-  get(request: GetRequest): Promise<HttpResponse>;
+  get(request: GetRequest): Promise<Response>;
+}
+
+interface Response extends HttpResponse {
+  body: PostcodesResponse;
 }
 
 export const create = (client: Client): PostcodeResource => {
@@ -36,7 +41,7 @@ export const create = (client: Client): PostcodeResource => {
           header: toHeader(request, client),
           timeout: toTimeout(request, client),
         })
-        .then(response => {
+        .then((response: Response) => {
           const error = parse(response);
           if (error) return Promise.reject(error);
           return Promise.resolve(response);
