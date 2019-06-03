@@ -35,7 +35,7 @@ describe("UmprnResource", () => {
           .stub(client.agent, "http")
           .resolves(toResponse(umprnFixtures.success, expectedRequest));
 
-        resource.retrieve({ umprn, query }).then(() => {
+        resource.retrieve(umprn.toString(), { query }).then(() => {
           sinon.assert.calledOnce(stub);
           sinon.assert.calledWithExactly(stub, expectedRequest);
           done();
@@ -48,7 +48,7 @@ describe("UmprnResource", () => {
         .stub(client.agent, "http")
         .resolves(toResponse(umprnFixtures.success, expectedRequest));
 
-      resource.retrieve({ umprn, query }).then(response => {
+      resource.retrieve(umprn.toString(), { query }).then(response => {
         assert.deepEqual(response.body, umprnFixtures.success.body);
         done();
       });
@@ -58,7 +58,7 @@ describe("UmprnResource", () => {
       sinon.stub(client.agent, "http").rejects(new Error("timeout!"));
 
       resource
-        .retrieve({ umprn, query })
+        .retrieve(umprn.toString(), { query })
         .then(() => {
           done(new Error("Promise should be rejected"));
         })
@@ -74,7 +74,7 @@ describe("UmprnResource", () => {
         .resolves(toResponse(umprnFixtures.notFound, expectedRequest));
 
       resource
-        .retrieve({ umprn, query })
+        .retrieve(umprn.toString(), { query })
         .then(() => done(new Error("Promise should be rejected")))
         .catch(error => {
           assert.instanceOf(error, IdpcUmprnNotFoundError);
