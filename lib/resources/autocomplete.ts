@@ -1,18 +1,12 @@
 import { listMethod } from "./resource";
-import { AddressQueryResponse } from "../../node_modules/@ideal-postcodes/api-typings";
+import { AddressSuggestionResponse } from "../../node_modules/@ideal-postcodes/api-typings";
 import { OptionalStringMap } from "../util";
 import { Client } from "../client";
 import { HttpResponse } from "../agent";
 
-/**
- * Query
- */
 interface Query extends OptionalStringMap {
   api_key?: string;
   licensee?: string;
-  filter?: string;
-  page?: string;
-  limit?: string;
 }
 
 interface Header extends OptionalStringMap {
@@ -26,16 +20,19 @@ interface Request {
 }
 
 interface Response extends HttpResponse {
-  body: AddressQueryResponse;
+  body: AddressSuggestionResponse;
 }
 
-export interface AddressResource {
+export interface AutocompleteResource {
   list(request: Request): Promise<Response>;
 }
 
-const resource = "addresses";
+const resource = "autocomplete/addresses";
 
-export const create = (client: Client): AddressResource => {
-  const list = listMethod<Request, AddressQueryResponse>({ resource, client });
+export const create = (client: Client): AutocompleteResource => {
+  const list = listMethod<Request, AddressSuggestionResponse>({
+    resource,
+    client,
+  });
   return { list };
 };

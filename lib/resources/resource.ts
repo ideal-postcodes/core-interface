@@ -3,7 +3,7 @@ import { parse } from "../error";
 import { Client } from "../client";
 import { HttpResponse } from "../agent";
 
-interface RetrieveOptions {
+interface Options {
   // Name of resource, e.g. "postcodes"
   resource: string;
   client: Client;
@@ -22,12 +22,33 @@ interface Response<U> extends HttpResponse {
 export const retrieveMethod = <T extends Request, U>({
   client,
   resource,
-}: RetrieveOptions) => {
+}: Options) => {
   return (id: string, request: T) => {
     return client.agent
       .http({
         method: "GET",
         url: `${client.url}/${resource}/${id}`,
+        query: toStringMap(request.query),
+        header: toHeader(request, client),
+        timeout: toTimeout(request, client),
+      })
+      .then((response: Response<U>) => {
+        const error = parse(response);
+        if (error) return Promise.reject(error);
+        return Promise.resolve(response);
+      });
+  };
+};
+
+export const listMethod = <T extends Request, U>({
+  client,
+  resource,
+}: Options) => {
+  return (request: T) => {
+    return client.agent
+      .http({
+        method: "GET",
+        url: `${client.url}/${resource}`,
         query: toStringMap(request.query),
         header: toHeader(request, client),
         timeout: toTimeout(request, client),
