@@ -36,42 +36,42 @@ describe("Client", () => {
     });
   });
 
-  describe("url", () => {
+  describe("#url", () => {
     it("returns base url", () => {
       const client = new Client(newConfig());
-      assert.equal(client.url, "https://api.ideal-postcodes.co.uk/v1");
+      assert.equal(client.url(), "https://api.ideal-postcodes.co.uk/v1");
     });
 
     it("allows non-TLS connections", () => {
       const config = { tls: false };
       const client = new Client({ ...newConfig(), ...config });
-      assert.equal(client.url, "http://api.ideal-postcodes.co.uk/v1");
+      assert.equal(client.url(), "http://api.ideal-postcodes.co.uk/v1");
     });
 
     it("supports versioning", () => {
       const config = { version: "v2" };
       const client = new Client({ ...newConfig(), ...config });
-      assert.equal(client.url, "https://api.ideal-postcodes.co.uk/v2");
+      assert.equal(client.url(), "https://api.ideal-postcodes.co.uk/v2");
     });
 
     it("supports port number definitions", () => {
       const config = { baseUrl: "api.ideal-postcodes.co.uk:8000" };
       const client = new Client({ ...newConfig(), ...config });
-      assert.equal(client.url, "https://api.ideal-postcodes.co.uk:8000/v1");
+      assert.equal(client.url(), "https://api.ideal-postcodes.co.uk:8000/v1");
     });
   });
 
-  describe("protocol", () => {
+  describe("#protocol", () => {
     it("returns https if tls is true", () => {
       const config = { tls: true };
       const client = new Client({ ...newConfig(), ...config });
-      assert.equal(client.protocol, "https");
+      assert.equal(client.protocol(), "https");
     });
 
     it("returns https if tls is true", () => {
       const config = { tls: false };
       const client = new Client({ ...newConfig(), ...config });
-      assert.equal(client.protocol, "http");
+      assert.equal(client.protocol(), "http");
     });
   });
 
@@ -92,7 +92,7 @@ describe("Client", () => {
         header: {},
         query: {},
         timeout: client.timeout,
-        url: `${client.protocol}://${client.baseUrl}/`,
+        url: `${client.protocol()}://${client.baseUrl}/`,
       };
       const stub = sinon.stub(client.agent, "http").resolves(defaultResponse);
       client.ping().then(() => {

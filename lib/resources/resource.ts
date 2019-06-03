@@ -27,7 +27,7 @@ export const retrieveMethod = <T extends Request, U>({
     return client.agent
       .http({
         method: "GET",
-        url: `${client.url}/${resource}/${id}`,
+        url: `${client.url()}/${resource}/${id}`,
         query: toStringMap(request.query),
         header: toHeader(request, client),
         timeout: toTimeout(request, client),
@@ -48,7 +48,7 @@ export const listMethod = <T extends Request, U>({
     return client.agent
       .http({
         method: "GET",
-        url: `${client.url}/${resource}`,
+        url: `${client.url()}/${resource}`,
         query: toStringMap(request.query),
         header: toHeader(request, client),
         timeout: toTimeout(request, client),

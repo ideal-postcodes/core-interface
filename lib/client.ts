@@ -52,17 +52,17 @@ export class Client {
     this.postcodes = createPostcodeResource(this);
   }
 
-  get url(): string {
-    return `${this.protocol}://${this.baseUrl}/${this.version}`;
+  url(): string {
+    return `${this.protocol()}://${this.baseUrl}/${this.version}`;
   }
 
-  get protocol(): Protocol {
+  protocol(): Protocol {
     return this.tls ? "https" : "http";
   }
 
   ping(): Promise<HttpResponse> {
     const method = "GET";
-    const url = `${this.protocol}://${this.baseUrl}/`;
+    const url = `${this.protocol()}://${this.baseUrl}/`;
     return this.agent.http({
       method,
       url,

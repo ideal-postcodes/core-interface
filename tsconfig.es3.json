@@ -1,0 +1,9 @@
+{
+  "extends": "@cablanchard/tsconfig",
+  "compilerOptions": {
+    "target": "ES3",
+    "outDir": "dist",
+    "lib": ["dom"]
+  },
+  "include": ["lib/**/*"]
+}
