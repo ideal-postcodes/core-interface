@@ -6,6 +6,8 @@ import { HttpResponse } from "../agent";
 interface Options {
   // Name of resource, e.g. "postcodes"
   resource: string;
+  // Resource action, e.g. "usage" maps to `/resource/:id/usage"
+  action?: string;
   client: Client;
 }
 
@@ -19,15 +21,20 @@ interface Response<U> extends HttpResponse {
   body: U;
 }
 
-export const retrieveMethod = <T extends Request, U>({
-  client,
-  resource,
-}: Options) => {
+// Writes a resource to URL string
+const toRetrieveUrl = (options: Options, id: string): string => {
+  return [options.client.url(), options.resource, id, options.action]
+    .filter(e => e !== undefined)
+    .join("/");
+};
+
+export const retrieveMethod = <T extends Request, U>(options: Options) => {
+  const { client } = options;
   return (id: string, request: T) => {
     return client.agent
       .http({
         method: "GET",
-        url: `${client.url()}/${resource}/${id}`,
+        url: toRetrieveUrl(options, id),
         query: toStringMap(request.query),
         header: toHeader(request, client),
         timeout: toTimeout(request, client),
@@ -40,10 +47,8 @@ export const retrieveMethod = <T extends Request, U>({
   };
 };
 
-export const listMethod = <T extends Request, U>({
-  client,
-  resource,
-}: Options) => {
+export const listMethod = <T extends Request, U>(options: Options) => {
+  const { client, resource } = options;
   return (request: T) => {
     return client.agent
       .http({
