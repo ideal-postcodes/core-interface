@@ -85,7 +85,7 @@
   "devDependencies": {
     "@cablanchard/tsconfig": "1.0.0",
     "@cablanchard/tslint": "0.0.1",
-    "@ideal-postcodes/api-fixtures": "0.0.4",
+    "@ideal-postcodes/api-fixtures": "0.1.0",
     "@ideal-postcodes/api-typings": "~1.0.1",
     "@types/chai": "~4.1.7",
     "@types/karma": "~3.0.3",
