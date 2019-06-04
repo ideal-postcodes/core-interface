@@ -5,13 +5,20 @@ import { Client } from "../client";
 import { HttpResponse } from "../agent";
 
 interface Query extends OptionalStringMap {
+  // Authentication
   api_key?: string;
   licensee?: string;
+
+  // Result Filtering
   filter?: string;
+
+  // Misc
+  tags?: string;
 }
 
 interface Header extends OptionalStringMap {
   Authorization?: string;
+  "IDPC-Source-IP"?: string;
 }
 
 interface Request {

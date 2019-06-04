@@ -9,10 +9,12 @@ interface Query extends OptionalStringMap {
   licensee?: string;
   filter?: string;
   page?: string;
+  tags?: string;
 }
 
 interface Header extends OptionalStringMap {
   Authorization?: string;
+  "IDPC-Source-IP"?: string;
 }
 
 interface Request {
