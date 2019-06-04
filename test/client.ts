@@ -84,6 +84,17 @@ describe("Client", () => {
     });
   });
 
+  describe("Resoures", () => {
+    it("exposes API resources", () => {
+      const client = new Client({ ...newConfig() });
+      assert.isDefined(client.postcodes);
+      assert.isDefined(client.addresses);
+      assert.isDefined(client.udprn);
+      assert.isDefined(client.umprn);
+      assert.isDefined(client.keys);
+    });
+  });
+
   describe("ping", () => {
     it("requests '/'", done => {
       const client = new Client(newConfig());

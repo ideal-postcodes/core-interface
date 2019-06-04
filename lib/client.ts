@@ -44,9 +44,26 @@ interface Defaults {
 }
 
 import {
+  create as createAddressResource,
+  AddressResource,
+} from "./resources/addresses";
+
+import {
   create as createPostcodeResource,
   PostcodeResource,
 } from "./resources/postcodes";
+
+import { create as createKeyResource, KeyResource } from "./resources/keys";
+
+import {
+  create as createUdprnResource,
+  UdprnResource,
+} from "./resources/udprn";
+
+import {
+  create as createUmprnResource,
+  UmprnResource,
+} from "./resources/umprn";
 
 export class Client {
   static defaults: Defaults = {
@@ -65,6 +82,10 @@ export class Client {
   readonly agent: Agent;
   readonly header: Header;
   readonly postcodes: PostcodeResource;
+  readonly addresses: AddressResource;
+  readonly udprn: UdprnResource;
+  readonly umprn: UmprnResource;
+  readonly keys: KeyResource;
 
   constructor(config: Config) {
     this.tls = config.tls;
@@ -76,6 +97,10 @@ export class Client {
     this.agent = config.agent;
     this.header = { ...Client.defaults.header, ...config.header };
     this.postcodes = createPostcodeResource(this);
+    this.addresses = createAddressResource(this);
+    this.udprn = createUdprnResource(this);
+    this.umprn = createUmprnResource(this);
+    this.keys = createKeyResource(this);
   }
 
   /**
