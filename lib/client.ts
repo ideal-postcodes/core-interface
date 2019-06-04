@@ -3,13 +3,39 @@ import { Agent, HttpResponse, Header } from "./agent";
 type Protocol = "http" | "https";
 
 export interface Config {
+  /**
+   * Use TLS. Defaults to `true`
+   */
   tls: boolean;
+  /**
+   * API Key. Used in API helper methods
+   */
   api_key: string;
+  /**
+   * Target API hostname. Defaults to `'api.ideal-postcodes.co.uk'`
+   */
   baseUrl: string;
+  /**
+   * API version. Defaults to `'v1'`
+   */
   version: string;
+  /**
+   * Force autocomplete authorisation via HTTP headers only. Defaults to `false`
+   */
   strictAuthorisation: boolean;
+  /**
+   * Time before HTTP request timeout. Defaults to 10s
+   */
   timeout: number;
+  /**
+   * HTTP Agent
+   *
+   * For downstream clients like core-node and core-browser, this will default to the native platform HTTP client
+   */
   agent: Agent;
+  /**
+   * String map specifying default headers
+   */
   header: Header;
 }
 
@@ -52,6 +78,11 @@ export class Client {
     this.postcodes = createPostcodeResource(this);
   }
 
+  /**
+   * url
+   *
+   * Return base URL for API requests
+   */
   url(): string {
     return `${this.protocol()}://${this.baseUrl}/${this.version}`;
   }
@@ -60,6 +91,11 @@ export class Client {
     return this.tls ? "https" : "http";
   }
 
+  /**
+   * ping
+   *
+   * Dispatches HTTP request to root endpoint "`/`"
+   */
   ping(): Promise<HttpResponse> {
     const method = "GET";
     const url = `${this.protocol()}://${this.baseUrl}/`;
