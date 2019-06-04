@@ -94,4 +94,65 @@ describe("KeyResource", () => {
       });
     });
   });
+
+  describe("private key information", () => {
+    describe("retrieve", () => {
+      const user_token = "secretfoo";
+      const query = { user_token };
+      const key = "iddqd";
+      const client = new Client(newConfig());
+      const expectedRequest = {
+        method: "GET" as HttpVerb,
+        header: Client.defaults.header,
+        query,
+        timeout: client.timeout,
+        url: "https://api.ideal-postcodes.co.uk/v1/keys/iddqd",
+      };
+
+      let resource: KeyResource;
+
+      beforeEach(() => {
+        resource = create(client);
+      });
+
+      describe("contract", () => {
+        it("generates API request on agent", done => {
+          const stub = sinon
+            .stub(client.agent, "http")
+            .resolves(toResponse(keys.private.success, expectedRequest));
+
+          resource.retrieve(key, { query }).then(() => {
+            sinon.assert.calledOnce(stub);
+            sinon.assert.calledWithExactly(stub, expectedRequest);
+            done();
+          });
+        });
+      });
+
+      it("returns key available", done => {
+        sinon
+          .stub(client.agent, "http")
+          .resolves(toResponse(keys.private.success, expectedRequest));
+
+        resource.retrieve(key, { query }).then(response => {
+          assert.deepEqual(response.body, keys.private.success.body);
+          done();
+        });
+      });
+
+      it("returns API errors", done => {
+        sinon
+          .stub(client.agent, "http")
+          .resolves(toResponse(keys.check.invalid, expectedRequest));
+
+        resource
+          .retrieve(key, { query })
+          .then(() => done(new Error("Promise should be rejected")))
+          .catch(error => {
+            assert.instanceOf(error, IdpcKeyNotFoundError);
+            done();
+          });
+      });
+    });
+  });
 });
