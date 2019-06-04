@@ -1,11 +1,13 @@
-# Core Interface
+<h1 align="center">
+  <img src="https://img.ideal-postcodes.co.uk/Ideal%20Postcodes%20Core%20Logo@3x.png" alt="Ideal Postcodes Core Interface">
+</h1>
 
 [![CircleCI](https://circleci.com/gh/ideal-postcodes/core-interface/tree/master.svg?style=svg)](https://circleci.com/gh/ideal-postcodes/core-interface/tree/master)
 [![Coverage Status](https://coveralls.io/repos/github/ideal-postcodes/core-interface/badge.svg?branch=master)](https://coveralls.io/github/ideal-postcodes/core-interface?branch=master)
 ![Dependency Status](https://david-dm.org/ideal-postcodes/core-interface.svg) 
 [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=RGl2bTU2Z3l4MGZNR1ZZREpyajlNaXZFMElZMkNCNENKRHNCMCtyVTBrbz0tLXdVODl3TlRJejA1MWpiTzYzaTBsZ1E9PQ==--8eb0b38bd782e0145dc4dc01e093c861828dbfa8)](https://www.browserstack.com/automate/public-build/RGl2bTU2Z3l4MGZNR1ZZREpyajlNaXZFMElZMkNCNENKRHNCMCtyVTBrbz0tLXdVODl3TlRJejA1MWpiTzYzaTBsZ1E9PQ==--8eb0b38bd782e0145dc4dc01e093c861828dbfa8)
 
-This package is an environment agnostic implementation of the Ideal Postcodes javascript API client interface.
+`@ideal-postcodes/core-interface` is an environment agnostic implementation of the Ideal Postcodes javascript API client interface.
 
 If you are looking for a browser or node.js client, please check out the downstream clients in the [links](#links) below.
 
@@ -19,13 +21,206 @@ If you are looking for a browser or node.js client, please check out the downstr
 - [Typings Repository](https://github.com/ideal-postcodes/api-typings)
 - [Fixtures Repository](https://github.com/ideal-postcodes/api-fixtures)
 
-## Test
+## Documentation
 
-```bash
-npm test
+### Methods
+
+#### Usage
+
+To install, pick one of the following based on your platform
+
+```
+# For browser client
+npm install @ideal-postcodes/core-browser
+
+# For node.js client
+npm install @ideal-postcodes/core-node
+
+# For generic interface (you need to supply your own HTTP agent)
+npm install @ideal-postcodes/core-interface
 ```
 
-## Documentation
+Instantiate a client
+
+```
+const client = new Client({});
+```
+
+More configuration options [outlined in the docs](https://core-interface.ideal-postcodes.dev/docs/interfaces/config.html)
+
+#### Resource Methods
+
+A resource mapped out in [the API documentation](https://ideal-postcodes.co.uk/documentation) is exposed on the client as a method which maps closely to the low level HTTP request.
+
+These methods are ideal if you have a more complex query (where you want low level access to the HTTP request) or you need access to the entire HTTP response.
+
+Requesting a resource by ID (e.g. a postcode lookup for postcode with ID "SW1A 2AA") maps to the `#retrieve` method.
+
+The first argument is the resource ID. The second argument is an object which accepts `header` and `query` attributes that map to HTTP header and the request querystring.
+
+```javascript
+client.resourceName.retrieve("id", {
+  query: {
+    api_key: "foo",
+    tags: "this,that,those",
+    licensee: "sk_99dj3",
+  },
+  header: {
+    "IDPC-Source-IP": "8.8.8.8",
+  },
+  timeout: 5000,
+});
+```
+
+Reqesting a resource endpoint (e.g. an address query to `/addresses`) maps to the `#list` method.
+
+```javascript
+client.resourceName.list({
+  query: {
+    api_key: "foo",
+    query: "10 downing street"
+  },
+  header: {
+    "IDPC-Source-IP": "8.8.8.8",
+  },
+  timeout: 5000,
+});
+```
+
+The first and only argument is an object which accepts `header` and `query` attributes that map to HTTP header and the request querystring.
+
+The resources are:
+
+- [Postcodes](#postcodes)
+- [Addresses](#addresses)
+- [Autocomplete](#autocomplete)
+- [UDPRN](#udprn)
+- [UMPRN](#umprn)
+- [Keys](#keys)
+
+#### Postcodes
+
+Retrieve addresses for a postcode.
+
+```javascript
+client.postcodes.retrieve("SW1A2AA", {
+  header: {
+    "Authorization": 'IDEALPOSTCODES api_key="iddqd"',
+  },
+}).then(response => {
+  const addresses = response.body.result;
+}).catch(error => logger(error));
+```
+
+[See Postcode resource API documentation](https://ideal-postcodes.co.uk/documentation/postcodes).
+
+
+#### Addresses
+
+Search for an address.
+
+```javascript
+client.addresses.list({
+  query: {
+    query: "10 Downing street",
+  },
+  header: {
+    "Authorization": 'IDEALPOSTCODES api_key="iddqd"',
+  },
+}).then(response => {
+  const addresses = response.body.result.hits;
+}).catch(error => logger(error));
+```
+
+[See addresses resource API documentation](https://ideal-postcodes.co.uk/documentation/addresses).
+
+#### Autocomplete
+
+Autocomplete an address given an address partial.
+
+```javascript
+client.autocomplete.list({
+  query: {
+    query: "10 Downing stre",
+  },
+  header: {
+    "Authorization": 'IDEALPOSTCODES api_key="iddqd"',
+  },
+}).then(response => {
+  const suggestions = response.body.result.hits;
+}).catch(error => logger(error));
+```
+
+[See autocomplete resource API documentation](https://ideal-postcodes.co.uk/documentation/autocomplete).
+
+#### UDPRN
+
+Retrieve an address given a UDPRN
+
+```javascript
+client.udprn.retrieve("12345678", {
+  header: {
+    "Authorization": 'IDEALPOSTCODES api_key="iddqd"',
+  },
+}).then(response => {
+  const address = response.body.result;
+}).catch(error => logger(error));
+```
+
+[See UDPRN resource API documentation](https://ideal-postcodes.co.uk/documentation/udprn).
+
+#### UMPRN
+
+Retrieve a multiple residence premise given a UMPRN.
+
+```javascript
+client.umprn.retrieve("87654321", {
+  header: {
+    "Authorization": 'IDEALPOSTCODES api_key="iddqd"',
+  },
+}).then(response => {
+  const address = response.body.result;
+}).catch(error => logger(error));
+```
+
+[See UMPRN resource API documentation](https://ideal-postcodes.co.uk/documentation/umprn).
+
+#### Keys
+
+Find out if a key is available.
+
+```javascript
+client.keys.retrieve("iddqd", {})
+  .then(response => {
+    const { available } = response.body.result;
+  }).catch(error => logger(error));
+```
+
+Get private information on key (requires user_token).
+
+```javascript
+client.keys.retrieve("iddqd", {
+  header: {
+    "Authorization": 'IDEALPOSTCODES user_token="secret-token"',
+  },
+}).then(response => {
+  const key = response.body.result;
+}).catch(error => logger(error));
+```
+
+Get key usage data.
+
+```javascript
+client.keys.usage("iddqd", {
+  header: {
+    "Authorization": 'IDEALPOSTCODES user_token="secret-token"',
+  },
+}).then(response => {
+  const key = response.body.result;
+}).catch(error => logger(error));
+```
+
+[See Keys resource API documentation](https://ideal-postcodes.co.uk/documentation/keys).
 
 ### Errors
 
@@ -107,6 +302,12 @@ const error = parse(response);
 
 // Handle the error
 if (error instanceof IdpcPostcodeNotFoundError) ...
+```
+
+## Test
+
+```bash
+npm test
 ```
 
 ## License
