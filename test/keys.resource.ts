@@ -154,5 +154,50 @@ describe("KeyResource", () => {
           });
       });
     });
+
+    describe("usage", () => {
+      const user_token = "secretfoo";
+      const query = { user_token };
+      const key = "iddqd";
+      const client = new Client(newConfig());
+      const expectedRequest = {
+        method: "GET" as HttpVerb,
+        header: Client.defaults.header,
+        query,
+        timeout: client.timeout,
+        url: "https://api.ideal-postcodes.co.uk/v1/keys/iddqd/usage",
+      };
+
+      let resource: KeyResource;
+
+      beforeEach(() => {
+        resource = create(client);
+      });
+
+      describe("contract", () => {
+        it("generates API request on agent", done => {
+          const stub = sinon
+            .stub(client.agent, "http")
+            .resolves(toResponse(keys.usage.success, expectedRequest));
+
+          resource.usage(key, { query }).then(() => {
+            sinon.assert.calledOnce(stub);
+            sinon.assert.calledWithExactly(stub, expectedRequest);
+            done();
+          });
+        });
+      });
+
+      it("returns key usage data", done => {
+        sinon
+          .stub(client.agent, "http")
+          .resolves(toResponse(keys.usage.success, expectedRequest));
+
+        resource.usage(key, { query }).then(response => {
+          assert.deepEqual(response.body, keys.usage.success.body);
+          done();
+        });
+      });
+    });
   });
 });
