@@ -93,6 +93,13 @@ export class IdpcBadRequestError extends IdpcApiError {}
 export class IdpcUnauthorisedError extends IdpcApiError {}
 
 /**
+ * IpdcInvalidKeyError
+ *
+ * Invalid API Key presented for request
+ */
+export class IdpcInvalidKeyError extends IdpcUnauthorisedError {}
+
+/**
  * IdpcRequestFailedError
  *
  * Captures API responses that return a 402 (Request Failed) response
@@ -150,18 +157,31 @@ export class IdpcUmprnNotFoundError extends IdpcResourceNotFoundError {}
  */
 export class IdpcServerError extends IdpcApiError {}
 
+// 200 Responses
 const OK = 200;
-const REDIRECT = 300;
-const BAD_REQUEST = 400;
-const UNAUTHORISED = 401;
-const PAYMENT_REQUIRED = 402;
-const NOT_FOUND = 404;
-const SERVER_ERROR = 500;
 
+// 300 Responses
+const REDIRECT = 300;
+
+// 400 Responses
+const BAD_REQUEST = 400;
+
+// 401 Responses
+const UNAUTHORISED = 401;
 const INVALID_KEY = 4010;
+
+// 402 Responses
+const PAYMENT_REQUIRED = 402;
+
+// 404 Responses
+const NOT_FOUND = 404;
 const POSTCODE_NOT_FOUND = 4040;
+const KEY_NOT_FOUND = 4042;
 const UDPRN_NOT_FOUND = 4044;
 const UMPRN_NOT_FOUND = 4046;
+
+// 500 Responses
+const SERVER_ERROR = 500;
 
 const isSuccess = (code: number): boolean => {
   if (code < OK) return false;
@@ -197,9 +217,10 @@ export const parse = (response: HttpResponse): Error | void => {
   if (isErrorResponse(body)) {
     // Test for specific API errors of interest
     const { code } = body;
-    if (code === INVALID_KEY) return new IdpcKeyNotFoundError(response);
+    if (code === INVALID_KEY) return new IdpcInvalidKeyError(response);
     if (code === POSTCODE_NOT_FOUND)
       return new IdpcPostcodeNotFoundError(response);
+    if (code === KEY_NOT_FOUND) return new IdpcKeyNotFoundError(response);
     if (code === UDPRN_NOT_FOUND) return new IdpcUdprnNotFoundError(response);
     if (code === UMPRN_NOT_FOUND) return new IdpcUmprnNotFoundError(response);
 

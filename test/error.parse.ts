@@ -2,6 +2,7 @@ import {
   parse,
   IdealPostcodesError,
   IdpcKeyNotFoundError,
+  IdpcInvalidKeyError,
   IdpcApiError,
   IdpcResourceNotFoundError,
   IdpcServerError,
@@ -13,7 +14,13 @@ import {
   IdpcRequestFailedError,
 } from "../lib/error";
 import { defaultResponse } from "./helper/index";
-import { errors, postcodes, umprn, udprn } from "@ideal-postcodes/api-fixtures";
+import {
+  keys,
+  errors,
+  postcodes,
+  umprn,
+  udprn,
+} from "@ideal-postcodes/api-fixtures";
 import { assert } from "chai";
 
 const { invalidKey } = errors;
@@ -49,8 +56,18 @@ describe("parse", () => {
     assert.instanceOf(error, IdpcPostcodeNotFoundError);
   });
 
-  it("returns IdpcKeyNotFoundError", () => {
+  it("returns IdpcInvalidKeyError", () => {
     const { body, httpStatus } = invalidKey;
+    const response = {
+      ...defaultResponse,
+      ...{ httpStatus, body },
+    };
+    const error = parse(response);
+    assert.instanceOf(error, IdpcInvalidKeyError);
+  });
+
+  it("returns IdpcKeyNotFoundError", () => {
+    const { body, httpStatus } = keys.check.invalid;
     const response = {
       ...defaultResponse,
       ...{ httpStatus, body },
