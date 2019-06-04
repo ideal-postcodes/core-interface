@@ -19,6 +19,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "semantic-release": "node_modules/.bin/semantic-release --no-ci",
     "test": "npm run lint && NODE_ENV=test node_modules/.bin/nyc node_modules/.bin/mocha",
     "karma": "./node_modules/.bin/karma start",
     "browserstack": "./node_modules/.bin/karma start .config/browserstack.karma.conf.ts",
@@ -80,9 +81,13 @@
     "Search",
     "Ideal Postcodes"
   ],
+  "release": {
+    "extends": "@cablanchard/semantic-release/dist/npm"
+  },
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "@cablanchard/semantic-release": "~1.2.1",
     "@cablanchard/tsconfig": "1.0.0",
     "@cablanchard/tslint": "0.0.1",
     "@ideal-postcodes/api-fixtures": "~0.1.0",
@@ -107,6 +112,7 @@
     "nyc": "~14.1.1",
     "prettier": "~1.17.1",
     "puppeteer": "~1.17.0",
+    "semantic-release": "~15.13.12",
     "sinon": "~7.3.2",
     "source-map-support": "~0.5.10",
     "ts-node": "~8.2.0",
