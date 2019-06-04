@@ -29,7 +29,7 @@ If you are looking for a browser or node.js client, please check out the downstr
 
 To install, pick one of the following based on your platform
 
-```
+```bash
 # For browser client
 npm install @ideal-postcodes/core-browser
 
@@ -42,7 +42,7 @@ npm install @ideal-postcodes/core-interface
 
 Instantiate a client
 
-```
+```javascript
 const client = new Client({});
 ```
 
@@ -50,9 +50,11 @@ More configuration options [outlined in the docs](https://core-interface.ideal-p
 
 #### Resource Methods
 
-A resource mapped out in [the API documentation](https://ideal-postcodes.co.uk/documentation) is exposed on the client as a method which maps closely to the low level HTTP request.
+Resources defined in [the API documentation](https://ideal-postcodes.co.uk/documentation) are exposed on the client. Each resource exposes a method (`#retrieve`, `#list`, etc) which maps to a resource action.
 
-These methods are ideal if you have a more complex query (where you want low level access to the HTTP request) or you need access to the entire HTTP response.
+These methods expose a low level interface to execute HTTP requests and observe HTTP responses. They are ideal if you have a more complex query or usecase where low level access would be useful.
+
+Resource methods return a promise with a HTTP response object type.
 
 Requesting a resource by ID (e.g. a postcode lookup for postcode with ID "SW1A 2AA") maps to the `#retrieve` method.
 
@@ -112,7 +114,7 @@ client.postcodes.retrieve("SW1A2AA", {
 }).catch(error => logger(error));
 ```
 
-[See Postcode resource API documentation](https://ideal-postcodes.co.uk/documentation/postcodes).
+[See Postcode resource API documentation](https://ideal-postcodes.co.uk/documentation/postcodes)
 
 
 #### Addresses
@@ -132,7 +134,7 @@ client.addresses.list({
 }).catch(error => logger(error));
 ```
 
-[See addresses resource API documentation](https://ideal-postcodes.co.uk/documentation/addresses).
+[See addresses resource API documentation](https://ideal-postcodes.co.uk/documentation/addresses)
 
 #### Autocomplete
 
@@ -151,7 +153,7 @@ client.autocomplete.list({
 }).catch(error => logger(error));
 ```
 
-[See autocomplete resource API documentation](https://ideal-postcodes.co.uk/documentation/autocomplete).
+[See autocomplete resource API documentation](https://ideal-postcodes.co.uk/documentation/autocomplete)
 
 #### UDPRN
 
@@ -167,7 +169,7 @@ client.udprn.retrieve("12345678", {
 }).catch(error => logger(error));
 ```
 
-[See UDPRN resource API documentation](https://ideal-postcodes.co.uk/documentation/udprn).
+[See UDPRN resource API documentation](https://ideal-postcodes.co.uk/documentation/udprn)
 
 #### UMPRN
 
@@ -183,7 +185,7 @@ client.umprn.retrieve("87654321", {
 }).catch(error => logger(error));
 ```
 
-[See UMPRN resource API documentation](https://ideal-postcodes.co.uk/documentation/umprn).
+[See UMPRN resource API documentation](https://ideal-postcodes.co.uk/documentation/umprn)
 
 #### Keys
 
@@ -220,13 +222,13 @@ client.keys.usage("iddqd", {
 }).catch(error => logger(error));
 ```
 
-[See Keys resource API documentation](https://ideal-postcodes.co.uk/documentation/keys).
+[See Keys resource API documentation](https://ideal-postcodes.co.uk/documentation/keys)
 
 ### Errors
 
-Core Interface also exports:
+For more advanced use cases, this library also exports:
 
-- Class implementations for Ideal Postcodes API errors that inherit from javascript `Errors`
+- Class implementations for Ideal Postcodes API errors that inherit from `Error`
 - A parser that converts raw error data into an error instance
 
 #### Usage
@@ -255,9 +257,9 @@ switch (true) {
 
 #### Error Prototype Chain
 
-All errors inherit from Javascript's `Error` prototype
+All errors inherit from Javascript's `Error` prototype.
 
-Errors are grouped by HTTP status code classes
+Errors are grouped by HTTP status code classes.
 
 Specific errors may be supplied for the following reasons: 
 - Convenience: They are frequently tested for (e.g. invalid postcode, postcode not found)
