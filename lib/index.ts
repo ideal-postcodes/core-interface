@@ -13,7 +13,7 @@ export const TIMEOUT = 10000;
  */
 export const STRICT_AUTHORISATION = false;
 
-export { Client } from "./client";
+export { Client, Config } from "./client";
 
 export { Agent, HttpRequest, HttpResponse } from "./agent";
 
