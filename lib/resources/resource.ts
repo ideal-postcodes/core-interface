@@ -23,7 +23,12 @@ interface Response<U> extends HttpResponse {
 
 // Writes a resource to URL string
 const toRetrieveUrl = (options: Options, id: string): string => {
-  return [options.client.url(), options.resource, id, options.action]
+  return [
+    options.client.url(),
+    options.resource,
+    encodeURIComponent(id),
+    options.action,
+  ]
     .filter(e => e !== undefined)
     .join("/");
 };
