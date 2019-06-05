@@ -14,7 +14,7 @@ If you are looking for a browser or node.js client, please check out the downstr
 
 ## Links
 
-- [API Documentation](https://core-interface.ideal-postcodes.co.uk/)
+- [API Documentation](https://core-interface.ideal-postcodes.dev/)
 - [NPM Module](https://www.npmjs.com/package/@ideal-postcodes/core-interface)
 - [Github Repository](https://github.com/ideal-postcodes/core-interface)
 - [Browser Client Repository](https://github.com/ideal-postcodes/core-browser) 
