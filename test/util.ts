@@ -1,6 +1,6 @@
 import { Client } from "../lib/client";
 import { newConfig } from "./helper/index";
-import { toStringMap, toTimeout, toHeader } from "../lib/util";
+import { toStringMap, toTimeout, toHeader, toAuthHeader } from "../lib/util";
 import { assert } from "chai";
 
 const defaultHeader = Object.freeze({ ...Client.defaults.header });
@@ -65,5 +65,50 @@ describe("toTimeout", () => {
     const client = new Client({ ...newConfig() });
     const request = {};
     assert.equal(toTimeout(request, client), client.timeout);
+  });
+});
+
+describe("toAuthHeader", () => {
+  const client = new Client({ ...newConfig() });
+
+  it("uses client api key by default", () => {
+    assert.equal(
+      toAuthHeader(client, {}),
+      `IDEALPOSTCODES api_key="${client.api_key}"`
+    );
+  });
+
+  it("allow provides precedence to api_key in options", () => {
+    const api_key = "foobar";
+    assert.equal(
+      toAuthHeader(client, { api_key }),
+      `IDEALPOSTCODES api_key="${api_key}"`
+    );
+  });
+
+  it("allows user_token", () => {
+    const user_token = "foobar";
+    assert.equal(
+      toAuthHeader(client, { user_token }),
+      `IDEALPOSTCODES api_key="${client.api_key}" user_token="${user_token}"`
+    );
+  });
+
+  it("allows licensee", () => {
+    const licensee = "foobar";
+    assert.equal(
+      toAuthHeader(client, { licensee }),
+      `IDEALPOSTCODES api_key="${client.api_key}" licensee="${licensee}"`
+    );
+  });
+
+  it("allows a combination of all authorisation attributes", () => {
+    const api_key = "api_foobar";
+    const user_token = "user_foobar";
+    const licensee = "licensee_foobar";
+    assert.equal(
+      toAuthHeader(client, { licensee, api_key, user_token }),
+      `IDEALPOSTCODES api_key="${api_key}" licensee="${licensee}" user_token="${user_token}"`
+    );
   });
 });

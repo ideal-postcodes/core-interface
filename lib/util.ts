@@ -1,5 +1,6 @@
 import { Client } from "./client";
 import { Header } from "./agent";
+import { Authenticable, AdminAuthenticable } from "./types";
 
 export interface OptionalStringMap {
   [key: string]: string | undefined;
@@ -59,4 +60,33 @@ export const toHeader = (
   client: Client
 ): Header => {
   return { ...client.header, ...toStringMap(header) };
+};
+
+type Credentials = [string, string][];
+
+/**
+ * toAuthHeader
+ *
+ * Extracts credentials into authorization header format
+ */
+export const toAuthHeader = (
+  client: Client,
+  options: Partial<Authenticable & AdminAuthenticable>
+): string => {
+  const credentials: Credentials = [];
+
+  const api_key = options.api_key || client.api_key;
+  credentials.push(["api_key", api_key]);
+
+  const licensee = options.licensee;
+  if (licensee !== undefined) credentials.push(["licensee", licensee]);
+
+  const user_token = options.user_token;
+  if (user_token !== undefined) credentials.push(["user_token", user_token]);
+
+  return `IDEALPOSTCODES ${toCredentialString(credentials)}`;
+};
+
+const toCredentialString = (credentials: Credentials): string => {
+  return credentials.map(([key, value]) => `${key}="${value}"`).join(" ");
 };
