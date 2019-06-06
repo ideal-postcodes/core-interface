@@ -1,3 +1,29 @@
+## [1.1.1](https://github.com/ideal-postcodes/core-interface/compare/1.1.0...1.1.1) (2019-06-06)
+
+
+### Bug Fixes
+
+* **Karma-Typescript:** Explicitly exclude typings module ([ff40c04](https://github.com/ideal-postcodes/core-interface/commit/ff40c04))
+
+## [1.1.1](https://github.com/ideal-postcodes/core-interface/compare/1.1.0...1.1.1) (2019-06-06)
+
+
+### Bug Fixes
+
+* **Karma-Typescript:** Explicitly exclude typings module ([ff40c04](https://github.com/ideal-postcodes/core-interface/commit/ff40c04))
+
+# [1.1.0](https://github.com/ideal-postcodes/core-interface/compare/1.0.0...1.1.0) (2019-06-05)
+
+
+### Bug Fixes
+
+* **Resource:** Escape ID by default ([b94d4f3](https://github.com/ideal-postcodes/core-interface/commit/b94d4f3))
+
+
+### Features
+
+* **Client:** Export client config ([8dd2a37](https://github.com/ideal-postcodes/core-interface/commit/8dd2a37))
+
 # 1.0.0 (2019-06-04)
 
 

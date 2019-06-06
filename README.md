@@ -2,11 +2,15 @@
   <img src="https://img.ideal-postcodes.co.uk/Ideal%20Postcodes%20Core%20Logo@3x.png" alt="Ideal Postcodes Core Interface">
 </h1>
 
+> Javascript API interface for api.ideal-postcodes.co.uk
+
 [![CircleCI](https://circleci.com/gh/ideal-postcodes/core-interface/tree/master.svg?style=svg)](https://circleci.com/gh/ideal-postcodes/core-interface/tree/master)
 [![Coverage Status](https://coveralls.io/repos/github/ideal-postcodes/core-interface/badge.svg?branch=master)](https://coveralls.io/github/ideal-postcodes/core-interface?branch=master)
 ![Dependency Status](https://david-dm.org/ideal-postcodes/core-interface.svg) 
 [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=RGl2bTU2Z3l4MGZNR1ZZREpyajlNaXZFMElZMkNCNENKRHNCMCtyVTBrbz0tLXdVODl3TlRJejA1MWpiTzYzaTBsZ1E9PQ==--8eb0b38bd782e0145dc4dc01e093c861828dbfa8)](https://www.browserstack.com/automate/public-build/RGl2bTU2Z3l4MGZNR1ZZREpyajlNaXZFMElZMkNCNENKRHNCMCtyVTBrbz0tLXdVODl3TlRJejA1MWpiTzYzaTBsZ1E9PQ==--8eb0b38bd782e0145dc4dc01e093c861828dbfa8)
 [![npm version](https://badge.fury.io/js/%40ideal-postcodes%2Fcore-interface.svg)](https://badge.fury.io/js/%40ideal-postcodes%2Fcore-interface)
+![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@ideal-postcodes/core-interface.svg?color=%234c1&style=popout)
+![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@ideal-postcodes/core-interface.svg?color=%234c1&style=popout)
 
 `@ideal-postcodes/core-interface` is an environment agnostic implementation of the Ideal Postcodes javascript API client interface.
 
@@ -41,12 +45,15 @@ npm install @ideal-postcodes/core-node
 npm install @ideal-postcodes/core-interface
 ```
 
-Instantiate a client
+Instantiate a client with,
 
 ```javascript
 const client = new Client({
   api_key: "iddqd",
 });
+
+// Only api_key is required by core-node and core-browser - all others are optional
+// The agentless interface requires explicit configuration
 ```
 
 More configuration options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/config.html)
@@ -82,7 +89,9 @@ Resources defined in [the API documentation](https://ideal-postcodes.co.uk/docum
 
 These methods expose a low level interface to execute HTTP requests and observe HTTP responses. They are ideal if you have a more complex query or usecase where low level access would be useful.
 
-Resource methods return a promise with a HTTP response object type.
+Resource methods return a promise with a [HTTP response object type](https://core-interface.ideal-postcodes.dev/interfaces/httpresponse.html).
+
+#### Retrieve
 
 Requesting a resource by ID (e.g. a postcode lookup for postcode with ID "SW1A 2AA") maps to the `#retrieve` method.
 
@@ -101,6 +110,7 @@ client.resourceName.retrieve("id", {
   timeout: 5000,
 });
 ```
+#### List
 
 Reqesting a resource endpoint (e.g. an address query to `/addresses`) maps to the `#list` method.
 
@@ -119,7 +129,25 @@ client.resourceName.list({
 
 The first and only argument is an object which accepts `header` and `query` attributes that map to HTTP header and the request querystring.
 
-The resources are:
+#### Custom Actions
+
+Some endpoints are defined as custom actions. E.g. `/keys/:key/usage`. These can be invoked using the name of the custom action. 
+
+E.g. for [key usage data extraction](https://ideal-postcodes.co.uk/documentation/keys#usage)
+
+```javascript
+client.keys.usage(api_key, {
+  query: {
+    tags: "checkout,production"
+  },
+  header: {
+    Authorization: 'IDEALPOSTCODES user_token="foo"',
+  },
+  timeout: 5000,
+});
+```
+
+#### Available Resources
 
 - [Postcodes](#postcodes)
 - [Addresses](#addresses)
