@@ -1,3 +1,5 @@
+import { Address } from "@ideal-postcodes/api-typings";
+
 /**
  * Authenticable
  *
@@ -24,6 +26,28 @@ export interface AdminAuthenticable {
    * For sensitive API operations, such as viewing key usage, a user_token is required
    */
   user_token: string;
+}
+
+export type AddressKeys = keyof Address;
+
+/**
+ * Filterable
+ *
+ * Filter result for specific attribute, e.g. "line_1", "postcode", "organisation_name"
+ */
+export interface Filterable {
+  /**
+   * You can reduce the size of the response payload selecting for only the attributes you want to see
+   *
+   * @example
+   *
+   * ```javascript
+   * {
+   *   filter: ["line_1", "line_2", "line_3", "post_town", "postcode"],
+   * }
+   * ```
+   */
+  filter?: AddressKeys[];
 }
 
 /**

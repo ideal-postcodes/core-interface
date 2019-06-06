@@ -1,6 +1,11 @@
 import { Client } from "./client";
 import { Header } from "./agent";
-import { Authenticable, AdminAuthenticable, HttpOptions } from "./types";
+import {
+  Authenticable,
+  AdminAuthenticable,
+  HttpOptions,
+  Filterable,
+} from "./types";
 
 export interface OptionalStringMap {
   [key: string]: string | undefined;
@@ -125,4 +130,15 @@ export const appendIp = ({ header, options }: AppendIpOptions): StringMap => {
   const { sourceIp } = options;
   if (sourceIp !== undefined) header["IDPC-Source-IP"] = sourceIp;
   return header;
+};
+
+interface AppendFilter {
+  query: StringMap;
+  options: Filterable;
+}
+
+export const appendFilter = ({ query, options }: AppendFilter): StringMap => {
+  const { filter } = options;
+  if (filter !== undefined) query.filter = filter.join(",");
+  return query;
 };

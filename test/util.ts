@@ -1,9 +1,11 @@
 import { Client } from "../lib/client";
 import { newConfig } from "./helper/index";
+import { AddressKeys } from "../lib/types";
 import {
   toStringMap,
   toTimeout,
   toHeader,
+  appendFilter,
   toAuthHeader,
   appendAuthorization,
   appendIp,
@@ -142,5 +144,29 @@ describe("appendIp", () => {
     const result = appendIp({ header, options });
     assert.equal(header, result);
     assert.equal(result["IDPC-Source-IP"], "8.8.8.8");
+  });
+  it("does not change headers if left unspecified", () => {
+    const header = {};
+    const options = {};
+    const result = appendIp({ header, options });
+    assert.deepEqual(result, {});
+  });
+});
+
+describe("appendFilter", () => {
+  it("appends filter to query object", () => {
+    const query = {};
+    const filter = ["line_1", "postcode"] as AddressKeys[];
+    const options = { filter };
+    const result = appendFilter({ query, options });
+    assert.equal(query, result);
+    assert.equal(result.filter, "line_1,postcode");
+  });
+
+  it("does not change headers if left unspecified", () => {
+    const query = {};
+    const options = {};
+    const result = appendFilter({ query, options });
+    assert.deepEqual(result, {});
   });
 });
