@@ -1,6 +1,16 @@
 import { Client } from "../lib/client";
 import { newConfig } from "./helper/index";
-import { toStringMap, toTimeout, toHeader } from "../lib/util";
+import { AddressKeys } from "../lib/types";
+import {
+  toStringMap,
+  toTimeout,
+  appendTags,
+  toHeader,
+  appendFilter,
+  toAuthHeader,
+  appendAuthorization,
+  appendIp,
+} from "../lib/util";
 import { assert } from "chai";
 
 const defaultHeader = Object.freeze({ ...Client.defaults.header });
@@ -65,5 +75,117 @@ describe("toTimeout", () => {
     const client = new Client({ ...newConfig() });
     const request = {};
     assert.equal(toTimeout(request, client), client.timeout);
+  });
+});
+
+describe("toAuthHeader", () => {
+  const client = new Client({ ...newConfig() });
+
+  it("uses client api key by default", () => {
+    assert.equal(
+      toAuthHeader(client, {}),
+      `IDEALPOSTCODES api_key="${client.api_key}"`
+    );
+  });
+
+  it("allow provides precedence to api_key in options", () => {
+    const api_key = "foobar";
+    assert.equal(
+      toAuthHeader(client, { api_key }),
+      `IDEALPOSTCODES api_key="${api_key}"`
+    );
+  });
+
+  it("allows user_token", () => {
+    const user_token = "foobar";
+    assert.equal(
+      toAuthHeader(client, { user_token }),
+      `IDEALPOSTCODES api_key="${client.api_key}" user_token="${user_token}"`
+    );
+  });
+
+  it("allows licensee", () => {
+    const licensee = "foobar";
+    assert.equal(
+      toAuthHeader(client, { licensee }),
+      `IDEALPOSTCODES api_key="${client.api_key}" licensee="${licensee}"`
+    );
+  });
+
+  it("allows a combination of all authorisation attributes", () => {
+    const api_key = "api_foobar";
+    const user_token = "user_foobar";
+    const licensee = "licensee_foobar";
+    assert.equal(
+      toAuthHeader(client, { licensee, api_key, user_token }),
+      `IDEALPOSTCODES api_key="${api_key}" licensee="${licensee}" user_token="${user_token}"`
+    );
+  });
+});
+
+describe("appendAuthorization", () => {
+  const client = new Client({ ...newConfig() });
+
+  it("mutates a headers object to include authorization", () => {
+    const header = {};
+    const options = {};
+    const result = appendAuthorization({ header, client, options });
+    assert.equal(header, result);
+    assert.equal(
+      result.Authorization,
+      `IDEALPOSTCODES api_key="${client.api_key}"`
+    );
+  });
+});
+
+describe("appendIp", () => {
+  it("appends IDPC-Source-IP to request header", () => {
+    const header = {};
+    const options = { sourceIp: "8.8.8.8" };
+    const result = appendIp({ header, options });
+    assert.equal(header, result);
+    assert.equal(result["IDPC-Source-IP"], "8.8.8.8");
+  });
+  it("does not change headers if left unspecified", () => {
+    const header = {};
+    const options = {};
+    const result = appendIp({ header, options });
+    assert.deepEqual(result, {});
+  });
+});
+
+describe("appendFilter", () => {
+  it("appends filter to query object", () => {
+    const query = {};
+    const filter = ["line_1", "postcode"] as AddressKeys[];
+    const options = { filter };
+    const result = appendFilter({ query, options });
+    assert.equal(query, result);
+    assert.equal(result.filter, "line_1,postcode");
+  });
+
+  it("does not change headers if left unspecified", () => {
+    const query = {};
+    const options = {};
+    const result = appendFilter({ query, options });
+    assert.deepEqual(result, {});
+  });
+});
+
+describe("appendTags", () => {
+  it("appends tags to query object", () => {
+    const query = {};
+    const tags = ["foo", "bar"];
+    const options = { tags };
+    const result = appendTags({ query, options });
+    assert.equal(query, result);
+    assert.equal(result.tags, "foo,bar");
+  });
+
+  it("does not change headers if left unspecified", () => {
+    const query = {};
+    const options = {};
+    const result = appendTags({ query, options });
+    assert.deepEqual(result, {});
   });
 });

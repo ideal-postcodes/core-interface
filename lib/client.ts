@@ -1,4 +1,14 @@
-import { Agent, HttpResponse, Header } from "./agent";
+import { Agent, HttpResponse, Header, StringMap } from "./agent";
+import { Authenticable, Filterable, Taggable, HttpOptions } from "./types";
+import { IdpcPostcodeNotFoundError } from "./error";
+import { Address } from "@ideal-postcodes/api-typings";
+import {
+  appendAuthorization,
+  appendIp,
+  appendFilter,
+  appendTags,
+} from "./util";
+import { Request } from "./resources/resource";
 
 type Protocol = "http" | "https";
 
@@ -64,6 +74,14 @@ import {
   create as createUmprnResource,
   UmprnResource,
 } from "./resources/umprn";
+
+interface LookupPostcodeOptions
+  extends Authenticable,
+    Filterable,
+    Taggable,
+    HttpOptions {
+  postcode: string;
+}
 
 export class Client {
   static defaults: Defaults = {
@@ -131,5 +149,26 @@ export class Client {
       query: {},
       timeout: this.timeout,
     });
+  }
+
+  lookupPostcode(options: LookupPostcodeOptions): Promise<Address[]> {
+    const header: StringMap = {};
+    const query: StringMap = {};
+
+    appendAuthorization({ client: this, header, options });
+    appendIp({ header, options });
+    appendFilter({ query, options });
+    appendTags({ query, options });
+
+    const queryOptions: Request = { header, query };
+    if (options.timeout) queryOptions.timeout = options.timeout;
+
+    return this.postcodes
+      .retrieve(options.postcode, queryOptions)
+      .then(response => response.body.result)
+      .catch(error => {
+        if (error instanceof IdpcPostcodeNotFoundError) return [];
+        throw error;
+      });
   }
 }
