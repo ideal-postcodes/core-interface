@@ -19,7 +19,7 @@ If you are looking for a browser or node.js client, please check out the downstr
 ## Links
 
 - [API Documentation](https://core-interface.ideal-postcodes.dev/)
-- [NPM Module](https://www.npmjs.com/package/@ideal-postcodes/core-interface)
+- [npm Module](https://www.npmjs.com/package/@ideal-postcodes/core-interface)
 - [Github Repository](https://github.com/ideal-postcodes/core-interface)
 - [Browser Client Repository](https://github.com/ideal-postcodes/core-browser) 
 - [Node.js Client](https://github.com/ideal-postcodes/core-node)
@@ -62,7 +62,7 @@ More configuration options [outlined in the docs](https://core-interface.ideal-p
 
 The client exposes a number of simple methods to get at the most common tasks when interacting with the API.
 
-- [Lookup a Postcode](#lookup_a_postcode)
+- [Lookup a Postcode](#lookup-a-postcode)
 
 #### Lookup a Postcode
 
