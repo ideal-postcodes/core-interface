@@ -1,3 +1,17 @@
+## [1.1.1](https://github.com/ideal-postcodes/core-interface/compare/1.1.0...1.1.1) (2019-06-06)
+
+
+### Bug Fixes
+
+* **Karma-Typescript:** Explicitly exclude typings module ([ff40c04](https://github.com/ideal-postcodes/core-interface/commit/ff40c04))
+
+## [1.1.1](https://github.com/ideal-postcodes/core-interface/compare/1.1.0...1.1.1) (2019-06-06)
+
+
+### Bug Fixes
+
+* **Karma-Typescript:** Explicitly exclude typings module ([ff40c04](https://github.com/ideal-postcodes/core-interface/commit/ff40c04))
+
 # [1.1.0](https://github.com/ideal-postcodes/core-interface/compare/1.0.0...1.1.0) (2019-06-05)
 
 
