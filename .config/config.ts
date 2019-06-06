@@ -9,6 +9,14 @@ export const preprocessors = {
   "**/*.ts": ["karma-typescript"],
 };
 
+export const karmaTypescriptConfig = { 
+  bundlerOptions: {
+    exclude: [
+      "@ideal-postcodes/api-typings"
+    ]
+  }
+}
+
 export const files = [{ pattern: "lib/**/*.ts" }, { pattern: "test/**/*.ts" }];
 
 export const reporters = ["dots", "karma-typescript"];
