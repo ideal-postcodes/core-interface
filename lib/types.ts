@@ -77,3 +77,20 @@ export interface HttpOptions {
 export interface Taggable {
   tags?: string[];
 }
+
+/**
+ * Paginateable
+ *
+ * Some requests can be paginated, e.g. address search and multiple residence
+ * postcode lookup
+ */
+export interface Paginateable {
+  /**
+   * Page number. Zero based index
+   */
+  page?: number;
+  /**
+   * Maximum number of results per page
+   */
+  limit?: number;
+}

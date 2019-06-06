@@ -2,6 +2,7 @@ import { Client } from "./client";
 import { Header } from "./agent";
 import {
   Authenticable,
+  Paginateable,
   AdminAuthenticable,
   Taggable,
   HttpOptions,
@@ -164,5 +165,21 @@ export const appendTags = ({
 }: AppendTagsOptions): StringMap => {
   const { tags } = options;
   if (tags !== undefined) query.tags = tags.join(",");
+  return query;
+};
+
+interface AppendPageOptions {
+  query: StringMap;
+  options: Paginateable;
+}
+
+// Adds pagination attributes to query
+export const appendPage = ({
+  query,
+  options,
+}: AppendPageOptions): StringMap => {
+  const { page, limit } = options;
+  if (page !== undefined) query.page = page.toString();
+  if (limit !== undefined) query.limit = limit.toString();
   return query;
 };
