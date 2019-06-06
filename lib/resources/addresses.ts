@@ -1,5 +1,5 @@
 import { listMethod } from "./resource";
-import { AddressQueryResponse } from "../../node_modules/@ideal-postcodes/api-typings";
+import { AddressQueryResponse } from "@ideal-postcodes/api-typings";
 import { OptionalStringMap } from "../util";
 import { Client } from "../client";
 import { HttpResponse } from "../agent";

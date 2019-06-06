@@ -1,5 +1,5 @@
 import { retrieveMethod } from "./resource";
-import { UmprnResponse } from "../../node_modules/@ideal-postcodes/api-typings";
+import { UmprnResponse } from "@ideal-postcodes/api-typings";
 import { OptionalStringMap } from "../util";
 import { Client } from "../client";
 import { HttpResponse } from "../agent";
