@@ -68,3 +68,12 @@ export interface HttpOptions {
    */
   timeout?: number;
 }
+
+/**
+ * Taggable
+ *
+ * Request can be tagged with up to 5 tags (no longer than 16 characters each)
+ */
+export interface Taggable {
+  tags?: string[];
+}

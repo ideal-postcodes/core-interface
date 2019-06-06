@@ -3,6 +3,7 @@ import { Header } from "./agent";
 import {
   Authenticable,
   AdminAuthenticable,
+  Taggable,
   HttpOptions,
   Filterable,
 } from "./types";
@@ -106,7 +107,10 @@ interface AppendAuthorization {
 /**
  * appendAuthorization
  *
- * Mutates a headers object to include Authorization header
+ * Mutates a headers object to include Authorization header. Will insert if found:
+ * - api_key
+ * - licensee
+ * - user_token
  */
 export const appendAuthorization: AppendAuthorization = ({
   header,
@@ -126,19 +130,39 @@ interface AppendIpOptions {
   options: HttpOptions;
 }
 
+// Adds source IP to headers
 export const appendIp = ({ header, options }: AppendIpOptions): StringMap => {
   const { sourceIp } = options;
   if (sourceIp !== undefined) header["IDPC-Source-IP"] = sourceIp;
   return header;
 };
 
-interface AppendFilter {
+interface AppendFilterOptions {
   query: StringMap;
   options: Filterable;
 }
 
-export const appendFilter = ({ query, options }: AppendFilter): StringMap => {
+// Adds filters to query
+export const appendFilter = ({
+  query,
+  options,
+}: AppendFilterOptions): StringMap => {
   const { filter } = options;
   if (filter !== undefined) query.filter = filter.join(",");
+  return query;
+};
+
+interface AppendTagsOptions {
+  query: StringMap;
+  options: Taggable;
+}
+
+// Adds tags to query
+export const appendTags = ({
+  query,
+  options,
+}: AppendTagsOptions): StringMap => {
+  const { tags } = options;
+  if (tags !== undefined) query.tags = tags.join(",");
   return query;
 };

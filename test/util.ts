@@ -4,6 +4,7 @@ import { AddressKeys } from "../lib/types";
 import {
   toStringMap,
   toTimeout,
+  appendTags,
   toHeader,
   appendFilter,
   toAuthHeader,
@@ -167,6 +168,24 @@ describe("appendFilter", () => {
     const query = {};
     const options = {};
     const result = appendFilter({ query, options });
+    assert.deepEqual(result, {});
+  });
+});
+
+describe("appendTags", () => {
+  it("appends tags to query object", () => {
+    const query = {};
+    const tags = ["foo", "bar"];
+    const options = { tags };
+    const result = appendTags({ query, options });
+    assert.equal(query, result);
+    assert.equal(result.tags, "foo,bar");
+  });
+
+  it("does not change headers if left unspecified", () => {
+    const query = {};
+    const options = {};
+    const result = appendTags({ query, options });
     assert.deepEqual(result, {});
   });
 });
