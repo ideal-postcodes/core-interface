@@ -6,6 +6,7 @@ import {
   toHeader,
   toAuthHeader,
   appendAuthorization,
+  appendIp,
 } from "../lib/util";
 import { assert } from "chai";
 
@@ -131,5 +132,15 @@ describe("appendAuthorization", () => {
       result.Authorization,
       `IDEALPOSTCODES api_key="${client.api_key}"`
     );
+  });
+});
+
+describe("appendIp", () => {
+  it("appends IDPC-Source-IP to request header", () => {
+    const header = {};
+    const options = { sourceIp: "8.8.8.8" };
+    const result = appendIp({ header, options });
+    assert.equal(header, result);
+    assert.equal(result["IDPC-Source-IP"], "8.8.8.8");
   });
 });

@@ -1,6 +1,6 @@
 import { Client } from "./client";
 import { Header } from "./agent";
-import { Authenticable, AdminAuthenticable } from "./types";
+import { Authenticable, AdminAuthenticable, HttpOptions } from "./types";
 
 export interface OptionalStringMap {
   [key: string]: string | undefined;
@@ -114,4 +114,15 @@ export const appendAuthorization: AppendAuthorization = ({
 
 const toCredentialString = (credentials: Credentials): string => {
   return credentials.map(([key, value]) => `${key}="${value}"`).join(" ");
+};
+
+interface AppendIpOptions {
+  header: StringMap;
+  options: HttpOptions;
+}
+
+export const appendIp = ({ header, options }: AppendIpOptions): StringMap => {
+  const { sourceIp } = options;
+  if (sourceIp !== undefined) header["IDPC-Source-IP"] = sourceIp;
+  return header;
 };
