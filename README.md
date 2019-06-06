@@ -2,6 +2,8 @@
   <img src="https://img.ideal-postcodes.co.uk/Ideal%20Postcodes%20Core%20Logo@3x.png" alt="Ideal Postcodes Core Interface">
 </h1>
 
+> Javascript API interface for api.ideal-postcodes.co.uk
+
 [![CircleCI](https://circleci.com/gh/ideal-postcodes/core-interface/tree/master.svg?style=svg)](https://circleci.com/gh/ideal-postcodes/core-interface/tree/master)
 [![Coverage Status](https://coveralls.io/repos/github/ideal-postcodes/core-interface/badge.svg?branch=master)](https://coveralls.io/github/ideal-postcodes/core-interface?branch=master)
 ![Dependency Status](https://david-dm.org/ideal-postcodes/core-interface.svg) 
