@@ -64,6 +64,8 @@ export const toHeader = (
 
 type Credentials = [string, string][];
 
+type AuthenticationOptions = Partial<Authenticable & AdminAuthenticable>;
+
 /**
  * toAuthHeader
  *
@@ -71,7 +73,7 @@ type Credentials = [string, string][];
  */
 export const toAuthHeader = (
   client: Client,
-  options: Partial<Authenticable & AdminAuthenticable>
+  options: AuthenticationOptions
 ): string => {
   const credentials: Credentials = [];
 
@@ -85,6 +87,29 @@ export const toAuthHeader = (
   if (user_token !== undefined) credentials.push(["user_token", user_token]);
 
   return `IDEALPOSTCODES ${toCredentialString(credentials)}`;
+};
+
+interface AppendAuthorizationOptions {
+  options: AuthenticationOptions;
+  client: Client;
+  header: StringMap;
+}
+
+interface AppendAuthorization {
+  (options: AppendAuthorizationOptions): StringMap;
+}
+/**
+ * appendAuthorization
+ *
+ * Mutates a headers object to include Authorization header
+ */
+export const appendAuthorization: AppendAuthorization = ({
+  header,
+  options,
+  client,
+}) => {
+  header.Authorization = toAuthHeader(client, options);
+  return header;
 };
 
 const toCredentialString = (credentials: Credentials): string => {

@@ -1,6 +1,12 @@
 import { Client } from "../lib/client";
 import { newConfig } from "./helper/index";
-import { toStringMap, toTimeout, toHeader, toAuthHeader } from "../lib/util";
+import {
+  toStringMap,
+  toTimeout,
+  toHeader,
+  toAuthHeader,
+  appendAuthorization,
+} from "../lib/util";
 import { assert } from "chai";
 
 const defaultHeader = Object.freeze({ ...Client.defaults.header });
@@ -109,6 +115,21 @@ describe("toAuthHeader", () => {
     assert.equal(
       toAuthHeader(client, { licensee, api_key, user_token }),
       `IDEALPOSTCODES api_key="${api_key}" licensee="${licensee}" user_token="${user_token}"`
+    );
+  });
+});
+
+describe("appendAuthorization", () => {
+  const client = new Client({ ...newConfig() });
+
+  it("mutates a headers object to include authorization", () => {
+    const header = {};
+    const options = {};
+    const result = appendAuthorization({ header, client, options });
+    assert.equal(header, result);
+    assert.equal(
+      result.Authorization,
+      `IDEALPOSTCODES api_key="${client.api_key}"`
     );
   });
 });
