@@ -156,6 +156,7 @@ describe("Client", () => {
       const postcode = "id1 1qd";
       const licensee = "quux";
       const api_key = "fooo";
+      const page = 1;
 
       const expectedRequest: HttpRequest = {
         method: "GET",
@@ -163,6 +164,7 @@ describe("Client", () => {
         query: {
           filter: "line_1,postcode",
           tags: "foo,bar",
+          page: "1",
         },
         header: {
           ...Client.defaults.header,
@@ -185,6 +187,7 @@ describe("Client", () => {
           filter,
           tags,
           timeout,
+          page,
         })
         .then(addresses => {
           assert.deepEqual(postcodes.success.body.result, addresses);

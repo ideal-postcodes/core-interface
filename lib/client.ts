@@ -80,7 +80,16 @@ interface LookupPostcodeOptions
     Filterable,
     Taggable,
     HttpOptions {
+  /**
+   * Postcode to query for. Space and case insensitive
+   */
   postcode: string;
+  /**
+   * With multiple residence datasets, a very small number of postcodes will
+   * yield more than 100 results. In this instance, you would need to paginate
+   * through them with `page`
+   */
+  page?: number;
 }
 
 export class Client {
@@ -160,8 +169,11 @@ export class Client {
     appendFilter({ query, options });
     appendTags({ query, options });
 
+    const { page } = options;
+    if (page !== undefined) query.page = page.toString();
+
     const queryOptions: Request = { header, query };
-    if (options.timeout) queryOptions.timeout = options.timeout;
+    if (options.timeout !== undefined) queryOptions.timeout = options.timeout;
 
     return this.postcodes
       .retrieve(options.postcode, queryOptions)
