@@ -44,10 +44,37 @@ npm install @ideal-postcodes/core-interface
 Instantiate a client
 
 ```javascript
-const client = new Client({});
+const client = new Client({
+  api_key: "iddqd",
+});
 ```
 
-More configuration options [outlined in the docs](https://core-interface.ideal-postcodes.dev/docs/interfaces/config.html)
+More configuration options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/config.html)
+
+#### Quick Methods
+
+The client exposes a number of simple methods to get at the most common tasks when interacting with the API.
+
+- [Lookup a Postcode](#lookup_a_postcode)
+
+#### Lookup a Postcode
+
+Return addresses associated with a given `postcode`
+
+```javascript
+const postcode = "id11qd";
+
+client.lookupPostcode({ postcode }).then(addresses => {
+  console.log(addresses);
+  {
+    postcode: "ID1 1QD",
+    line_1: "2 Barons Court Road",
+    // ...etc...
+  }
+});
+```
+
+Method options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/lookuppostcodeoptions.html)
 
 #### Resource Methods
 
