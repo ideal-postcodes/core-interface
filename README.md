@@ -78,6 +78,7 @@ The client exposes a number of simple methods to get at the most common tasks wh
 - [Search for an Address](#search-for-an-address)
 - [Search for an Address by UDPRN](#search-for-an-address-by-udprn)
 - [Search for an Address by UMPRN](#search-for-an-address-by-umprn)
+- [Check Key Usability](#check-key-usability)
 
 #### Lookup a Postcode
 
@@ -159,6 +160,17 @@ client.lookupUmprn({ umprn }).then(address => {
 
 Method options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/lookupumprnoptions.html)
 
+#### Check Key Usability
+
+Check if a key is currently usable
+
+```javascript
+client.checkKeyUsability({}).then(key => {
+  console.log(key.available); // => true
+});
+```
+
+Method options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/checkkeyusabilityoptions.html)
 ---
 
 #### Resource Methods

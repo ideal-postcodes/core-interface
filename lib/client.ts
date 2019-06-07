@@ -12,7 +12,7 @@ import {
   IdpcUdprnNotFoundError,
 } from "./error";
 import * as errors from "./error";
-import { Address } from "@ideal-postcodes/api-typings";
+import { Address, KeyStatus } from "@ideal-postcodes/api-typings";
 import {
   appendAuthorization,
   appendPage,
@@ -135,6 +135,13 @@ interface LookupUmprnOptions extends LookupIdOptions {
    * UMPRN to query for
    */
   umprn: number;
+}
+
+interface CheckKeyUsabilityOptions extends HttpOptions {
+  /**
+   * If api_key is supplied, this will overwrite the key defined during client instantiation
+   */
+  api_key?: string;
 }
 
 export class Client {
@@ -318,5 +325,14 @@ export class Client {
         if (error instanceof IdpcUmprnNotFoundError) return null;
         throw error;
       });
+  }
+
+  checkKeyUsability(options: CheckKeyUsabilityOptions): Promise<KeyStatus> {
+    const { api_key = this.api_key, timeout } = options;
+    const queryOptions: Request = { query: {}, header: {} };
+    if (timeout !== undefined) queryOptions.timeout = timeout;
+    return this.keys
+      .retrieve(api_key, queryOptions)
+      .then(response => response.body.result as KeyStatus); // Assert that we're retrieving public key information as no user_token provided
   }
 }
