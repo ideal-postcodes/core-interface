@@ -6,7 +6,7 @@ import {
   HttpOptions,
   Paginateable,
 } from "./types";
-import { IdpcPostcodeNotFoundError } from "./error";
+import { IdpcPostcodeNotFoundError, IdpcUdprnNotFoundError } from "./error";
 import { Address } from "@ideal-postcodes/api-typings";
 import {
   appendAuthorization,
@@ -111,6 +111,17 @@ interface LookupAddressOptions
   query: string;
 }
 
+interface LookupUdprnOptions
+  extends Authenticable,
+    Filterable,
+    Taggable,
+    HttpOptions {
+  /**
+   * UDPRN to query for
+   */
+  udprn: number;
+}
+
 export class Client {
   static defaults: Defaults = {
     header: {
@@ -179,6 +190,15 @@ export class Client {
     });
   }
 
+  /**
+   * lookupPostcode
+   *
+   * Search for addresses given a postcode. Postcode queries are case and space insensitive
+   *
+   * Invalid postcodes return an empty array address result `[]`
+   *
+   * [API Documentation for /postcodes](https://ideal-postcodes.co.uk/documentation/postcodes#postcode)
+   */
   lookupPostcode(options: LookupPostcodeOptions): Promise<Address[]> {
     const header: StringMap = {};
     const query: StringMap = {};
@@ -203,6 +223,13 @@ export class Client {
       });
   }
 
+  /**
+   * lookupAddress
+   *
+   * Search for an address given a query
+   *
+   * [API Documentation for /addresses](https://ideal-postcodes.co.uk/documentation/addresses#query)
+   */
   lookupAddress(options: LookupAddressOptions): Promise<Address[]> {
     const header: StringMap = {};
     const query: StringMap = { query: options.query };
@@ -219,5 +246,35 @@ export class Client {
     return this.addresses
       .list(queryOptions)
       .then(response => response.body.result.hits);
+  }
+
+  /**
+   * lookupUdprn
+   *
+   * Search for an address given a UDPRN
+   *
+   * Invalid UDPRN returns `null`
+   *
+   * [API Documentation for /udprn](https://ideal-postcodes.co.uk/documentation/udprn)
+   */
+  lookupUdprn(options: LookupUdprnOptions): Promise<Address | null> {
+    const header: StringMap = {};
+    const query: StringMap = {};
+
+    appendAuthorization({ client: this, header, options });
+    appendIp({ header, options });
+    appendFilter({ query, options });
+    appendTags({ query, options });
+
+    const queryOptions: Request = { header, query };
+    if (options.timeout !== undefined) queryOptions.timeout = options.timeout;
+
+    return this.udprn
+      .retrieve(options.udprn.toString(), queryOptions)
+      .then(response => response.body.result)
+      .catch(error => {
+        if (error instanceof IdpcUdprnNotFoundError) return null;
+        throw error;
+      });
   }
 }
