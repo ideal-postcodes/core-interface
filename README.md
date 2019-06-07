@@ -2,7 +2,7 @@
   <img src="https://img.ideal-postcodes.co.uk/Ideal%20Postcodes%20Core%20Logo@3x.png" alt="Ideal Postcodes Core Interface">
 </h1>
 
-> Javascript API interface for api.ideal-postcodes.co.uk
+> Javascript API for api.ideal-postcodes.co.uk
 
 [![CircleCI](https://circleci.com/gh/ideal-postcodes/core-interface/tree/master.svg?style=svg)](https://circleci.com/gh/ideal-postcodes/core-interface/tree/master)
 [![Coverage Status](https://coveralls.io/repos/github/ideal-postcodes/core-interface/badge.svg?branch=master&t=nyUaqN)](https://coveralls.io/github/ideal-postcodes/core-interface?branch=master)
@@ -15,17 +15,21 @@
 
 `@ideal-postcodes/core-interface` is an environment agnostic implementation of the Ideal Postcodes javascript API client interface.
 
-If you are looking for a browser or node.js client, please check out the downstream clients in the [links](#links) below.
+If you are looking for the browser or node.js client which implements this interface, please check out the [downstream clients links](#downstream-clients).
 
 ## Links
 
 - [API Documentation](https://core-interface.ideal-postcodes.dev/)
 - [npm Module](https://www.npmjs.com/package/@ideal-postcodes/core-interface)
 - [Github Repository](https://github.com/ideal-postcodes/core-interface)
-- [Browser Client Repository](https://github.com/ideal-postcodes/core-browser) 
-- [Node.js Client](https://github.com/ideal-postcodes/core-node)
 - [Typings Repository](https://github.com/ideal-postcodes/api-typings)
 - [Fixtures Repository](https://github.com/ideal-postcodes/api-fixtures)
+
+## Downstream Clients
+
+- [Browser Client Repository](https://github.com/ideal-postcodes/core-browser) 
+- [Bundled Browser Client Repository](https://github.com/ideal-postcodes/core-browser-bundled)
+- [Node.js Client Repository](https://github.com/ideal-postcodes/core-node)
 
 ## Documentation
 
