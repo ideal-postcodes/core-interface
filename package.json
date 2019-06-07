@@ -111,7 +111,7 @@
     "karma-typescript": "~4.1.0",
     "mocha": "~6.1.1",
     "nyc": "~14.1.1",
-    "prettier": "~1.17.1",
+    "prettier": "~1.18.0",
     "puppeteer": "~1.17.0",
     "semantic-release": "~15.13.12",
     "sinon": "~7.3.2",
