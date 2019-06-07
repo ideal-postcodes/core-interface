@@ -29,32 +29,5 @@ export { Client, Config } from "./client";
 
 export { Agent, HttpRequest, HttpResponse } from "./agent";
 
-import { Address } from "../node_modules/@ideal-postcodes/api-typings";
-
 import * as errors from "./error";
 export { errors };
-
-interface Authenticable {
-  api_key?: string;
-  licensee?: string;
-}
-
-interface ResponseFilterable {
-  filter?: keyof Address[];
-}
-
-interface Taggable {
-  tags?: string[];
-}
-
-interface Paginateable {
-  page?: number;
-}
-
-export interface LookupPostcodeOptions
-  extends Authenticable,
-    ResponseFilterable,
-    Taggable,
-    Paginateable {
-  postcode: string;
-}
