@@ -3,6 +3,7 @@ import * as sinon from "sinon";
 import { Client } from "../lib/client";
 import { newConfig, defaultResponse } from "./helper/index";
 import { HttpVerb } from "../lib/agent";
+import * as errors from "../lib/error";
 
 describe("Client", () => {
   afterEach(() => sinon.restore());
@@ -18,6 +19,10 @@ describe("Client", () => {
     assert.equal(client.timeout, config.timeout);
     assert.equal(client.agent, config.agent);
     assert.deepEqual(client.header, Client.defaults.header);
+  });
+
+  it("exports all errors", () => {
+    assert.deepEqual(Client.errors, errors);
   });
 
   it("allows headers to be overriden and appended", () => {

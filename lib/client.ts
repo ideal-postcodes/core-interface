@@ -11,6 +11,7 @@ import {
   IdpcUmprnNotFoundError,
   IdpcUdprnNotFoundError,
 } from "./error";
+import * as errors from "./error";
 import { Address } from "@ideal-postcodes/api-typings";
 import {
   appendAuthorization,
@@ -157,6 +158,8 @@ export class Client {
   readonly udprn: UdprnResource;
   readonly umprn: UmprnResource;
   readonly keys: KeyResource;
+
+  static errors = errors;
 
   constructor(config: Config) {
     this.tls = config.tls;
