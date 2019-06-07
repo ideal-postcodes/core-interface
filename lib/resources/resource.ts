@@ -46,8 +46,8 @@ export const retrieveMethod = <T extends Request, U>(options: Options) => {
       })
       .then((response: Response<U>) => {
         const error = parse(response);
-        if (error) return Promise.reject(error);
-        return Promise.resolve(response);
+        if (error) throw error;
+        return response;
       });
   };
 };
@@ -65,8 +65,8 @@ export const listMethod = <T extends Request, U>(options: Options) => {
       })
       .then((response: Response<U>) => {
         const error = parse(response);
-        if (error) return Promise.reject(error);
-        return Promise.resolve(response);
+        if (error) throw error;
+        return response;
       });
   };
 };
