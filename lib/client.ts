@@ -1,9 +1,16 @@
 import { Agent, HttpResponse, Header, StringMap } from "./agent";
-import { Authenticable, Filterable, Taggable, HttpOptions } from "./types";
+import {
+  Authenticable,
+  Filterable,
+  Taggable,
+  HttpOptions,
+  Paginateable,
+} from "./types";
 import { IdpcPostcodeNotFoundError } from "./error";
 import { Address } from "@ideal-postcodes/api-typings";
 import {
   appendAuthorization,
+  appendPage,
   appendIp,
   appendFilter,
   appendTags,
@@ -80,7 +87,28 @@ interface LookupPostcodeOptions
     Filterable,
     Taggable,
     HttpOptions {
+  /**
+   * Postcode to query for. Space and case insensitive
+   */
   postcode: string;
+  /**
+   * With multiple residence datasets, a very small number of postcodes will
+   * yield more than 100 results. In this instance, you would need to paginate
+   * through them with `page`
+   */
+  page?: number;
+}
+
+interface LookupAddressOptions
+  extends Authenticable,
+    Filterable,
+    Taggable,
+    Paginateable,
+    HttpOptions {
+  /**
+   * Query for address
+   */
+  query: string;
 }
 
 export class Client {
@@ -160,8 +188,11 @@ export class Client {
     appendFilter({ query, options });
     appendTags({ query, options });
 
+    const { page } = options;
+    if (page !== undefined) query.page = page.toString();
+
     const queryOptions: Request = { header, query };
-    if (options.timeout) queryOptions.timeout = options.timeout;
+    if (options.timeout !== undefined) queryOptions.timeout = options.timeout;
 
     return this.postcodes
       .retrieve(options.postcode, queryOptions)
@@ -170,5 +201,23 @@ export class Client {
         if (error instanceof IdpcPostcodeNotFoundError) return [];
         throw error;
       });
+  }
+
+  lookupAddress(options: LookupAddressOptions): Promise<Address[]> {
+    const header: StringMap = {};
+    const query: StringMap = { query: options.query };
+
+    appendAuthorization({ client: this, header, options });
+    appendIp({ header, options });
+    appendFilter({ query, options });
+    appendTags({ query, options });
+    appendPage({ query, options });
+
+    const queryOptions: Request = { header, query };
+    if (options.timeout !== undefined) queryOptions.timeout = options.timeout;
+
+    return this.addresses
+      .list(queryOptions)
+      .then(response => response.body.result.hits);
   }
 }

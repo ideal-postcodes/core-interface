@@ -63,6 +63,7 @@ More configuration options [outlined in the docs](https://core-interface.ideal-p
 The client exposes a number of simple methods to get at the most common tasks when interacting with the API.
 
 - [Lookup a Postcode](#lookup-a-postcode)
+- [Search for an Address](#search-for-an-address)
 
 #### Lookup a Postcode
 
@@ -82,6 +83,25 @@ client.lookupPostcode({ postcode }).then(addresses => {
 ```
 
 Method options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/lookuppostcodeoptions.html)
+
+#### Search for an Address
+
+Return addresses associated with a given `query`
+
+```javascript
+const query = "10 downing street sw1a";
+
+client.lookupAddress({ query }).then(addresses => {
+  console.log(addresses);
+  {
+    postcode: "SW1A 2AA",
+    line_1: "Prime Minister & First Lord Of The Treasury",
+    // ...etc...
+  }
+});
+```
+
+Method options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/lookupaddressoptions.html)
 
 #### Resource Methods
 

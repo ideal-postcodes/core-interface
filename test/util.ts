@@ -3,6 +3,7 @@ import { newConfig } from "./helper/index";
 import { AddressKeys } from "../lib/types";
 import {
   toStringMap,
+  appendPage,
   toTimeout,
   appendTags,
   toHeader,
@@ -186,6 +187,33 @@ describe("appendTags", () => {
     const query = {};
     const options = {};
     const result = appendTags({ query, options });
+    assert.deepEqual(result, {});
+  });
+});
+
+describe("appendPage", () => {
+  it("appends page to query object", () => {
+    const query = {};
+    const page = 1;
+    const options = { page };
+    const result = appendPage({ query, options });
+    assert.equal(query, result);
+    assert.equal(result.page, "1");
+  });
+
+  it("appends limit to query object", () => {
+    const query = {};
+    const limit = 2;
+    const options = { limit };
+    const result = appendPage({ query, options });
+    assert.equal(query, result);
+    assert.equal(result.limit, "2");
+  });
+
+  it("does not change headers if left unspecified", () => {
+    const query = {};
+    const options = {};
+    const result = appendPage({ query, options });
     assert.deepEqual(result, {});
   });
 });
