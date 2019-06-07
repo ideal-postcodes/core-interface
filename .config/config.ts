@@ -9,13 +9,14 @@ export const preprocessors = {
   "**/*.ts": ["karma-typescript"],
 };
 
-export const karmaTypescriptConfig = { 
+export const karmaTypescriptConfig = {
+  compilerOptions: {
+    target: "ES3",
+  },
   bundlerOptions: {
-    exclude: [
-      "@ideal-postcodes/api-typings"
-    ]
-  }
-}
+    exclude: ["@ideal-postcodes/api-typings"],
+  },
+};
 
 export const files = [{ pattern: "lib/**/*.ts" }, { pattern: "test/**/*.ts" }];
 
