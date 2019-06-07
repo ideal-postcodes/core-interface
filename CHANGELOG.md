@@ -1,3 +1,21 @@
+# [1.2.0](https://github.com/ideal-postcodes/core-interface/compare/1.1.1...1.2.0) (2019-06-07)
+
+
+### Bug Fixes
+
+* **Karma-Typescript:** Explicitly exclude typings module ([b11e9e3](https://github.com/ideal-postcodes/core-interface/commit/b11e9e3))
+
+
+### Features
+
+* **Client#checkKeyUsability:** Implement key check ([df6a611](https://github.com/ideal-postcodes/core-interface/commit/df6a611))
+* **Client#lookupAddress:** Implement address lookup ([a53fb67](https://github.com/ideal-postcodes/core-interface/commit/a53fb67))
+* **Client#lookupPostcode:** Implement and document postcode lookup ([21e591e](https://github.com/ideal-postcodes/core-interface/commit/21e591e))
+* **Client#lookupPostcode:** Make results paginateable ([a155f9f](https://github.com/ideal-postcodes/core-interface/commit/a155f9f))
+* **Client#lookupUdprn:** Implement and document udprn search ([e709853](https://github.com/ideal-postcodes/core-interface/commit/e709853))
+* **Client#lookupUmprn:** Implement UMPRN lookup ([14227c3](https://github.com/ideal-postcodes/core-interface/commit/14227c3))
+* **Error:** Export errors on Client ([ff111f0](https://github.com/ideal-postcodes/core-interface/commit/ff111f0))
+
 ## [1.1.1](https://github.com/ideal-postcodes/core-interface/compare/1.1.0...1.1.1) (2019-06-06)
 
 
