@@ -36,6 +36,7 @@ If you are looking for the browser or node.js client which implements this inter
 - [Usage & Configuration](#usage)
 - [Quick Methods](#quick-methods)
 - [Resource Methods](#resource-methods)
+- [Error Handling](#error-handling)
 
 ### Methods
 
@@ -361,12 +362,53 @@ client.keys.usage("iddqd", {
 
 [See Keys resource API documentation](https://ideal-postcodes.co.uk/documentation/keys)
 
-### Errors
+---
 
-For more advanced use cases, this library also exports:
+#### Error Handling
+
+`Client` exports a static variable `errors` which contains custom error constructors that wrap specific API errors. These constructors can be used to test for specific cases using the `instanceof` operator.
+
+For example:
+
+```javascript
+const { IdpcInvalidKeyError } = Client.errors;
+
+try {
+  const addresses = client.lookupPostcode({ postcode: "SW1A2AA" });
+} catch (error) {
+  if (error instanceof IdpcInvalidKeyError) {
+    // Handle an invalid key error
+  }
+}
+```
+
+Not all specific API errors will be caught. If a specific API error does not have an error constructor defined, a more generic error (determined by the HTTP status code) will be returned.
+
+For example:
+
+```javascript
+const { IdpcRequestFailedError } = Client.errors;
+
+try {
+  const addresses = client.lookupPostcode({ postcode: "SW1A2AA" });
+} catch (error) {
+  if (error instanceof IdpcRequestFailedError) {
+    // IdpcRequestFailedError indicates a 402 response code 
+    // Possibly the key balance has been depleted
+  }
+}
+```
+
+A sketch of the error prototype chain can be found [here](#error-prototype-chain)
+
+---
+
+### Core Interface Errors
+
+For more advanced use cases, this core-interface library provides:
 
 - Class implementations for Ideal Postcodes API errors that inherit from `Error`
-- A parser that converts raw error data into an error instance
+- A parser that converts raw error data into one of these error instances
 
 #### Usage
 
@@ -426,7 +468,7 @@ IdealPostcodesError < Error
 
 #### Error Parser
 
-Errors consume a HTTP API response
+The error parser consumes a HTTP API response and returns the correct error instance.
 
 ```javascript
 import { errors } from "@ideal-postcodes/core-interface";
