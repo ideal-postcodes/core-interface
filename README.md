@@ -58,15 +58,15 @@ npm install @ideal-postcodes/core-interface
 Instantiate a client with,
 
 ```javascript
-const client = new Client({
-  api_key: "iddqd",
-});
+import { Client } from "@ideal-postcodes/core-<package-type>";
+
+const client = new Client({ api_key: "iddqd" });
 
 // Only api_key is required by core-node and core-browser - all others are optional
 // The agentless interface requires explicit configuration
 ```
 
-More configuration options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/config.html)
+[Configuration options](https://core-interface.ideal-postcodes.dev/interfaces/config.html)
 
 ---
 
@@ -97,7 +97,7 @@ client.lookupPostcode({ postcode }).then(addresses => {
 });
 ```
 
-Method options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/lookuppostcodeoptions.html)
+[Method options](https://core-interface.ideal-postcodes.dev/interfaces/lookuppostcodeoptions.html)
 
 #### Search for an Address
 
@@ -116,7 +116,7 @@ client.lookupAddress({ query }).then(addresses => {
 });
 ```
 
-Method options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/lookupaddressoptions.html)
+[Method options](https://core-interface.ideal-postcodes.dev/interfaces/lookupaddressoptions.html)
 
 #### Search for an Address by UDPRN
 
@@ -137,7 +137,7 @@ client.lookupUdprn({ udprn }).then(address => {
 });
 ```
 
-Method options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/lookupudprnoptions.html)
+[Method options](https://core-interface.ideal-postcodes.dev/interfaces/lookupudprnoptions.html)
 
 #### Search for an Address by UMPRN
 
@@ -158,7 +158,7 @@ client.lookupUmprn({ umprn }).then(address => {
 });
 ```
 
-Method options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/lookupumprnoptions.html)
+[Method options](https://core-interface.ideal-postcodes.dev/interfaces/lookupumprnoptions.html)
 
 #### Check Key Usability
 
@@ -170,7 +170,7 @@ client.checkKeyUsability({}).then(key => {
 });
 ```
 
-Method options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/checkkeyusabilityoptions.html)
+[Method options](https://core-interface.ideal-postcodes.dev/interfaces/checkkeyusabilityoptions.html)
 ---
 
 #### Resource Methods
