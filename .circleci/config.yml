@@ -57,6 +57,7 @@ workflows:
     jobs:
       - local_tests
       - browser_tests
+      - browserstack
   scheduled:
     jobs:
       - local_tests
