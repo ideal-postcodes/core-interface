@@ -6,7 +6,11 @@ import {
   HttpOptions,
   Paginateable,
 } from "./types";
-import { IdpcPostcodeNotFoundError, IdpcUdprnNotFoundError } from "./error";
+import {
+  IdpcPostcodeNotFoundError,
+  IdpcUmprnNotFoundError,
+  IdpcUdprnNotFoundError,
+} from "./error";
 import { Address } from "@ideal-postcodes/api-typings";
 import {
   appendAuthorization,
@@ -15,7 +19,12 @@ import {
   appendFilter,
   appendTags,
 } from "./util";
-import { Request } from "./resources/resource";
+import { Request as BaseRequest } from "./resources/resource";
+
+interface Request extends BaseRequest {
+  query: StringMap;
+  header: StringMap;
+}
 
 type Protocol = "http" | "https";
 
@@ -82,22 +91,11 @@ import {
   UmprnResource,
 } from "./resources/umprn";
 
-interface LookupPostcodeOptions
+interface LookupIdOptions
   extends Authenticable,
     Filterable,
     Taggable,
-    HttpOptions {
-  /**
-   * Postcode to query for. Space and case insensitive
-   */
-  postcode: string;
-  /**
-   * With multiple residence datasets, a very small number of postcodes will
-   * yield more than 100 results. In this instance, you would need to paginate
-   * through them with `page`
-   */
-  page?: number;
-}
+    HttpOptions {}
 
 interface LookupAddressOptions
   extends Authenticable,
@@ -111,15 +109,31 @@ interface LookupAddressOptions
   query: string;
 }
 
-interface LookupUdprnOptions
-  extends Authenticable,
-    Filterable,
-    Taggable,
-    HttpOptions {
+interface LookupPostcodeOptions extends LookupIdOptions {
+  /**
+   * Postcode to query for. Space and case insensitive
+   */
+  postcode: string;
+  /**
+   * With multiple residence datasets, a very small number of postcodes will
+   * yield more than 100 results. In this instance, you would need to paginate
+   * through them with `page`
+   */
+  page?: number;
+}
+
+interface LookupUdprnOptions extends LookupIdOptions {
   /**
    * UDPRN to query for
    */
   udprn: number;
+}
+
+interface LookupUmprnOptions extends LookupIdOptions {
+  /**
+   * UMPRN to query for
+   */
+  umprn: number;
 }
 
 export class Client {
@@ -200,19 +214,10 @@ export class Client {
    * [API Documentation for /postcodes](https://ideal-postcodes.co.uk/documentation/postcodes#postcode)
    */
   lookupPostcode(options: LookupPostcodeOptions): Promise<Address[]> {
-    const header: StringMap = {};
-    const query: StringMap = {};
-
-    appendAuthorization({ client: this, header, options });
-    appendIp({ header, options });
-    appendFilter({ query, options });
-    appendTags({ query, options });
+    const queryOptions = this.toAddressIdQuery(options);
 
     const { page } = options;
-    if (page !== undefined) query.page = page.toString();
-
-    const queryOptions: Request = { header, query };
-    if (options.timeout !== undefined) queryOptions.timeout = options.timeout;
+    if (page !== undefined) queryOptions.query.page = page.toString();
 
     return this.postcodes
       .retrieve(options.postcode, queryOptions)
@@ -249,6 +254,30 @@ export class Client {
   }
 
   /**
+   * toAddressIdQuery
+   *
+   * Generates a request object. Bundles together commonly used header/query extractions:
+   * - Authorization (api_key, licensee, user_token)
+   * - Source IP forwarding
+   * - Result filtering
+   * - Tagging
+   */
+  private toAddressIdQuery(options: LookupIdOptions): Request {
+    const header: StringMap = {};
+    const query: StringMap = {};
+
+    appendAuthorization({ client: this, header, options });
+    appendIp({ header, options });
+    appendFilter({ query, options });
+    appendTags({ query, options });
+
+    const request: Request = { header, query };
+    if (options.timeout !== undefined) request.timeout = options.timeout;
+
+    return request;
+  }
+
+  /**
    * lookupUdprn
    *
    * Search for an address given a UDPRN
@@ -258,22 +287,32 @@ export class Client {
    * [API Documentation for /udprn](https://ideal-postcodes.co.uk/documentation/udprn)
    */
   lookupUdprn(options: LookupUdprnOptions): Promise<Address | null> {
-    const header: StringMap = {};
-    const query: StringMap = {};
-
-    appendAuthorization({ client: this, header, options });
-    appendIp({ header, options });
-    appendFilter({ query, options });
-    appendTags({ query, options });
-
-    const queryOptions: Request = { header, query };
-    if (options.timeout !== undefined) queryOptions.timeout = options.timeout;
-
+    const queryOptions = this.toAddressIdQuery(options);
     return this.udprn
       .retrieve(options.udprn.toString(), queryOptions)
       .then(response => response.body.result)
       .catch(error => {
         if (error instanceof IdpcUdprnNotFoundError) return null;
+        throw error;
+      });
+  }
+
+  /**
+   * lookupUdprn
+   *
+   * Search for an address given a UDPRN
+   *
+   * Invalid UDPRN returns `null`
+   *
+   * [API Documentation for /udprn](https://ideal-postcodes.co.uk/documentation/udprn)
+   */
+  lookupUmprn(options: LookupUmprnOptions): Promise<Address | null> {
+    const queryOptions = this.toAddressIdQuery(options);
+    return this.umprn
+      .retrieve(options.umprn.toString(), queryOptions)
+      .then(response => response.body.result)
+      .catch(error => {
+        if (error instanceof IdpcUmprnNotFoundError) return null;
         throw error;
       });
   }
