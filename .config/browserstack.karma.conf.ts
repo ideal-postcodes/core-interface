@@ -63,22 +63,22 @@ const OLDEST_BROWSERS = {
     os: "Windows",
     os_version: "10",
   },
-  // "Android-4": {
-  // base: "BrowserStack",
-  // browserName: "android",
-  // platform: "ANDROID",
-  // os: "android",
-  // os_version: "4.0",
-  // device: "Google Nexus"
-  // },
-  // "ios-5.1": {
-  // base: "BrowserStack",
-  // browserName: "iPhone",
-  // platform: "MAC",
-  // os: "ios",
-  // os_version: "5.1",
-  // device: "iPhone 4S"
-  // },
+  "Android-4": {
+    base: "BrowserStack",
+    browserName: "android",
+    platform: "ANDROID",
+    os: "android",
+    os_version: "4.0",
+    device: "Google Nexus",
+  },
+  "ios-5.1": {
+    base: "BrowserStack",
+    browserName: "iPhone",
+    platform: "MAC",
+    os: "ios",
+    os_version: "5.1",
+    device: "iPhone 4S",
+  },
 };
 
 const browsers = [
