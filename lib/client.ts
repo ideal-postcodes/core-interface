@@ -51,7 +51,7 @@ export interface Config {
    */
   strictAuthorisation: boolean;
   /**
-   * Time before HTTP request timeout. Defaults to 10s
+   * Default time in ms before HTTP request timeout. Defaults to 10s (`10000`)
    */
   timeout: number;
   /**
@@ -185,8 +185,6 @@ export class Client {
   }
 
   /**
-   * url
-   *
    * Return base URL for API requests
    */
   url(): string {
@@ -198,7 +196,7 @@ export class Client {
   }
 
   /**
-   * ping
+   * Ping API base (`/`)
    *
    * Dispatches HTTP request to root endpoint "`/`"
    */
@@ -215,7 +213,7 @@ export class Client {
   }
 
   /**
-   * lookupPostcode
+   * Lookup Postcode
    *
    * Search for addresses given a postcode. Postcode queries are case and space insensitive
    *
@@ -239,7 +237,7 @@ export class Client {
   }
 
   /**
-   * lookupAddress
+   * Lookup Address
    *
    * Search for an address given a query
    *
@@ -264,8 +262,6 @@ export class Client {
   }
 
   /**
-   * toAddressIdQuery
-   *
    * Generates a request object. Bundles together commonly used header/query extractions:
    * - Authorization (api_key, licensee, user_token)
    * - Source IP forwarding
@@ -288,7 +284,7 @@ export class Client {
   }
 
   /**
-   * lookupUdprn
+   * Lookup UDPRN
    *
    * Search for an address given a UDPRN
    *
@@ -308,7 +304,7 @@ export class Client {
   }
 
   /**
-   * lookupUdprn
+   * Lookup UMPRN
    *
    * Search for an address given a UDPRN
    *
@@ -327,6 +323,13 @@ export class Client {
       });
   }
 
+  /**
+   * Check Key Availability
+   *
+   * Checks if a key can bey used
+   *
+   * [API Documentation for /keys]()https://ideal-postcodes.co.uk/documentation/keys#key)
+   */
   checkKeyUsability(options: CheckKeyUsabilityOptions): Promise<KeyStatus> {
     const { api_key = this.api_key, timeout } = options;
     const queryOptions: Request = { query: {}, header: {} };
