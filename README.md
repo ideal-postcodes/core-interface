@@ -28,6 +28,10 @@ If you are looking for a browser or node.js client, please check out the downstr
 
 ## Documentation
 
+- [Usage & Configuration](#usage)
+- [Quick Methods](#quick-methods)
+- [Resource Methods](#resource-methods)
+
 ### Methods
 
 #### Usage
@@ -57,6 +61,8 @@ const client = new Client({
 ```
 
 More configuration options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/config.html)
+
+---
 
 #### Quick Methods
 
@@ -102,6 +108,8 @@ client.lookupAddress({ query }).then(addresses => {
 ```
 
 Method options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/lookupaddressoptions.html)
+
+---
 
 #### Resource Methods
 
@@ -167,7 +175,11 @@ client.keys.usage(api_key, {
 });
 ```
 
-#### Available Resources
+---
+
+#### Resource Methods
+
+Listed below are the available resources exposed by the client:
 
 - [Postcodes](#postcodes)
 - [Addresses](#addresses)
