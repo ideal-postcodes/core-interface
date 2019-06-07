@@ -75,6 +75,8 @@ The client exposes a number of simple methods to get at the most common tasks wh
 
 - [Lookup a Postcode](#lookup-a-postcode)
 - [Search for an Address](#search-for-an-address)
+- [Search for an Address by UDPRN](#search-for-an-address-by-udprn)
+- [Search for an Address by UMPRN](#search-for-an-address-by-umprn)
 
 #### Lookup a Postcode
 
@@ -113,6 +115,48 @@ client.lookupAddress({ query }).then(addresses => {
 ```
 
 Method options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/lookupaddressoptions.html)
+
+#### Search for an Address by UDPRN
+
+Return address for a given `udprn`
+
+Invalid UDPRN will return `null`
+
+```javascript
+const udprn = 23747771;
+
+client.lookupUdprn({ udprn }).then(address => {
+  console.log(address);
+  {
+    postcode: "SW1A 2AA",
+    line_1: "Prime Minister & First Lord Of The Treasury",
+    // ...etc...
+  }
+});
+```
+
+Method options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/lookupudprnoptions.html)
+
+#### Search for an Address by UMPRN
+
+Return address for a given `umprn`
+
+Invalid UMPRN will return `null`
+
+```javascript
+const umprn = 50906066;
+
+client.lookupUmprn({ umprn }).then(address => {
+  console.log(address);
+  {
+    postcode: "CV4 7AL",
+    line_1: "Room 1, Block 1 Arthur Vick",
+    // ...etc...
+  }
+});
+```
+
+Method options [outlined in the docs](https://core-interface.ideal-postcodes.dev/interfaces/lookupumprnoptions.html)
 
 ---
 
