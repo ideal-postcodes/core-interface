@@ -171,6 +171,7 @@ client.checkKeyUsability({}).then(key => {
 ```
 
 [Method options](https://core-interface.ideal-postcodes.dev/interfaces/checkkeyusabilityoptions.html)
+
 ---
 
 #### Resource Methods
