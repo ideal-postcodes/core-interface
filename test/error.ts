@@ -46,6 +46,20 @@ describe("Error", () => {
         assert.isTrue(error instanceof Error);
         assert.isTrue(error instanceof IdealPostcodesError);
       });
+
+      it("accepts optional metadata parameter", () => {
+        const metadata = { foo: "bar", baz: {} };
+        const errorWithMeta = new IdealPostcodesError({
+          message,
+          httpStatus,
+          metadata,
+        });
+        assert.equal(errorWithMeta.metadata, metadata);
+      });
+
+      it("instantiates with empty metadata object", () => {
+        assert.deepEqual(error.metadata, {});
+      });
     });
   });
 
