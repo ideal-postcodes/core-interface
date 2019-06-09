@@ -468,6 +468,8 @@ IdealPostcodesError < Error
    |- IdpcBadRequestError          # 400 Errors
    |- IdpcUnauthorisedError        # 401 Errors
    |- IdpcRequestFailedError       # 402 Errors
+   |  |- IdpcBalanceDepletedError
+   |  |- IdpcLimitReachedError
    |
    |- IdpcResourceNotFoundError    # 404 Errors
    |  |- IdpcPostcodeNotFoundError

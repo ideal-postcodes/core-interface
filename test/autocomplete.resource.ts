@@ -1,5 +1,5 @@
 import * as sinon from "sinon";
-import { IdpcRequestFailedError } from "../lib/error";
+import { IdpcRequestFailedError, IdpcBalanceDepletedError } from "../lib/error";
 import { errors, autocomplete } from "@ideal-postcodes/api-fixtures";
 import { create, AutocompleteResource } from "../lib/resources/autocomplete";
 import { HttpVerb } from "../lib/agent";
@@ -76,7 +76,8 @@ describe("AutocompleteResource", () => {
       .list({ query })
       .then(() => done(new Error("Promise should be rejected")))
       .catch(error => {
-        assert.instanceOf(error, IdpcRequestFailedError);
+        assert.instanceOf(error, IdpcBalanceDepletedError);
+        assert.isTrue(error instanceof IdpcRequestFailedError);
         done();
       });
   });
