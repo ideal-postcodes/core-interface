@@ -76,6 +76,7 @@ describe("Error", () => {
       assert.deepEqual(error.response, httpResponse);
       assert.equal(error.message, httpResponse.body.message);
       assert.equal(error.httpStatus, httpResponse.httpStatus);
+      assert.deepEqual(error.metadata, {});
       assert.equal(error.name, "Ideal Postcodes Error");
     });
 
@@ -187,6 +188,33 @@ describe("Error", () => {
     describe("instantiation", () => {
       idpcApiErrorSuite({
         httpResponse: toResponse(errors.balanceDepleted),
+        ErrorKlass: IdpcRequestFailedError,
+      });
+    });
+  });
+
+  describe("IdpcBalanceDepletedError", () => {
+    describe("instantiation", () => {
+      idpcApiErrorSuite({
+        httpResponse: toResponse(errors.balanceDepleted),
+        ErrorKlass: IdpcRequestFailedError,
+      });
+    });
+  });
+
+  describe("IdpcLimitReachedError", () => {
+    describe("instantiation", () => {
+      idpcApiErrorSuite({
+        httpResponse: toResponse(errors.dailyIpRateLimitReached),
+        ErrorKlass: IdpcRequestFailedError,
+      });
+    });
+  });
+
+  describe("IdpcLimitReachedError", () => {
+    describe("instantiation", () => {
+      idpcApiErrorSuite({
+        httpResponse: toResponse(errors.dailyLimitReached),
         ErrorKlass: IdpcRequestFailedError,
       });
     });

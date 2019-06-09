@@ -1,5 +1,5 @@
 import * as sinon from "sinon";
-import { IdpcRequestFailedError } from "../lib/error";
+import { IdpcRequestFailedError, IdpcBalanceDepletedError } from "../lib/error";
 import { addresses, errors } from "@ideal-postcodes/api-fixtures";
 import { create, AddressResource } from "../lib/resources/addresses";
 import { HttpVerb } from "../lib/agent";
@@ -76,7 +76,8 @@ describe("AddressesResource", () => {
       .list({ query })
       .then(() => done(new Error("Promise should be rejected")))
       .catch(error => {
-        assert.instanceOf(error, IdpcRequestFailedError);
+        assert.isTrue(error instanceof IdpcRequestFailedError);
+        assert.instanceOf(error, IdpcBalanceDepletedError);
         done();
       });
   });

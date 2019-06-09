@@ -124,6 +124,23 @@ export class IdpcInvalidKeyError extends IdpcUnauthorisedError {}
 export class IdpcRequestFailedError extends IdpcApiError {}
 
 /**
+ * IdpcBalanceDepleted
+ *
+ * Balance on key has been depleted
+ */
+export class IdpcBalanceDepletedError extends IdpcRequestFailedError {}
+
+/**
+ * IdpcLimitReachedError
+ *
+ * Limit reached. One of your lookup limits has been breached for today. This
+ * could either be your total daily limit on your key or the individual IP
+ * limit. You can either wait for for the limit to reset (after a day) or
+ * manually disable or increase your limit.
+ */
+export class IdpcLimitReachedError extends IdpcRequestFailedError {}
+
+/**
  * IdpcResourceNotFoundError
  *
  * Captures API responses that return a 404 (Resource Not Found) response
@@ -185,6 +202,8 @@ const INVALID_KEY = 4010;
 
 // 402 Responses
 const PAYMENT_REQUIRED = 402;
+const BALANCE_DEPLETED = 4020;
+const LIMIT_REACHED = 4021;
 
 // 404 Responses
 const NOT_FOUND = 404;
@@ -236,6 +255,9 @@ export const parse = (response: HttpResponse): Error | void => {
     if (code === KEY_NOT_FOUND) return new IdpcKeyNotFoundError(response);
     if (code === UDPRN_NOT_FOUND) return new IdpcUdprnNotFoundError(response);
     if (code === UMPRN_NOT_FOUND) return new IdpcUmprnNotFoundError(response);
+    if (code === BALANCE_DEPLETED)
+      return new IdpcBalanceDepletedError(response);
+    if (code === LIMIT_REACHED) return new IdpcLimitReachedError(response);
 
     // If no API errors of interest detected, fall back to http status code
     if (httpStatus === NOT_FOUND)
