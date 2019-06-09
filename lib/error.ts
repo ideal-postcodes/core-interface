@@ -9,6 +9,17 @@ import { ApiErrorResponse } from "@ideal-postcodes/api-typings";
 interface IdealPostcodesErrorOptions {
   message: string;
   httpStatus: number;
+  metadata?: Metadata;
+}
+
+/**
+ * Metadata
+ *
+ * An abitrary object which stores metadata specific to the concrete client
+ * implementation
+ */
+interface Metadata {
+  [k: string]: unknown;
 }
 
 // Take note of https://github.com/Microsoft/TypeScript/issues/13965
@@ -24,6 +35,7 @@ export class IdealPostcodesError extends Error {
   __proto__: Error;
 
   public httpStatus: number;
+  public metadata: Metadata;
 
   /**
    * Instantiate IdealPostcodesError
@@ -33,10 +45,11 @@ export class IdealPostcodesError extends Error {
     super();
     this.__proto__ = trueProto;
 
-    const { message, httpStatus } = options;
+    const { message, httpStatus, metadata = {} } = options;
     this.message = message;
     this.name = "Ideal Postcodes Error";
     this.httpStatus = httpStatus;
+    this.metadata = metadata;
 
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, IdealPostcodesError);
