@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/ideal-postcodes/core-interface/compare/1.2.0...1.3.0) (2019-06-09)
+
+
+### Features
+
+* **Error:** Add specific 402 errors ([270cfed](https://github.com/ideal-postcodes/core-interface/commit/270cfed))
+* **Error:** Allow optional metadata attribute ([9d082a7](https://github.com/ideal-postcodes/core-interface/commit/9d082a7))
+
 # [1.2.0](https://github.com/ideal-postcodes/core-interface/compare/1.1.1...1.2.0) (2019-06-07)
 
 
