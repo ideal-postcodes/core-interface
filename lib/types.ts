@@ -75,6 +75,15 @@ export interface HttpOptions {
  * Request can be tagged with up to 5 tags (no longer than 16 characters each)
  */
 export interface Taggable {
+  /**
+   * Submit tags to annotate paid API requests for retrieve and aggregation later
+   * 
+   * Restrictions:
+   * - You may only specify up to 5 tags per API request
+   * - Each tag must not be longer than 16 UTF-8 characters
+   *
+   * [Tagging & Metadata API Documentation](https://ideal-postcodes.co.uk/documentation/metadata)
+   */
   tags?: string[];
 }
 
