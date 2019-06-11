@@ -2,32 +2,32 @@
   <img src="https://img.ideal-postcodes.co.uk/Ideal%20Postcodes%20Core%20Logo@3x.png" alt="Ideal Postcodes Core Interface">
 </h1>
 
-> Javascript API for api.ideal-postcodes.co.uk
+> JavaScript API for api.ideal-postcodes.co.uk
 
 [![CircleCI](https://circleci.com/gh/ideal-postcodes/core-interface/tree/master.svg?style=svg)](https://circleci.com/gh/ideal-postcodes/core-interface/tree/master)
 [![Coverage Status](https://coveralls.io/repos/github/ideal-postcodes/core-interface/badge.svg?branch=master&t=nyUaqN)](https://coveralls.io/github/ideal-postcodes/core-interface?branch=master)
-![Dependency Status](https://david-dm.org/ideal-postcodes/core-interface.svg) 
+![Dependency Status](https://david-dm.org/ideal-postcodes/core-interface.svg)
 [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=RGl2bTU2Z3l4MGZNR1ZZREpyajlNaXZFMElZMkNCNENKRHNCMCtyVTBrbz0tLXdVODl3TlRJejA1MWpiTzYzaTBsZ1E9PQ==--8eb0b38bd782e0145dc4dc01e093c861828dbfa8)](https://www.browserstack.com/automate/public-build/RGl2bTU2Z3l4MGZNR1ZZREpyajlNaXZFMElZMkNCNENKRHNCMCtyVTBrbz0tLXdVODl3TlRJejA1MWpiTzYzaTBsZ1E9PQ==--8eb0b38bd782e0145dc4dc01e093c861828dbfa8)
 [![npm version](https://badge.fury.io/js/%40ideal-postcodes%2Fcore-interface.svg)](https://badge.fury.io/js/%40ideal-postcodes%2Fcore-interface)
 ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@ideal-postcodes/core-interface.svg?color=%234c1&style=popout)
 ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@ideal-postcodes/core-interface.svg?color=%234c1&style=popout)
 [![install size](https://packagephobia.now.sh/badge?p=@ideal-postcodes/core-interface)](https://packagephobia.now.sh/result?p=@ideal-postcodes/core-interface)
 
-`@ideal-postcodes/core-interface` is an environment agnostic implementation of the Ideal Postcodes javascript API client interface.
+`@ideal-postcodes/core-interface` is an environment agnostic implementation of the Ideal Postcodes JavaScript API client interface.
 
-If you are looking for the browser or node.js client which implements this interface, please check out the [downstream clients links](#downstream-clients).
+If you are looking for the browser or Node.js client which implements this interface, please check out the [downstream clients links](#downstream-clients).
 
 ## Links
 
 - [API Documentation](https://core-interface.ideal-postcodes.dev/)
 - [npm Module](https://www.npmjs.com/package/@ideal-postcodes/core-interface)
-- [Github Repository](https://github.com/ideal-postcodes/core-interface)
+- [GitHub Repository](https://github.com/ideal-postcodes/core-interface)
 - [Typings Repository](https://github.com/ideal-postcodes/api-typings)
 - [Fixtures Repository](https://github.com/ideal-postcodes/api-fixtures)
 
 ## Downstream Clients
 
-- [Browser Client Repository](https://github.com/ideal-postcodes/core-browser) 
+- [Browser Client Repository](https://github.com/ideal-postcodes/core-browser)
 - [Bundled Browser Client Repository](https://github.com/ideal-postcodes/core-browser-bundled)
 - [Node.js Client Repository](https://github.com/ideal-postcodes/core-node)
 
@@ -55,7 +55,7 @@ npm install @ideal-postcodes/core-node
 npm install @ideal-postcodes/core-interface
 ```
 
-Instantiate a client with,
+Instantiate a client with
 
 ```javascript
 import { Client } from "@ideal-postcodes/core-<package-type>";
@@ -72,7 +72,7 @@ const client = new Client({ api_key: "iddqd" });
 
 #### Quick Methods
 
-The client exposes a number of simple methods to get at the most common tasks when interacting with the API.
+The client exposes a number of simple methods to get at the most common tasks when interacting with the API
 
 - [Lookup a Postcode](#lookup-a-postcode)
 - [Search for an Address](#search-for-an-address)
@@ -174,7 +174,7 @@ client.checkKeyUsability({}).then(key => {
 
 ---
 
-#### Resource Methods
+#### Resources
 
 Resources defined in [the API documentation](https://ideal-postcodes.co.uk/documentation) are exposed on the client. Each resource exposes a method (`#retrieve`, `#list`, etc) which maps to a resource action.
 
@@ -201,9 +201,10 @@ client.resourceName.retrieve("id", {
   timeout: 5000,
 });
 ```
+
 #### List
 
-Reqesting a resource endpoint (e.g. an address query to `/addresses`) maps to the `#list` method.
+Requesting a resource endpoint (e.g. an address query to `/addresses`) maps to the `#list` method.
 
 ```javascript
 client.resourceName.list({
@@ -222,7 +223,7 @@ The first and only argument is an object which accepts `header` and `query` attr
 
 #### Custom Actions
 
-Some endpoints are defined as custom actions. E.g. `/keys/:key/usage`. These can be invoked using the name of the custom action. 
+Some endpoints are defined as custom actions, e.g. `/keys/:key/usage`. These can be invoked using the name of the custom action.
 
 E.g. for [key usage data extraction](https://ideal-postcodes.co.uk/documentation/keys#usage)
 
@@ -265,12 +266,11 @@ client.postcodes.retrieve("SW1A2AA", {
 }).catch(error => logger(error));
 ```
 
-[See Postcode resource API documentation](https://ideal-postcodes.co.uk/documentation/postcodes)
-
+[See postcode resource API documentation](https://ideal-postcodes.co.uk/documentation/postcodes)
 
 #### Addresses
 
-Search for an address.
+Search for an address
 
 ```javascript
 client.addresses.list({
@@ -289,7 +289,7 @@ client.addresses.list({
 
 #### Autocomplete
 
-Autocomplete an address given an address partial.
+Autocomplete an address given an address partial
 
 ```javascript
 client.autocomplete.list({
@@ -324,7 +324,7 @@ client.udprn.retrieve("12345678", {
 
 #### UMPRN
 
-Retrieve a multiple residence premise given a UMPRN.
+Retrieve a multiple residence premise given a UMPRN
 
 ```javascript
 client.umprn.retrieve("87654321", {
@@ -340,7 +340,7 @@ client.umprn.retrieve("87654321", {
 
 #### Keys
 
-Find out if a key is available.
+Find out if a key is available
 
 ```javascript
 client.keys.retrieve("iddqd", {})
@@ -349,7 +349,7 @@ client.keys.retrieve("iddqd", {})
   }).catch(error => logger(error));
 ```
 
-Get private information on key (requires user_token).
+Get private information on key (requires user_token)
 
 ```javascript
 client.keys.retrieve("iddqd", {
@@ -361,7 +361,7 @@ client.keys.retrieve("iddqd", {
 }).catch(error => logger(error));
 ```
 
-Get key usage data.
+Get key usage data
 
 ```javascript
 client.keys.usage("iddqd", {
@@ -406,7 +406,7 @@ try {
   const addresses = client.lookupPostcode({ postcode: "SW1A2AA" });
 } catch (error) {
   if (error instanceof IdpcRequestFailedError) {
-    // IdpcRequestFailedError indicates a 402 response code 
+    // IdpcRequestFailedError indicates a 402 response code
     // Possibly the key balance has been depleted
   }
 }
@@ -449,15 +449,16 @@ switch (true) {
 
 #### Error Prototype Chain
 
-All errors inherit from Javascript's `Error` prototype.
+All errors inherit from JavaScript's `Error` prototype.
 
 Errors are grouped by HTTP status code classes.
 
-Specific errors may be supplied for the following reasons: 
-- Convenience: They are frequently tested for (e.g. invalid postcode, postcode not found)
-- Deverloper QoL. They are useful for debug purposes during the implementation stages
+Specific errors may be supplied for the following reasons:
 
-```
+- Convenience: They are frequently tested for (e.g. invalid postcode, postcode not found)
+- Developer QoL. They are useful for debug purposes during the implementation stages
+
+```javascript
 Prototype Chain
 
 # Parent class inherits from Javascript Error. Returned if no JSON Response body
@@ -478,7 +479,6 @@ IdealPostcodesError < Error
    |  |- IdpcUmprnNotFoundError
    |
    |- IdpcServerError              # 500 Errors
-
 ```
 
 #### Error Parser
@@ -497,7 +497,7 @@ const response = await fetch(invalidPostcodeUrl);
 const error = parse(response);
 
 // Handle the error
-if (error instanceof IdpcPostcodeNotFoundError) ...
+if (error instanceof IdpcPostcodeNotFoundError) {...}
 ```
 
 ## Test
@@ -506,6 +506,6 @@ if (error instanceof IdpcPostcodeNotFoundError) ...
 npm test
 ```
 
-## License
+## Licence
 
 MIT
