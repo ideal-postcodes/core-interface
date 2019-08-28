@@ -102,7 +102,7 @@
     "@types/sinon": "~7.0.12",
     "chai": "~4.2.0",
     "coveralls": "~3.0.2",
-    "karma": "~4.2.0",
+    "karma": "~4.3.0",
     "karma-browserstack-launcher": "~1.5.1",
     "karma-chrome-launcher": "~3.0.0",
     "karma-cli": "~2.0.0",
