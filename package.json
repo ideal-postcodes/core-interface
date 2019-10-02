@@ -99,7 +99,7 @@
     "@types/node": "~12.7.0",
     "@types/prettier": "~1.18.0",
     "@types/puppeteer": "~1.20.0",
-    "@types/sinon": "~7.0.12",
+    "@types/sinon": "~7.5.0",
     "chai": "~4.2.0",
     "coveralls": "~3.0.2",
     "karma": "~4.3.0",
