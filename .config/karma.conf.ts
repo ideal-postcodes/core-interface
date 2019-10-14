@@ -1,3 +1,4 @@
+import "babel-polyfill";
 import { Config } from "karma";
 import { executablePath } from "puppeteer";
 process.env.CHROME_BIN = executablePath();

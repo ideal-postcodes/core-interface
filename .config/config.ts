@@ -27,3 +27,5 @@ export const singleRun = true;
 export const polyfill = ["Promise"];
 
 export const basePath = "../";
+
+export const concurrency = 1;
