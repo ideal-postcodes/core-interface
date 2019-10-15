@@ -26,10 +26,10 @@
     "test:browsers": "npm run test:browsers:latest && npm run test:browsers:legacy",
     "test:browsers:latest": "karma start .config/latest.conf.ts",
     "test:browsers:legacy": "karma start .config/legacy.conf.ts",
-    "lint": "tslint -c tslint.json -p tsconfig.json lib/**/*.ts",
+    "lint": "eslint lib/**/*.ts",
     "build": "npm run lint && tsc",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "docs": "typedoc --mode file --out docs/ --name 'Ideal Postcodes JS Client Interface' --theme minimal --excludePrivate --hideGenerator --excludeExternals lib/",
+    "docs": "typedoc --mode file --out docs/ --name 'Ideal Postcodes JS Client Interface' --theme minimal --excludePrivate --hideGenerator lib/",
     "prepublishOnly": "npm run test && npm run build"
   },
   "files": [
@@ -90,6 +90,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "@cablanchard/eslint-config": "~1.1.1",
     "@cablanchard/semantic-release": "~1.2.1",
     "@cablanchard/tsconfig": "1.0.0",
     "@cablanchard/tslint": "0.0.1",
@@ -106,8 +107,9 @@
     "@types/sinon": "~7.5.0",
     "babel-polyfill": "~6.26.0",
     "chai": "~4.2.0",
-    "codecov": "^3.6.1",
+    "codecov": "~3.6.1",
     "dotenv": "~8.1.0",
+    "eslint": "~6.5.1",
     "karma": "~4.3.0",
     "karma-cbt-launcher": "~0.4.6",
     "karma-chrome-launcher": "~3.1.0",
