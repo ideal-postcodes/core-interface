@@ -6,7 +6,7 @@
 
 [![CircleCI](https://circleci.com/gh/ideal-postcodes/core-interface/tree/master.svg?style=svg)](https://circleci.com/gh/ideal-postcodes/core-interface/tree/master)
 ![Dependency Status](https://david-dm.org/ideal-postcodes/core-interface.svg)
-[![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=RGl2bTU2Z3l4MGZNR1ZZREpyajlNaXZFMElZMkNCNENKRHNCMCtyVTBrbz0tLXdVODl3TlRJejA1MWpiTzYzaTBsZ1E9PQ==--8eb0b38bd782e0145dc4dc01e093c861828dbfa8)](https://www.browserstack.com/automate/public-build/RGl2bTU2Z3l4MGZNR1ZZREpyajlNaXZFMElZMkNCNENKRHNCMCtyVTBrbz0tLXdVODl3TlRJejA1MWpiTzYzaTBsZ1E9PQ==--8eb0b38bd782e0145dc4dc01e093c861828dbfa8)
+[![codecov](https://codecov.io/gh/ideal-postcodes/core-interface/branch/master/graph/badge.svg)](https://codecov.io/gh/ideal-postcodes/core-interface)
 [![npm version](https://badge.fury.io/js/%40ideal-postcodes%2Fcore-interface.svg)](https://badge.fury.io/js/%40ideal-postcodes%2Fcore-interface)
 ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@ideal-postcodes/core-interface.svg?color=%234c1&style=popout)
 ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@ideal-postcodes/core-interface.svg?color=%234c1&style=popout)
