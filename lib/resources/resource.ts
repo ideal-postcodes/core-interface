@@ -22,8 +22,8 @@ interface Response<U> extends HttpResponse {
 }
 
 // Writes a resource to URL string
-const toRetrieveUrl = (options: Options, id: string): string => {
-  return [
+const toRetrieveUrl = (options: Options, id: string): string =>
+  [
     options.client.url(),
     options.resource,
     encodeURIComponent(id),
@@ -31,12 +31,11 @@ const toRetrieveUrl = (options: Options, id: string): string => {
   ]
     .filter(e => e !== undefined)
     .join("/");
-};
 
 export const retrieveMethod = <T extends Request, U>(options: Options) => {
   const { client } = options;
-  return (id: string, request: T) => {
-    return client.agent
+  return (id: string, request: T) =>
+    client.agent
       .http({
         method: "GET",
         url: toRetrieveUrl(options, id),
@@ -49,13 +48,12 @@ export const retrieveMethod = <T extends Request, U>(options: Options) => {
         if (error) throw error;
         return response;
       });
-  };
 };
 
 export const listMethod = <T extends Request, U>(options: Options) => {
   const { client, resource } = options;
-  return (request: T) => {
-    return client.agent
+  return (request: T) =>
+    client.agent
       .http({
         method: "GET",
         url: `${client.url()}/${resource}`,
@@ -68,5 +66,4 @@ export const listMethod = <T extends Request, U>(options: Options) => {
         if (error) throw error;
         return response;
       });
-  };
 };
