@@ -34,7 +34,7 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package-lock.json" }}
-      - run: npm run karma
+      - run: npm run test:browsers:headless
   cbt:
     docker:
       - image: circleci/node:12
