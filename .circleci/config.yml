@@ -20,7 +20,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package-lock.json" }}
       - run: npm test
       - run: npm run coverage
-  browser_tests:
+  headless:
     docker:
       - image: circleci/node:12-browsers
     working_directory: ~/repo
@@ -57,12 +57,12 @@ workflows:
   push:
     jobs:
       - local_tests
-      - browser_tests
+      - headless
       - cbt
   scheduled:
     jobs:
       - local_tests
-      - browser_tests
+      - headless
       - cbt
     triggers:
       - schedule:
