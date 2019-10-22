@@ -58,7 +58,16 @@ workflows:
     jobs:
       - local_tests
       - headless
-      - cbt
+
+  push_cbt:
+    jobs:
+      - cbt:
+          filters:
+            branches:
+              only:
+                - master
+                - /.*-cbt/
+
   scheduled:
     jobs:
       - local_tests
@@ -66,7 +75,7 @@ workflows:
       - cbt
     triggers:
       - schedule:
-          cron: "55 8 * * *"
+          cron: "55 8 * * 2"
           filters:
             branches:
               only:
