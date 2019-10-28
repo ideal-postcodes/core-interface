@@ -98,7 +98,7 @@
     "@ideal-postcodes/api-typings": "~1.1.0",
     "@ideal-postcodes/supported-browsers": "~1.2.0",
     "@types/chai": "~4.2.0",
-    "@types/dotenv": "~6.1.1",
+    "@types/dotenv": "~8.2.0",
     "@types/karma": "~3.0.3",
     "@types/mocha": "~5.2.7",
     "@types/node": "~12.11.1",
