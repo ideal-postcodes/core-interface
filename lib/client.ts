@@ -92,6 +92,11 @@ import {
   UmprnResource,
 } from "./resources/umprn";
 
+import {
+  create as createAutocompleteResource,
+  AutocompleteResource,
+} from "./resources/autocomplete";
+
 interface LookupIdOptions
   extends Authenticable,
     Filterable,
@@ -165,6 +170,7 @@ export class Client {
   readonly udprn: UdprnResource;
   readonly umprn: UmprnResource;
   readonly keys: KeyResource;
+  readonly autocomplete: AutocompleteResource;
 
   static errors = errors;
 
@@ -182,6 +188,7 @@ export class Client {
     this.udprn = createUdprnResource(this);
     this.umprn = createUmprnResource(this);
     this.keys = createKeyResource(this);
+    this.autocomplete = createAutocompleteResource(this);
   }
 
   /**
