@@ -12,6 +12,7 @@ import {
   IdpcBadRequestError,
   IdpcUnauthorisedError,
   IdpcRequestFailedError,
+  IdpcLimitReachedError,
 } from "../lib/error";
 import { defaultResponse } from "./helper/index";
 import {
@@ -124,6 +125,18 @@ describe("parse", () => {
     assert.equal((error as IdpcApiError).message, body.message);
   });
 
+  it("returns IdpcLimitReachedError", () => {
+    const { body, httpStatus } = errors.dailyLimitReached;
+    const response = {
+      ...defaultResponse,
+      ...{ httpStatus, body },
+    };
+    const error = parse(response);
+    assert.instanceOf(error, IdpcLimitReachedError);
+    assert.equal((error as IdpcApiError).httpStatus, httpStatus);
+    assert.equal((error as IdpcApiError).message, body.message);
+  });
+
   it("returns IdpcResourceNotFoundError", () => {
     const body = {
       code: 404,
@@ -210,14 +223,33 @@ describe("parse", () => {
     assert.instanceOf(error, IdealPostcodesError);
   });
 
+  it("returns a generic error for null response body", () => {
+    const body = null;
+    const httpStatus = 404;
+    const response = {
+      ...defaultResponse,
+      ...{ httpStatus, body },
+    };
+    const error = parse(response);
+    assert.instanceOf(error, IdealPostcodesError);
+  });
+
   describe("when 200", () => {
     it("returns undefined for a 200 response", () => {
       const response = { ...defaultResponse };
       assert.isUndefined(parse(response));
     });
     it("returns undefined for 2xx response", () => {
-      const response = { ...defaultResponse, ...{ statudeCode: 299 } };
+      const response = { ...defaultResponse, ...{ httpStatus: 299 } };
       assert.isUndefined(parse(response));
+    });
+    it("returns error for <200 response", () => {
+      const response = { ...defaultResponse, ...{ httpStatus: 199 } };
+      assert.instanceOf(parse(response), IdealPostcodesError);
+    });
+    it("returns error for <200 response", () => {
+      const response = { ...defaultResponse, ...{ httpStatus: 301 } };
+      assert.instanceOf(parse(response), IdealPostcodesError);
     });
   });
 });
