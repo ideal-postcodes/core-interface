@@ -97,6 +97,7 @@ describe("Client", () => {
       assert.isDefined(client.udprn);
       assert.isDefined(client.umprn);
       assert.isDefined(client.keys);
+      assert.isDefined(client.autocomplete);
     });
   });
 
