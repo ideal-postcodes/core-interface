@@ -67,6 +67,31 @@ describe("Client", () => {
         .catch(error => done(error));
     });
 
+    it("applies timeout", done => {
+      const t = 88;
+      const expectedRequest: HttpRequest = {
+        method,
+        timeout: t,
+        query,
+        header,
+        url: `https://api.ideal-postcodes.co.uk/v1/keys/${client.api_key}`,
+      };
+
+      const stub = sinon
+        .stub(client.agent, "http")
+        .resolves(toResponse(fixtures.check.available, expectedRequest));
+
+      client
+        .checkKeyUsability({ timeout: t })
+        .then(keyStatus => {
+          assert.deepEqual(fixtures.check.available.body.result, keyStatus);
+          sinon.assert.calledOnce(stub);
+          sinon.assert.calledWithExactly(stub, expectedRequest);
+          done();
+        })
+        .catch(error => done(error));
+    });
+
     it("returns false if key is not available", done => {
       const expectedRequest: HttpRequest = {
         method: "GET",
