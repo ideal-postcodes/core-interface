@@ -11,6 +11,7 @@ import {
   toAuthHeader,
   appendAuthorization,
   appendIp,
+  debounce,
 } from "../lib/util";
 import { assert } from "chai";
 
@@ -260,5 +261,22 @@ describe("appendPage", () => {
     const options = {};
     const result = appendPage({ query, options });
     assert.deepEqual(result, {});
+  });
+});
+
+describe("debounce", () => {
+  it("debounces function", done => {
+    let count = 0;
+    const finish = () => {
+      assert.equal(count, 1);
+      done();
+    };
+    const debouncedMethod = debounce(() => {
+      count += 1;
+      finish();
+    });
+    debouncedMethod();
+    debouncedMethod();
+    debouncedMethod();
   });
 });

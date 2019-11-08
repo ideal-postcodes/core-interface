@@ -201,3 +201,36 @@ export const appendPage = ({
   if (limit !== undefined) query.limit = limit.toString();
   return query;
 };
+
+// Return current time
+export const now = () => Date.now();
+
+export const debounce = <T, K>(
+  func: (this: K | null) => T,
+  delay = 100
+): ((this: K | null) => T) => {
+  let result: T;
+  let context: K | null;
+  let timeInvoked: number;
+  let timeout: any;
+  let args: any;
+
+  function later() {
+    const timeSinceInvocation = now() - timeInvoked;
+    if (timeSinceInvocation > 0 && timeSinceInvocation < delay) {
+      timeout = setTimeout(later, delay - timeSinceInvocation);
+    } else {
+      timeout = null;
+      result = func.apply(context, args);
+      if (!timeout) context = args = null;
+    }
+  }
+
+  return function() {
+    context = this as K; //eslint-disable-line no-invalid-this
+    args = arguments;
+    timeInvoked = now();
+    if (!timeout) timeout = setTimeout(later, delay);
+    return result;
+  };
+};
