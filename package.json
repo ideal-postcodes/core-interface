@@ -22,6 +22,7 @@
     "semantic-release": "semantic-release --no-ci",
     "test-watch": "NODE_ENV=test mocha --watch",
     "test": "npm run lint && NODE_ENV=test nyc mocha",
+    "test:at": "npm run lint && NODE_ENV=test nyc mocha --grep Autocomplete2",
     "test:browsers:headless": "karma start",
     "test:browsers": "npm run test:browsers:latest && npm run test:browsers:legacy",
     "test:browsers:latest": "karma start .config/latest.conf.ts",

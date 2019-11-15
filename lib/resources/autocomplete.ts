@@ -4,10 +4,11 @@ import { OptionalStringMap } from "../util";
 import { Client } from "../client";
 import { HttpResponse } from "../agent";
 
-interface Query extends OptionalStringMap {
+export interface Query extends OptionalStringMap {
   // Authentication
   api_key?: string;
   licensee?: string;
+  query?: string;
 
   // Result Filtering
   filter?: string;
@@ -42,7 +43,7 @@ interface Header extends OptionalStringMap {
   Authorization?: string;
 }
 
-interface Request {
+export interface Request {
   query?: Query;
   header?: Header;
   timeout?: number;
@@ -58,6 +59,11 @@ export interface AutocompleteResource {
 
 const resource = "autocomplete/addresses";
 
+/**
+ * Autocomplete factory method
+ *
+ * @param client
+ */
 export const create = (client: Client): AutocompleteResource => {
   const list = listMethod<Request, AddressSuggestionResponse>({
     resource,

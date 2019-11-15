@@ -9,10 +9,11 @@ import {
 import {
   IdpcPostcodeNotFoundError,
   IdpcUmprnNotFoundError,
-  IdpcUdprnNotFoundError,
-} from "./error";
+  IdpcUdprnNotFoundError, IdealPostcodesError,
+} from './error'
 import * as errors from "./error";
-import { Address, KeyStatus } from "@ideal-postcodes/api-typings";
+import { Address, KeyStatus, AddressSuggestionResponse, AddressSuggestion } from
+    '@ideal-postcodes/api-typings'
 import {
   appendAuthorization,
   appendPage,
@@ -80,6 +81,11 @@ import {
   PostcodeResource,
 } from "./resources/postcodes";
 
+import {
+  create as createAutoCompleteResource,
+  AutocompleteResource
+} from "./resources/autocomplete";
+
 import { create as createKeyResource, KeyResource } from "./resources/keys";
 
 import {
@@ -91,11 +97,6 @@ import {
   create as createUmprnResource,
   UmprnResource,
 } from "./resources/umprn";
-
-import {
-  create as createAutocompleteResource,
-  AutocompleteResource,
-} from "./resources/autocomplete";
 
 interface LookupIdOptions
   extends Authenticable,
@@ -111,6 +112,18 @@ interface LookupAddressOptions
     HttpOptions {
   /**
    * Query for address
+   */
+  query: string;
+}
+
+interface LookupAutocompleteOptions
+  extends Authenticable,
+    Taggable,
+    Filterable,
+    Paginateable,
+    HttpOptions {
+  /**
+   * Autocomplete query, i.e. a partial address string `"10 downing str"`
    */
   query: string;
 }
@@ -154,6 +167,16 @@ interface CheckKeyUsabilityOptions extends HttpOptions {
   licensee?: string;
 }
 
+
+interface AutoCompleteOptions {
+  query: string;
+  limit?: string;
+  postcode_outward?: string[];
+  post_town?: string[];
+}
+
+type AutocompleteCallback = (...args: any[]) => void;
+
 export class Client {
   static defaults: Defaults = {
     header: {
@@ -178,6 +201,8 @@ export class Client {
   readonly autocomplete: AutocompleteResource;
 
   static errors = errors;
+  
+  private callback: AutocompleteCallback;
 
   constructor(config: Config) {
     this.tls = config.tls;
@@ -193,7 +218,8 @@ export class Client {
     this.udprn = createUdprnResource(this);
     this.umprn = createUmprnResource(this);
     this.keys = createKeyResource(this);
-    this.autocomplete = createAutocompleteResource(this);
+    this.autocomplete = createAutoCompleteResource(this);
+    this.callback = () => {};
   }
 
   /**
@@ -358,4 +384,68 @@ export class Client {
       .retrieve(api_key, queryOptions)
       .then((response) => response.body.result as KeyStatus); // Assert that we're retrieving public key information as no user_token provided
   }
+
+  /**
+   * Autocomplete an address
+   *
+   * Retrieves a list of address suggestions given an autocomplete query
+   *
+   * [API Documentation for /autocomplete/addresses](https://ideal-postcodes.co.uk/documentation/autocomplete/#query)
+   */
+  retrieveSuggestions(
+    options: LookupAutocompleteOptions
+  ): Promise<AddressSuggestion[]> {
+    const header: StringMap = {};
+    const query: StringMap = { query: options.query };
+
+    appendAuthorization({ client: this, header, options });
+    appendIp({ header, options });
+    appendFilter({ query, options });
+    appendTags({ query, options });
+    appendPage({ query, options });
+
+    const queryOptions: Request = { header, query };
+    if (options.timeout !== undefined) queryOptions.timeout = options.timeout;
+
+    return this.autocomplete
+      .list(queryOptions)
+      .then(response => response.body.result.hits);
+  }
+  
+  /**
+   * Register callback function to be called after autocomplete call
+   * @param callback
+   */
+  registerAutocompleteCallback(callback: AutocompleteCallback): void {
+    this.callback = callback;
+  }
+  
+  /**
+   *  Autocomplete method to call api for addresses
+   *
+   *  return list of autocomplete query call
+   *
+   * @param options
+   */
+  autocompleteAddress(options: AutoCompleteOptions): Promise<AddressSuggestionResponse | null> {
+    const postcode_outward = options.postcode_outward ? options.postcode_outward.join(',') : undefined;
+    const post_town = options.post_town ? options.post_town.join(',') : undefined;
+    const query = {
+      query: options.query,
+      limit: options.limit,
+      postcode_outward,
+      post_town
+    };
+    return this.autocomplete.list({ query })
+      .then(response => {
+        this.callback.apply(this, [null, response.body]);
+        return response.body;
+      })
+      .catch(error => {
+        this.callback.apply(this, [error, null]);
+        if (error instanceof IdealPostcodesError) return null;
+        throw error;
+      });
+  }
+  
 }

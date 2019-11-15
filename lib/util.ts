@@ -83,9 +83,7 @@ interface OptionalHeader {
 export const toHeader = (
   { header = {} }: OptionalHeader,
   client: Client
-): Header => {
-  return { ...client.header, ...toStringMap(header) };
-};
+): Header => ({ ...client.header, ...toStringMap(header) });
 
 type Credentials = [string, string][];
 
@@ -140,9 +138,8 @@ export const appendAuthorization: AppendAuthorization = ({
   return header;
 };
 
-const toCredentialString = (credentials: Credentials): string => {
-  return credentials.map(([key, value]) => `${key}="${value}"`).join(" ");
-};
+const toCredentialString = (credentials: Credentials): string =>
+  credentials.map(([key, value]) => `${key}="${value}"`).join(" ");
 
 interface AppendIpOptions {
   header: StringMap;

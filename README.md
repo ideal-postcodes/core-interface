@@ -81,6 +81,7 @@ The client exposes a number of simple methods to get at the most common tasks wh
 
 - [Lookup a Postcode](#lookup-a-postcode)
 - [Search for an Address](#search-for-an-address)
+- [Autocomplete an Address](#autocomplete-an-address)
 - [Search for an Address by UDPRN](#search-for-an-address-by-udprn)
 - [Search for an Address by UMPRN](#search-for-an-address-by-umprn)
 - [Check Key Usability](#check-key-usability)
@@ -96,11 +97,14 @@ const postcode = "id11qd";
 
 client.lookupPostcode({ postcode }).then(addresses => {
   console.log(addresses);
-  {
-    postcode: "ID1 1QD",
-    line_1: "2 Barons Court Road",
-    // ...etc...
-  }
+  [
+    {
+      postcode: "ID1 1QD",
+      line_1: "2 Barons Court Road",
+      // ...etc...
+    },
+    //...
+  ]
 });
 ```
 
@@ -117,17 +121,43 @@ const query = "10 downing street sw1a";
 
 client.lookupAddress({ query }).then(addresses => {
   console.log(addresses);
-  {
-    postcode: "SW1A 2AA",
-    line_1: "Prime Minister & First Lord Of The Treasury",
-    // ...etc...
-  }
+  [
+    {
+      postcode: "SW1A 2AA",
+      line_1: "Prime Minister & First Lord Of The Treasury",
+      // ...etc...
+    }, ...
+  ]
 });
 ```
 
 [`client.lookupAddress` docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupaddress)
 
 [`client.lookupAddress` options](https://core-interface.ideal-postcodes.dev/interfaces/lookupaddressoptions.html)
+
+#### Autocomplete an Address
+
+Return addresses that matches a partial address string specified by `query`
+
+```javascript
+const query = "10 downing street lo";
+
+client.retrieveSuggestions({ query }).then(suggestions => {
+  console.log(suggestions);
+  [
+    {
+      "suggestion": "Prime Minister & First Lord Of The Treasury, 10 Downing Street, London, SW1A",
+      "urls": {
+        "udprn": "/v1/udprn/23747771"
+      },
+      "udprn": 23747771
+    },
+    ...
+  ]
+});
+```
+
+[Method options](https://core-interface.ideal-postcodes.dev/interfaces/lookupautocompleteoptions.html)
 
 #### Search for an Address by UDPRN
 
