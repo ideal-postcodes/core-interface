@@ -12,7 +12,11 @@ import {
   IdpcUdprnNotFoundError,
 } from "./error";
 import * as errors from "./error";
-import { Address, KeyStatus } from "@ideal-postcodes/api-typings";
+import {
+  Address,
+  KeyStatus,
+  AddressSuggestion,
+} from "@ideal-postcodes/api-typings";
 import {
   appendAuthorization,
   appendPage,
@@ -111,6 +115,18 @@ interface LookupAddressOptions
     HttpOptions {
   /**
    * Query for address
+   */
+  query: string;
+}
+
+interface LookupAutocompleteOptions
+  extends Authenticable,
+    Taggable,
+    Filterable,
+    Paginateable,
+    HttpOptions {
+  /**
+   * Autocomplete query, i.e. a partial address string `"10 downing str"`
    */
   query: string;
 }
@@ -335,7 +351,7 @@ export class Client {
    *
    * Checks if a key can bey used
    *
-   * [API Documentation for /keys]()https://ideal-postcodes.co.uk/documentation/keys#key)
+   * [API Documentation for /keys](https://ideal-postcodes.co.uk/documentation/keys#key)
    */
   checkKeyUsability(options: CheckKeyUsabilityOptions): Promise<KeyStatus> {
     const { api_key = this.api_key, timeout } = options;
@@ -344,5 +360,32 @@ export class Client {
     return this.keys
       .retrieve(api_key, queryOptions)
       .then(response => response.body.result as KeyStatus); // Assert that we're retrieving public key information as no user_token provided
+  }
+
+  /**
+   * Autocomplete an address
+   *
+   * Retrieves a list of address suggestions given an autocomplete query
+   *
+   * [API Documentation for /autocomplete/addresses](https://ideal-postcodes.co.uk/documentation/autocomplete/#query)
+   */
+  retrieveSuggestions(
+    options: LookupAutocompleteOptions
+  ): Promise<AddressSuggestion[]> {
+    const header: StringMap = {};
+    const query: StringMap = { query: options.query };
+
+    appendAuthorization({ client: this, header, options });
+    appendIp({ header, options });
+    appendFilter({ query, options });
+    appendTags({ query, options });
+    appendPage({ query, options });
+
+    const queryOptions: Request = { header, query };
+    if (options.timeout !== undefined) queryOptions.timeout = options.timeout;
+
+    return this.autocomplete
+      .list(queryOptions)
+      .then(response => response.body.result.hits);
   }
 }
