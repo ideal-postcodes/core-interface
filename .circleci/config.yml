@@ -35,22 +35,6 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package-lock.json" }}
       - run: npm run test:browsers:headless
-  cbt:
-    docker:
-      - image: circleci/node:12
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package-lock.json" }}
-      - run: npm install
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
-      - run: npm run test:browsers:latest
-      - run: npm run test:browsers:legacy
 
 workflows:
   version: 2
@@ -58,15 +42,6 @@ workflows:
     jobs:
       - local_tests
       - headless
-
-  push_cbt:
-    jobs:
-      - cbt:
-          filters:
-            branches:
-              only:
-                - master
-                - /.*-cbt/
 
   scheduled:
     jobs:
