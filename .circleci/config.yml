@@ -42,12 +42,10 @@ workflows:
     jobs:
       - local_tests
       - headless
-
   scheduled:
     jobs:
       - local_tests
       - headless
-      - cbt
     triggers:
       - schedule:
           cron: "55 8 * * 2"
