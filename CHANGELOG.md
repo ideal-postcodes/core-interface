@@ -1,3 +1,16 @@
+# [1.4.0](https://github.com/ideal-postcodes/core-interface/compare/1.3.0...1.4.0) (2019-12-06)
+
+
+### Bug Fixes
+
+* **Browser Tests:** Migrate to SL ([2b96ae5](https://github.com/ideal-postcodes/core-interface/commit/2b96ae5))
+* **README:** Check against Markdown lint rules and correct grammar ([b210165](https://github.com/ideal-postcodes/core-interface/commit/b210165))
+
+
+### Features
+
+* **Autocomplete:** Expose autocomplete resource ([b386ce0](https://github.com/ideal-postcodes/core-interface/commit/b386ce0))
+
 # [1.3.0](https://github.com/ideal-postcodes/core-interface/compare/1.2.0...1.3.0) (2019-06-09)
 
 
