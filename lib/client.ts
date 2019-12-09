@@ -9,14 +9,11 @@ import {
 import {
   IdpcPostcodeNotFoundError,
   IdpcUmprnNotFoundError,
-  IdpcUdprnNotFoundError,
-} from "./error";
+  IdpcUdprnNotFoundError, IdealPostcodesError,
+} from './error'
 import * as errors from "./error";
-import {
-  Address,
-  KeyStatus,
-  AddressSuggestion,
-} from "@ideal-postcodes/api-typings";
+import { Address, KeyStatus, AddressSuggestionResponse, AddressSuggestion } from
+ "@ideal-postcodes/api-typings";
 import {
   appendAuthorization,
   appendPage,
@@ -84,6 +81,11 @@ import {
   PostcodeResource,
 } from "./resources/postcodes";
 
+import {
+  create as createAutoCompleteResource,
+  AutocompleteResource
+} from "./resources/autocomplete";
+
 import { create as createKeyResource, KeyResource } from "./resources/keys";
 
 import {
@@ -95,11 +97,6 @@ import {
   create as createUmprnResource,
   UmprnResource,
 } from "./resources/umprn";
-
-import {
-  create as createAutocompleteResource,
-  AutocompleteResource,
-} from "./resources/autocomplete";
 
 interface LookupIdOptions
   extends Authenticable,
@@ -165,6 +162,16 @@ interface CheckKeyUsabilityOptions extends HttpOptions {
   api_key?: string;
 }
 
+
+interface AutoCompleteOptions {
+  query: string;
+  limit?: string;
+  postcode_outward?: string[];
+  post_town?: string[];
+}
+
+type AutocompleteCallback = (...args: any[]) => void;
+
 export class Client {
   static defaults: Defaults = {
     header: {
@@ -204,7 +211,8 @@ export class Client {
     this.udprn = createUdprnResource(this);
     this.umprn = createUmprnResource(this);
     this.keys = createKeyResource(this);
-    this.autocomplete = createAutocompleteResource(this);
+    this.autocomplete = createAutoCompleteResource(this);
+    this.Callback = () => {};
   }
 
   /**
@@ -351,7 +359,7 @@ export class Client {
    *
    * Checks if a key can bey used
    *
-   * [API Documentation for /keys](https://ideal-postcodes.co.uk/documentation/keys#key)
+   * [API Documentation for /keys]()https://ideal-postcodes.co.uk/documentation/keys#key)
    */
   checkKeyUsability(options: CheckKeyUsabilityOptions): Promise<KeyStatus> {
     const { api_key = this.api_key, timeout } = options;
@@ -388,4 +396,43 @@ export class Client {
       .list(queryOptions)
       .then(response => response.body.result.hits);
   }
+  
+  private Callback: AutocompleteCallback;
+  
+  /**
+   * Register callback function to be called after autocomplete call
+   * @param callback
+   */
+  registerAutocompleteCallback(callback: AutocompleteCallback): void {
+    this.Callback = callback;
+  }
+  
+  /**
+   *  Autocomplete method to call api for addresses
+   *
+   *  return list of autocomplete query call
+   *
+   * @param options
+   */
+  autocompleteAddress(options: AutoCompleteOptions): Promise<AddressSuggestionResponse | null> {
+    const postcode_outward = options.postcode_outward ? options.postcode_outward.join(',') : undefined;
+    const post_town = options.post_town ? options.post_town.join(',') : undefined;
+    const query = {
+      query: options.query,
+      limit: options.limit,
+      postcode_outward,
+      post_town
+    };
+    return this.autocomplete.list({ query })
+      .then(response => {
+        this.Callback.apply(this, [null, response.body]);
+        return response.body;
+      })
+      .catch(error => {
+        this.Callback.apply(this, [error, null]);
+        if (error instanceof IdealPostcodesError) return null;
+        throw error;
+      });
+  }
+  
 }
