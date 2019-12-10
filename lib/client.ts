@@ -13,7 +13,7 @@ import {
 } from './error'
 import * as errors from "./error";
 import { Address, KeyStatus, AddressSuggestionResponse, AddressSuggestion } from
- "@ideal-postcodes/api-typings";
+    '@ideal-postcodes/api-typings'
 import {
   appendAuthorization,
   appendPage,
@@ -196,6 +196,8 @@ export class Client {
   readonly autocomplete: AutocompleteResource;
 
   static errors = errors;
+  
+  private callback: AutocompleteCallback;
 
   constructor(config: Config) {
     this.tls = config.tls;
@@ -212,7 +214,7 @@ export class Client {
     this.umprn = createUmprnResource(this);
     this.keys = createKeyResource(this);
     this.autocomplete = createAutoCompleteResource(this);
-    this.Callback = () => {};
+    this.callback = () => {};
   }
 
   /**
@@ -397,14 +399,12 @@ export class Client {
       .then(response => response.body.result.hits);
   }
   
-  private Callback: AutocompleteCallback;
-  
   /**
    * Register callback function to be called after autocomplete call
    * @param callback
    */
   registerAutocompleteCallback(callback: AutocompleteCallback): void {
-    this.Callback = callback;
+    this.callback = callback;
   }
   
   /**
@@ -425,11 +425,11 @@ export class Client {
     };
     return this.autocomplete.list({ query })
       .then(response => {
-        this.Callback.apply(this, [null, response.body]);
+        this.callback.apply(this, [null, response.body]);
         return response.body;
       })
       .catch(error => {
-        this.Callback.apply(this, [error, null]);
+        this.callback.apply(this, [error, null]);
         if (error instanceof IdealPostcodesError) return null;
         throw error;
       });
