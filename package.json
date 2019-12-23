@@ -118,7 +118,7 @@
     "karma-polyfill": "~1.0.0",
     "karma-typescript": "~4.1.0",
     "mocha": "~6.2.0",
-    "nyc": "~14.1.1",
+    "nyc": "~15.0.0",
     "prettier": "~1.19.1",
     "puppeteer": "~2.0.0",
     "semantic-release": "~15.13.12",
