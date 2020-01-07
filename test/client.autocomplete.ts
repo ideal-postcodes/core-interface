@@ -2,11 +2,8 @@ import * as sinon from "sinon";
 import { HttpVerb } from "../lib/agent";
 import { Client } from "../lib/client";
 import { assert } from "chai";
-//import { newConfig } from './helper/index';
 import { newConfig, toResponse } from "./helper/index";
-//import { AddressSuggestionResponse } from "@ideal-postcodes/api-typings";
 import { autocomplete } from "@ideal-postcodes/api-fixtures";
-//import { errors, autocomplete } from "@ideal-postcodes/api-fixtures";
 
 describe('Autocomplete2', function() {
   
@@ -15,7 +12,10 @@ describe('Autocomplete2', function() {
   const client = new Client(newConfig());
   const expectedRequest = {
     method: "GET" as HttpVerb,
-    header: Client.defaults.header,
+    header: {
+      ...Client.defaults.header,
+      Authorization: `IDEALPOSTCODES api_key="${client.api_key}"`,
+    },
     query,
     timeout: client.timeout,
     url: "https://api.ideal-postcodes.co.uk/v1/autocomplete/addresses",
@@ -27,9 +27,10 @@ describe('Autocomplete2', function() {
     const stub = sinon
     .stub(client.agent, "http")
     .resolves(toResponse(autocomplete.success, expectedRequest));
-    await client.autocompleteAddress(query);
+    const result = await client.autocompleteAddress(query);
     sinon.assert.calledOnce(stub);
     sinon.assert.calledWithExactly(stub, expectedRequest);
+    console.log(result);
   });
   
   it('Registered Callback Success', (done) => {
@@ -47,7 +48,6 @@ describe('Autocomplete2', function() {
       client.registerAutocompleteCallback(callback);
       client.autocompleteAddress(query);
     } catch (e) {
-      console.log()
       done(e);
     }
   });

@@ -12,14 +12,14 @@ import {
   IdpcUdprnNotFoundError, IdealPostcodesError,
 } from './error'
 import * as errors from "./error";
-import { Address, KeyStatus, AddressSuggestionResponse, AddressSuggestion } from
+import { Address, KeyStatus, AddressSuggestion } from
     '@ideal-postcodes/api-typings'
 import {
   appendAuthorization,
   appendPage,
   appendIp,
   appendFilter,
-  appendTags,
+  appendTags, debounce,
 } from "./util";
 import { Request as BaseRequest } from "./resources/resource";
 
@@ -162,15 +162,12 @@ interface CheckKeyUsabilityOptions extends HttpOptions {
   api_key?: string;
 }
 
-
-interface AutoCompleteOptions {
-  query: string;
-  limit?: string;
-  postcode_outward?: string[];
-  post_town?: string[];
-}
-
 type AutocompleteCallback = (...args: any[]) => void;
+
+/**
+ * Debounced type for autocomplete
+ */
+type debounceFunc = (...args: any[]) => Promise<AddressSuggestion[]>;
 
 export class Client {
   static defaults: Defaults = {
@@ -193,6 +190,7 @@ export class Client {
   readonly udprn: UdprnResource;
   readonly umprn: UmprnResource;
   readonly keys: KeyResource;
+  readonly debouncedAutocompleteAddress: debounceFunc;
   readonly autocomplete: AutocompleteResource;
 
   static errors = errors;
@@ -215,6 +213,7 @@ export class Client {
     this.keys = createKeyResource(this);
     this.autocomplete = createAutoCompleteResource(this);
     this.callback = () => {};
+    this.debouncedAutocompleteAddress = debounce(this.retrieveSuggestions);
   }
 
   /**
@@ -414,19 +413,11 @@ export class Client {
    *
    * @param options
    */
-  autocompleteAddress(options: AutoCompleteOptions): Promise<AddressSuggestionResponse | null> {
-    const postcode_outward = options.postcode_outward ? options.postcode_outward.join(',') : undefined;
-    const post_town = options.post_town ? options.post_town.join(',') : undefined;
-    const query = {
-      query: options.query,
-      limit: options.limit,
-      postcode_outward,
-      post_town
-    };
-    return this.autocomplete.list({ query })
+  autocompleteAddress(options: LookupAutocompleteOptions): Promise<AddressSuggestion[] | null> {
+    return this.debouncedAutocompleteAddress(options)
       .then(response => {
-        this.callback.apply(this, [null, response.body]);
-        return response.body;
+        this.callback.apply(this, [null, response]);
+        return response;
       })
       .catch(error => {
         this.callback.apply(this, [error, null]);

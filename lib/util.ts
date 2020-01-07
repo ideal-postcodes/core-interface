@@ -181,7 +181,7 @@ export const appendPage = ({
   return query;
 };
 
-// Return current time
+/*// Return current time
 export const now = () => Date.now();
 
 export const debounce = <T, K>(
@@ -212,4 +212,45 @@ export const debounce = <T, K>(
     if (!timeout) timeout = setTimeout(later, delay);
     return result;
   };
-};
+};*/
+
+export type Procedure = (...args: any[]) => void;
+
+export type Options = {
+  isImmediate: boolean,
+}
+
+export function debounce<F extends Procedure>(
+    func: F,
+    waitMilliseconds = 100,
+    options: Options = {
+      isImmediate: false
+    },
+): F {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+  return function(this: any, ...args: any[]) {
+    // eslint-disable-next-line no-invalid-this
+    const context = this;
+
+    return new Promise((resolve) => {
+      const doLater = function() {
+        timeoutId = undefined;
+        if (!options.isImmediate) {
+          resolve(func.apply(context, args));
+        }
+      };
+      const shouldCallNow = options.isImmediate && timeoutId === undefined;
+
+      if (timeoutId !== undefined) {
+        clearTimeout(timeoutId);
+      }
+
+      timeoutId = setTimeout(doLater, waitMilliseconds);
+
+      if (shouldCallNow) {
+        resolve(func.apply(context, args));
+      }
+    });
+  } as any
+}
