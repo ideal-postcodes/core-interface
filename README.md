@@ -83,6 +83,8 @@ The client exposes a number of simple methods to get at the most common tasks wh
 
 Return addresses associated with a given `postcode`
 
+Invalid postcodes (i.e. postcode not found) return an empty array `[]`
+
 ```javascript
 const postcode = "id11qd";
 
