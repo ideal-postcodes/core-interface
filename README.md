@@ -29,6 +29,7 @@ If you are looking for the browser or Node.js client which implements this inter
 - [Browser Client Repository](https://github.com/ideal-postcodes/core-browser)
 - [Bundled Browser Client Repository](https://github.com/ideal-postcodes/core-browser-bundled)
 - [Node.js Client Repository](https://github.com/ideal-postcodes/core-node)
+- [Axios-backed Client Repository](https://github.com/ideal-postcodes/core-axios)
 
 ## Documentation
 
