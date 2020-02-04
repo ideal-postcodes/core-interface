@@ -66,7 +66,9 @@ const client = new Client({ api_key: "iddqd" });
 // The agentless interface requires explicit configuration
 ```
 
-[Configuration options](https://core-interface.ideal-postcodes.dev/interfaces/config.html)
+[Client class docs](https://core-interface.ideal-postcodes.dev/classes/client.html)
+
+[Client Configuration options](https://core-interface.ideal-postcodes.dev/interfaces/config.html)
 
 ---
 
@@ -99,6 +101,8 @@ client.lookupPostcode({ postcode }).then(addresses => {
 });
 ```
 
+[Method docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookuppostcode)
+
 [Method options](https://core-interface.ideal-postcodes.dev/interfaces/lookuppostcodeoptions.html)
 
 #### Search for an Address
@@ -117,6 +121,8 @@ client.lookupAddress({ query }).then(addresses => {
   }
 });
 ```
+
+[Method docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupaddress)
 
 [Method options](https://core-interface.ideal-postcodes.dev/interfaces/lookupaddressoptions.html)
 
@@ -139,6 +145,8 @@ client.lookupUdprn({ udprn }).then(address => {
 });
 ```
 
+[Method docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupudprn)
+
 [Method options](https://core-interface.ideal-postcodes.dev/interfaces/lookupudprnoptions.html)
 
 #### Search for an Address by UMPRN
@@ -160,6 +168,8 @@ client.lookupUmprn({ umprn }).then(address => {
 });
 ```
 
+[Method docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupumprn)
+
 [Method options](https://core-interface.ideal-postcodes.dev/interfaces/lookupumprnoptions.html)
 
 #### Check Key Usability
@@ -171,6 +181,8 @@ client.checkKeyUsability({}).then(key => {
   console.log(key.available); // => true
 });
 ```
+
+[Method docs](https://core-interface.ideal-postcodes.dev/classes/client.html#checkkeyusability)
 
 [Method options](https://core-interface.ideal-postcodes.dev/interfaces/checkkeyusabilityoptions.html)
 
@@ -268,7 +280,9 @@ client.postcodes.retrieve("SW1A2AA", {
 }).catch(error => logger(error));
 ```
 
-[See postcode resource API documentation](https://ideal-postcodes.co.uk/documentation/postcodes)
+[Postcode resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/postcodes)
+
+[Postcode resource docs](https://core-interface.ideal-postcodes.dev/interfaces/postcoderesource.html)
 
 #### Addresses
 
@@ -287,7 +301,9 @@ client.addresses.list({
 }).catch(error => logger(error));
 ```
 
-[See addresses resource API documentation](https://ideal-postcodes.co.uk/documentation/addresses)
+[Address resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/addresses)
+
+[Address resource client docs](https://core-interface.ideal-postcodes.dev/interfaces/addressresource.html)
 
 #### Autocomplete
 
@@ -306,7 +322,9 @@ client.autocomplete.list({
 }).catch(error => logger(error));
 ```
 
-[See autocomplete resource API documentation](https://ideal-postcodes.co.uk/documentation/autocomplete)
+[Autocomplete resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/autocomplete)
+
+[Autocomplete resource client docs](https://core-interface.ideal-postcodes.dev/interfaces/autocompleteresource.html)
 
 #### UDPRN
 
@@ -322,7 +340,9 @@ client.udprn.retrieve("12345678", {
 }).catch(error => logger(error));
 ```
 
-[See UDPRN resource API documentation](https://ideal-postcodes.co.uk/documentation/udprn)
+[UDPRN resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/udprn)
+
+[UDPRN resource client docs](https://core-interface.ideal-postcodes.dev/interfaces/udprnresource.html)
 
 #### UMPRN
 
@@ -338,7 +358,9 @@ client.umprn.retrieve("87654321", {
 }).catch(error => logger(error));
 ```
 
-[See UMPRN resource API documentation](https://ideal-postcodes.co.uk/documentation/umprn)
+[UMPRN resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/umprn)
+
+[UMPRN resource client docs](https://core-interface.ideal-postcodes.dev/interfaces/umprnresource.html)
 
 #### Keys
 
@@ -350,6 +372,8 @@ client.keys.retrieve("iddqd", {})
     const { available } = response.body.result;
   }).catch(error => logger(error));
 ```
+
+[Method docs](https://core-interface.ideal-postcodes.dev/interfaces/keyresource.html#retrieve)
 
 Get private information on key (requires user_token)
 
@@ -363,6 +387,8 @@ client.keys.retrieve("iddqd", {
 }).catch(error => logger(error));
 ```
 
+[Method docs](https://core-interface.ideal-postcodes.dev/interfaces/keyresource.html#retrieve)
+
 Get key usage data
 
 ```javascript
@@ -375,7 +401,11 @@ client.keys.usage("iddqd", {
 }).catch(error => logger(error));
 ```
 
-[See Keys resource API documentation](https://ideal-postcodes.co.uk/documentation/keys)
+[Method docs](https://core-interface.ideal-postcodes.dev/interfaces/keyresource.html#usage)
+
+[Keys resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/keys)
+
+[Key resource client docs](https://core-interface.ideal-postcodes.dev/interfaces/keyresource.html)
 
 ---
 
@@ -422,14 +452,14 @@ A sketch of the error prototype chain can be found [here](#error-prototype-chain
 
 For more advanced use cases, this core-interface library provides:
 
-- Class implementations for Ideal Postcodes API errors that inherit from `Error`
-- A parser that converts raw error data into one of these error instances
+- Class implementations for [Ideal Postcodes API errors](https://core-interface.ideal-postcodes.dev/classes/idpcapierror.html) that inherit from `Error`
+- A [parser](https://core-interface.ideal-postcodes.dev/globals.html#parse) that converts raw error data into one of these error instances
 
 #### Usage
 
 Aside from inspecting the HTTP request status code and/or JSON body response codes, you may also test for specific error instances.
 
-Errors that don't inherit from `IdealPostcodesError` would indicate some kind of error external to the API (e.g. bad network, request timeout).
+Errors that don't inherit from [`IdealPostcodesError`](https://core-interface.ideal-postcodes.dev/classes/idealpostcodeserror.html) would indicate some kind of error external to the API (e.g. bad network, request timeout).
 
 ```javascript
 import { errors } from "@ideal-postcodes/core-interface";
