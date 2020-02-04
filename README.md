@@ -68,7 +68,7 @@ const client = new Client({ api_key: "iddqd" });
 
 [Client class docs](https://core-interface.ideal-postcodes.dev/classes/client.html)
 
-[Client Configuration options](https://core-interface.ideal-postcodes.dev/interfaces/config.html)
+[Client configuration options](https://core-interface.ideal-postcodes.dev/interfaces/config.html)
 
 ---
 
@@ -101,9 +101,9 @@ client.lookupPostcode({ postcode }).then(addresses => {
 });
 ```
 
-[Method docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookuppostcode)
+[`client.lookupPostcode` docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookuppostcode)
 
-[Method options](https://core-interface.ideal-postcodes.dev/interfaces/lookuppostcodeoptions.html)
+[`client.lookupPostcode` options](https://core-interface.ideal-postcodes.dev/interfaces/lookuppostcodeoptions.html)
 
 #### Search for an Address
 
@@ -122,9 +122,9 @@ client.lookupAddress({ query }).then(addresses => {
 });
 ```
 
-[Method docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupaddress)
+[`client.lookupAddress` docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupaddress)
 
-[Method options](https://core-interface.ideal-postcodes.dev/interfaces/lookupaddressoptions.html)
+[`client.lookupAddress` options](https://core-interface.ideal-postcodes.dev/interfaces/lookupaddressoptions.html)
 
 #### Search for an Address by UDPRN
 
@@ -145,9 +145,9 @@ client.lookupUdprn({ udprn }).then(address => {
 });
 ```
 
-[Method docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupudprn)
+[`client.lookupUdprn` docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupudprn)
 
-[Method options](https://core-interface.ideal-postcodes.dev/interfaces/lookupudprnoptions.html)
+[`client.lookupUdprn` options](https://core-interface.ideal-postcodes.dev/interfaces/lookupudprnoptions.html)
 
 #### Search for an Address by UMPRN
 
@@ -168,9 +168,9 @@ client.lookupUmprn({ umprn }).then(address => {
 });
 ```
 
-[Method docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupumprn)
+[`client.lookupUmprn` docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupumprn)
 
-[Method options](https://core-interface.ideal-postcodes.dev/interfaces/lookupumprnoptions.html)
+[`client.lookupUmprn` options](https://core-interface.ideal-postcodes.dev/interfaces/lookupumprnoptions.html)
 
 #### Check Key Usability
 
@@ -182,9 +182,9 @@ client.checkKeyUsability({}).then(key => {
 });
 ```
 
-[Method docs](https://core-interface.ideal-postcodes.dev/classes/client.html#checkkeyusability)
+[`client.checkKeyUsability` docs](https://core-interface.ideal-postcodes.dev/classes/client.html#checkkeyusability)
 
-[Method options](https://core-interface.ideal-postcodes.dev/interfaces/checkkeyusabilityoptions.html)
+[`client.checkKeyUsability` options](https://core-interface.ideal-postcodes.dev/interfaces/checkkeyusabilityoptions.html)
 
 ---
 
