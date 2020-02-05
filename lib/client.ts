@@ -147,6 +147,11 @@ interface CheckKeyUsabilityOptions extends HttpOptions {
    * If api_key is supplied, this will overwrite the key defined during client instantiation
    */
   api_key?: string;
+  /**
+   * Checks API Key and licensee combination. This checks whether a particular
+   * licensee can use the API
+   */
+  licensee?: string;
 }
 
 export class Client {
@@ -339,7 +344,15 @@ export class Client {
    */
   checkKeyUsability(options: CheckKeyUsabilityOptions): Promise<KeyStatus> {
     const { api_key = this.api_key, timeout } = options;
-    const queryOptions: Request = { query: {}, header: {} };
+    const { licensee } = options;
+    let query;
+    if (licensee === undefined) {
+      query = {};
+    } else {
+      query = { licensee };
+    }
+
+    const queryOptions: Request = { query, header: {} };
     if (timeout !== undefined) queryOptions.timeout = timeout;
     return this.keys
       .retrieve(api_key, queryOptions)
