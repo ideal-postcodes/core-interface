@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/ideal-postcodes/core-interface/compare/1.4.0...1.5.0) (2020-02-05)
+
+
+### Features
+
+* **Keys:** Add ability to check licensee ([46d1cd6](https://github.com/ideal-postcodes/core-interface/commit/46d1cd63894d37f727ade827cb1a273fab3e3cf8))
+
 # [1.4.0](https://github.com/ideal-postcodes/core-interface/compare/1.3.0...1.4.0) (2019-12-06)
 
 
