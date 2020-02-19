@@ -42,7 +42,6 @@ export const sauceLabs = {
   recordVideo: false,
   recordScreenshots: false,
   public: "public restricted",
-  tunnelIdentifier: build,
 };
 
 export const tolerance = {
