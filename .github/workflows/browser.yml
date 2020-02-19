@@ -1,0 +1,39 @@
+name: Cross Browser Testing
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - "browsertest/**"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}-${{ matrix.node-version }}
+      - name: Install
+        run: npm install
+
+      - name: Test latest browsers
+        run: npm run test:browsers:latest
+
+      - name: Test legacy browsers
+        run: npm run test:browsers:legacy
