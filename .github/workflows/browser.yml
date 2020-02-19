@@ -34,6 +34,12 @@ jobs:
 
       - name: Test latest browsers
         run: npm run test:browsers:latest
+        env:
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
 
       - name: Test legacy browsers
         run: npm run test:browsers:legacy
+        env:
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
