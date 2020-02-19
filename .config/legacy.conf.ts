@@ -1,22 +1,15 @@
 import "babel-polyfill";
-import * as basic from "./config";
-import { getBrowsers } from "./conf.browser";
+import { sauceConfig } from "./conf.browser";
+import {
+  legacyMobile,
+  legacyDesktop,
+} from "@ideal-postcodes/supported-browsers";
 
-const customLaunchers = getBrowsers("core-interface-latest", {
-  legacy: true,
-  // browserName: "Chrome",
-});
+const customLaunchers = { ...legacyMobile, ...legacyDesktop };
 
 module.exports = (config: any): void =>
   config.set({
-    ...basic,
-    plugins: [
-      "karma-mocha",
-      "karma-typescript",
-      "karma-polyfill",
-      "karma-cbt-launcher",
-    ],
-    cbtConfig: {},
+    ...sauceConfig,
     browsers: Object.keys(customLaunchers),
     customLaunchers,
   });

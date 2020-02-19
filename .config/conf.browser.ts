@@ -1,36 +1,62 @@
-import {
-  Browser,
-  browsers,
-  CbtLauncher,
-  toCbtLaunchers,
-} from "@ideal-postcodes/supported-browsers";
 import { execSync } from "child_process";
+import * as basic from "./config";
 import { config } from "dotenv";
 config();
+
+/**
+ * Return true if CI environment (Github actions) detected
+ */
+export const ci: boolean = process.env.GITHUB_ACTION !== undefined;
+
+const { GITHUB_RUN_ID } = process.env;
 
 const gitSha = execSync("git rev-parse --short HEAD")
   .toString()
   .trim();
-const build = `${gitSha}-${new Date().toJSON()}`;
 
-interface Includes extends Partial<Browser> {}
+/**
+ * Build ID
+ *
+ * Use gitsha and date if local
+ *
+ * Use Github action ID if CI
+ */
+export const build = ci
+  ? `${GITHUB_RUN_ID}`
+  : `${gitSha}-${new Date().toJSON()}`;
 
-const includeBrowser = (includes: Includes): Record<string, Browser> => {
-  const result: Record<string, Browser> = {};
-  Object.entries(browsers).forEach(([key, browser]) => {
-    for (const attr in includes) {
-      if (browser[attr as keyof Browser] === includes[attr as keyof Browser])
-        result[key] = browser;
-    }
-  });
-  return result;
+export const reporters = [...basic.reporters, "saucelabs"];
+
+export const plugins = [
+  "karma-mocha",
+  "karma-typescript",
+  "karma-polyfill",
+  "karma-sauce-launcher",
+];
+
+export const sauceLabs = {
+  // Disable if CI
+  startConnect: ci ? false : true,
+  build,
+  testName: "Core-Interface",
+  recordVideo: false,
+  recordScreenshots: false,
+  public: "public restricted",
+  tunnelIdentifier: build,
 };
 
-export const getBrowsers = (
-  name: string,
-  includes?: Includes
-): Record<string, CbtLauncher> => {
-  const testBrowsers =
-    includes === undefined ? browsers : includeBrowser(includes);
-  return toCbtLaunchers(testBrowsers, { name, build });
+export const tolerance = {
+  browserDisconnectTimeout: 10000,
+  browserDisconnectTolerance: 2,
+  browserNoActivityTimeout: 30000,
+  captureTimeout: 0,
+};
+
+export const sauceConfig = {
+  ...basic,
+  reporters,
+  plugins,
+  ...tolerance,
+  transports: ["websocket", "polling"],
+  sauceLabs,
 };
