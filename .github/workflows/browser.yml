@@ -9,7 +9,7 @@ on:
       - "browsertest/**"
 
 jobs:
-  release:
+  BrowserTests:
     runs-on: ubuntu-latest
 
     strategy:
