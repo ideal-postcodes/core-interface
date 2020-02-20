@@ -3,6 +3,9 @@
  * environments
  */
 
+import { config as dotenv } from "dotenv";
+dotenv();
+
 export const frameworks = ["mocha", "karma-typescript", "polyfill"];
 
 export const preprocessors = {

@@ -1,15 +1,16 @@
 import "babel-polyfill";
-import { sauceConfig } from "./conf.browser";
 import {
   legacyMobile,
   legacyDesktop,
+  config as sauceConfig,
 } from "@ideal-postcodes/supported-browsers";
+import * as defaults from "./config";
 
 const customLaunchers = { ...legacyMobile, ...legacyDesktop };
 
 module.exports = (config: any): void =>
   config.set({
-    ...sauceConfig,
+    ...sauceConfig({ testName: "Core-Interface", defaults }),
     browsers: Object.keys(customLaunchers),
     customLaunchers,
   });
