@@ -36,7 +36,7 @@ export const plugins = [
 
 export const sauceLabs = {
   // Disable if CI
-  startConnect: ci ? false : true,
+  startConnect: true,
   build,
   testName: "Core-Interface",
   recordVideo: false,
