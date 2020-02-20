@@ -25,37 +25,26 @@ export const build = ci
   ? `${GITHUB_RUN_ID}`
   : `${gitSha}-${new Date().toJSON()}`;
 
-export const reporters = [...basic.reporters, "saucelabs"];
-
-export const plugins = [
-  "karma-mocha",
-  "karma-typescript",
-  "karma-polyfill",
-  "karma-sauce-launcher",
-];
-
-export const sauceLabs = {
-  // Disable if CI
-  startConnect: true,
-  build,
-  testName: "Core-Interface",
-  recordVideo: false,
-  recordScreenshots: false,
-  public: "public restricted",
-};
-
-export const tolerance = {
+export const sauceConfig = {
+  ...basic,
+  reporters: [...basic.reporters, "saucelabs"],
+  plugins: [
+    "karma-mocha",
+    "karma-typescript",
+    "karma-polyfill",
+    "karma-sauce-launcher",
+  ],
   browserDisconnectTimeout: 10000,
   browserDisconnectTolerance: 2,
   browserNoActivityTimeout: 30000,
-  captureTimeout: 0,
-};
-
-export const sauceConfig = {
-  ...basic,
-  reporters,
-  plugins,
-  ...tolerance,
+  captureTimeout: 120000,
   transports: ["websocket", "polling"],
-  sauceLabs,
+  sauceLabs: {
+    startConnect: true,
+    build,
+    testName: "Core-Interface",
+    recordVideo: false,
+    recordScreenshots: false,
+    public: "public restricted",
+  },
 };
