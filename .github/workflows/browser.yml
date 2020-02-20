@@ -3,9 +3,6 @@ name: Cross Browser Testing
 on:
   push:
     branches:
-      - master
-  pull_request:
-    branches:
       - saucelabs
 
 jobs:
