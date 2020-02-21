@@ -129,6 +129,6 @@
     "tslint": "~5.20.0",
     "type-zoo": "~3.4.0",
     "typedoc": "~0.16.2",
-    "typescript": "~3.7.2"
+    "typescript": "~3.8.2"
   }
 }
