@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - saucelabs
+      - saucelabs/**
 
 jobs:
   BrowserTests:
