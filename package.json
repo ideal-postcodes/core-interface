@@ -99,7 +99,7 @@
     "@ideal-postcodes/supported-browsers": "~2.2.0",
     "@types/chai": "~4.2.0",
     "@types/dotenv": "~8.2.0",
-    "@types/karma": "~3.0.3",
+    "@types/karma": "~4.4.0",
     "@types/mocha": "~7.0.1",
     "@types/node": "~13.7.0",
     "@types/prettier": "~1.19.0",
