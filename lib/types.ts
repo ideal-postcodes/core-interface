@@ -77,7 +77,7 @@ export interface HttpOptions {
 export interface Taggable {
   /**
    * Submit tags to annotate paid API requests for retrieve and aggregation later
-   * 
+   *
    * Restrictions:
    * - You may only specify up to 5 tags per API request
    * - Each tag must not be longer than 16 UTF-8 characters
@@ -103,3 +103,8 @@ export interface Paginateable {
    */
   limit?: number;
 }
+
+/**
+ * QueryValue
+ */
+export type QueryValue = undefined | number | string | (string | number)[];

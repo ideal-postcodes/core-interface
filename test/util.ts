@@ -27,6 +27,51 @@ describe("toStringMap", () => {
         foo: "bar",
       }
     );
+    assert.deepEqual(
+      toStringMap({
+        foo: "bar",
+        //@ts-expect-error
+        baz: {},
+      }),
+      {
+        foo: "bar",
+      }
+    );
+    assert.deepEqual(
+      toStringMap({
+        foo: 12,
+      }),
+      {
+        foo: "12",
+      }
+    );
+    assert.deepEqual(
+      toStringMap({
+        foo: 12,
+        //@ts-expect-error
+        baz: {},
+      }),
+      {
+        foo: "12",
+      }
+    );
+    assert.deepEqual(
+      toStringMap({
+        foo: [1, "2"],
+      }),
+      {
+        foo: "1,2",
+      }
+    );
+    assert.deepEqual(
+      toStringMap({
+        //@ts-expect-error
+        foo: [1, "2", {}],
+      }),
+      {
+        foo: "1,2",
+      }
+    );
   });
   it("returns empty object if undefined", () => {
     assert.deepEqual(toStringMap(), {});
