@@ -29,8 +29,9 @@ export const toStringMap = (optional?: OptionalStringMap): StringMap => {
       const res: string[] = []
       // @ts-ignore
       value.forEach(val => {
-        if(isNumber(val)) res.push(val.toString());
-        if(isString(val)) res.push(val);
+        if(isNumber(val)) {
+          res.push(val.toString());
+        } else if(isString(val)) res.push(val);
       });
       if(res.length > 0) result[key] = res.join(",");
     } else if (isString(value)) result[key] = value;
