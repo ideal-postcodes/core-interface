@@ -103,3 +103,8 @@ export interface Paginateable {
    */
   limit?: number;
 }
+
+/**
+ * QueryValue
+ */
+export type QueryValue = undefined | object | number | string | (string|number|object)[]

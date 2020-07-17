@@ -7,10 +7,11 @@ import {
   Taggable,
   HttpOptions,
   Filterable,
+  QueryValue
 } from "./types";
 
 export interface OptionalStringMap {
-  [key: string]: string | undefined;
+  [key: string]: QueryValue;
 }
 
 import { StringMap } from "./agent";
@@ -23,13 +24,24 @@ import { StringMap } from "./agent";
 export const toStringMap = (optional?: OptionalStringMap): StringMap => {
   if (optional === undefined) return {};
   return Object.keys(optional).reduce<StringMap>((result, key) => {
-    const value = optional[key];
-    if (isString(value)) result[key] = value;
+    const value: QueryValue = optional[key];
+    if(isArray(value)) {
+      const res: string[] = []
+      // @ts-ignore
+      value.forEach(val => {
+        if(isNumber(val)) res.push(val.toString());
+        if(isString(val)) res.push(val);
+      });
+      if(res.length > 0) result[key] = res.join(",");
+    } else if (isString(value)) result[key] = value;
     return result;
   }, {});
 };
 
 const isString = (i: any): i is string => typeof i === "string";
+
+const isArray = (i: any): boolean => Array.isArray(i);
+
 
 interface OptionalTimeout {
   timeout?: number;

@@ -27,6 +27,31 @@ describe("toStringMap", () => {
         foo: "bar",
       }
     );
+    assert.deepEqual(
+        toStringMap({
+          foo: "bar",
+          baz: {},
+        }),
+        {
+          foo: "bar",
+        }
+    );
+    assert.deepEqual(
+        toStringMap({
+          foo: [1, "2"],
+        }),
+        {
+          foo: "1,2",
+        }
+    );
+    assert.deepEqual(
+        toStringMap({
+          foo: [1, "2", {}],
+        }),
+        {
+          foo: "1,2",
+        }
+    );
   });
   it("returns empty object if undefined", () => {
     assert.deepEqual(toStringMap(), {});
