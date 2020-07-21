@@ -39,9 +39,9 @@ export const toStringMap = (optional?: OptionalStringMap): StringMap => {
   }, {});
 };
 
-const isString = (i: any): i is string => typeof i === "string";
+const isString = (i: unknown): i is string => typeof i === "string";
 
-const isArray = (i: any): boolean => Array.isArray(i);
+const isArray = (i: unknown): i is unknown[] => Array.isArray(i);
 
 
 interface OptionalTimeout {
