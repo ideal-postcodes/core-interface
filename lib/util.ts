@@ -25,16 +25,8 @@ export const toStringMap = (optional?: OptionalStringMap): StringMap => {
   if (optional === undefined) return {};
   return Object.keys(optional).reduce<StringMap>((result, key) => {
     const value: QueryValue = optional[key];
-    if(isArray(value)) {
-      const res: string[] = []
-      // @ts-ignore
-      value.forEach(val => {
-        if(isNumber(val)) {
-          res.push(val.toString());
-        } else if(isString(val)) res.push(val);
-      });
-      if(res.length > 0) result[key] = res.join(",");
-    } else if (isString(value)) result[key] = value;
+    const reduce = reduceStringMap(value);
+    if(reduce.length > 0) result[key] = reduce;
     return result;
   }, {});
 };
@@ -42,6 +34,20 @@ export const toStringMap = (optional?: OptionalStringMap): StringMap => {
 const isString = (i: unknown): i is string => typeof i === "string";
 
 const isArray = (i: unknown): i is unknown[] => Array.isArray(i);
+
+const reduceStringMap = (value: QueryValue): string => {
+  const result: string[] = [];
+  if(isArray(value)) {
+    value.forEach(val => {
+      if(isNumber(val)) result.push(val.toString());
+      if(isString(val)) result.push(val);
+    })
+    return result.join(',');
+  }
+  if(isNumber(value)) return value.toString();
+  if(isString(value)) return value;
+  return '';
+}
 
 
 interface OptionalTimeout {

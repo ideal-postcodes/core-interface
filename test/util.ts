@@ -38,6 +38,23 @@ describe("toStringMap", () => {
     );
     assert.deepEqual(
         toStringMap({
+          foo: 12,
+        }),
+        {
+          foo: "12",
+        }
+    );
+    assert.deepEqual(
+        toStringMap({
+          foo: 12,
+          baz: {}
+        }),
+        {
+          foo: "12",
+        }
+    );
+    assert.deepEqual(
+        toStringMap({
           foo: [1, "2"],
         }),
         {
