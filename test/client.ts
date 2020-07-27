@@ -102,7 +102,7 @@ describe("Client", () => {
   });
 
   describe("ping", () => {
-    it("requests '/'", done => {
+    it("requests '/'", (done) => {
       const client = new Client(newConfig());
       const expectedRequest = {
         method: "GET" as HttpVerb,

@@ -29,7 +29,7 @@ describe("AddressesResource", () => {
   });
 
   describe("contract", () => {
-    it("generates API request on agent", done => {
+    it("generates API request on agent", (done) => {
       const stub = sinon
         .stub(client.agent, "http")
         .resolves(toResponse(addresses.success, expectedRequest));
@@ -42,18 +42,18 @@ describe("AddressesResource", () => {
     });
   });
 
-  it("returns address data", done => {
+  it("returns address data", (done) => {
     sinon
       .stub(client.agent, "http")
       .resolves(toResponse(addresses.success, expectedRequest));
 
-    resource.list({ query }).then(response => {
+    resource.list({ query }).then((response) => {
       assert.deepEqual(response.body, addresses.success.body);
       done();
     });
   });
 
-  it("returns non API errors (e.g. connection error)", done => {
+  it("returns non API errors (e.g. connection error)", (done) => {
     sinon.stub(client.agent, "http").rejects(new Error("timeout!"));
 
     resource
@@ -61,13 +61,13 @@ describe("AddressesResource", () => {
       .then(() => {
         done(new Error("Promise should be rejected"));
       })
-      .catch(error => {
+      .catch((error) => {
         assert.instanceOf(error, Error);
         done();
       });
   });
 
-  it("returns API errors", done => {
+  it("returns API errors", (done) => {
     sinon
       .stub(client.agent, "http")
       .resolves(toResponse(errors.balanceDepleted, expectedRequest));
@@ -75,7 +75,7 @@ describe("AddressesResource", () => {
     resource
       .list({ query })
       .then(() => done(new Error("Promise should be rejected")))
-      .catch(error => {
+      .catch((error) => {
         assert.isTrue(error instanceof IdpcRequestFailedError);
         assert.instanceOf(error, IdpcBalanceDepletedError);
         done();

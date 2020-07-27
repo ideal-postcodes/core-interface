@@ -29,7 +29,7 @@ const toRetrieveUrl = (options: Options, id: string): string =>
     encodeURIComponent(id),
     options.action,
   ]
-    .filter(e => e !== undefined)
+    .filter((e) => e !== undefined)
     .join("/");
 
 export const retrieveMethod = <T extends Request, U>(options: Options) => {

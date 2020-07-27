@@ -30,7 +30,7 @@ describe("UdprnResource", () => {
     });
 
     describe("contract", () => {
-      it("generates API request on agent", done => {
+      it("generates API request on agent", (done) => {
         const stub = sinon
           .stub(client.agent, "http")
           .resolves(toResponse(udprnFixtures.success, expectedRequest));
@@ -43,18 +43,18 @@ describe("UdprnResource", () => {
       });
     });
 
-    it("returns address data", done => {
+    it("returns address data", (done) => {
       sinon
         .stub(client.agent, "http")
         .resolves(toResponse(udprnFixtures.success, expectedRequest));
 
-      resource.retrieve(udprn.toString(), { query }).then(response => {
+      resource.retrieve(udprn.toString(), { query }).then((response) => {
         assert.deepEqual(response.body, udprnFixtures.success.body);
         done();
       });
     });
 
-    it("returns non API errors (e.g. connection error)", done => {
+    it("returns non API errors (e.g. connection error)", (done) => {
       sinon.stub(client.agent, "http").rejects(new Error("timeout!"));
 
       resource
@@ -62,13 +62,13 @@ describe("UdprnResource", () => {
         .then(() => {
           done(new Error("Promise should be rejected"));
         })
-        .catch(error => {
+        .catch((error) => {
           assert.instanceOf(error, Error);
           done();
         });
     });
 
-    it("returns API errors", done => {
+    it("returns API errors", (done) => {
       sinon
         .stub(client.agent, "http")
         .resolves(toResponse(udprnFixtures.notFound, expectedRequest));
@@ -76,7 +76,7 @@ describe("UdprnResource", () => {
       resource
         .retrieve(udprn.toString(), { query })
         .then(() => done(new Error("Promise should be rejected")))
-        .catch(error => {
+        .catch((error) => {
           assert.instanceOf(error, IdpcUdprnNotFoundError);
           done();
         });

@@ -46,7 +46,7 @@ describe("Resource", () => {
 
       const stub = sinon.stub(client.agent, "http").resolves(expectedResponse);
 
-      retrieveMethod(resourceOptions)(id, options).then(response => {
+      retrieveMethod(resourceOptions)(id, options).then((response) => {
         sinon.assert.calledOnce(stub);
         sinon.assert.calledWithExactly(stub, expectedRequest);
         assert.deepEqual(response, expectedResponse);
@@ -92,7 +92,7 @@ describe("Resource", () => {
 
       const stub = sinon.stub(client.agent, "http").resolves(expectedResponse);
 
-      listMethod(resourceOptions)(options).then(response => {
+      listMethod(resourceOptions)(options).then((response) => {
         sinon.assert.calledOnce(stub);
         sinon.assert.calledWithExactly(stub, expectedRequest);
         assert.deepEqual(response, expectedResponse);

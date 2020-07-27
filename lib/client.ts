@@ -241,8 +241,8 @@ export class Client {
 
     return this.postcodes
       .retrieve(options.postcode, queryOptions)
-      .then(response => response.body.result)
-      .catch(error => {
+      .then((response) => response.body.result)
+      .catch((error) => {
         if (error instanceof IdpcPostcodeNotFoundError) return [];
         throw error;
       });
@@ -270,7 +270,7 @@ export class Client {
 
     return this.addresses
       .list(queryOptions)
-      .then(response => response.body.result.hits);
+      .then((response) => response.body.result.hits);
   }
 
   /**
@@ -308,8 +308,8 @@ export class Client {
     const queryOptions = this.toAddressIdQuery(options);
     return this.udprn
       .retrieve(options.udprn.toString(), queryOptions)
-      .then(response => response.body.result)
-      .catch(error => {
+      .then((response) => response.body.result)
+      .catch((error) => {
         if (error instanceof IdpcUdprnNotFoundError) return null;
         throw error;
       });
@@ -328,8 +328,8 @@ export class Client {
     const queryOptions = this.toAddressIdQuery(options);
     return this.umprn
       .retrieve(options.umprn.toString(), queryOptions)
-      .then(response => response.body.result)
-      .catch(error => {
+      .then((response) => response.body.result)
+      .catch((error) => {
         if (error instanceof IdpcUmprnNotFoundError) return null;
         throw error;
       });
@@ -356,6 +356,6 @@ export class Client {
     if (timeout !== undefined) queryOptions.timeout = timeout;
     return this.keys
       .retrieve(api_key, queryOptions)
-      .then(response => response.body.result as KeyStatus); // Assert that we're retrieving public key information as no user_token provided
+      .then((response) => response.body.result as KeyStatus); // Assert that we're retrieving public key information as no user_token provided
   }
 }

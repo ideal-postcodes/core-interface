@@ -17,7 +17,7 @@ describe("Client", () => {
     const query = {};
     const method = "GET";
 
-    it("returns true if key avaialble", done => {
+    it("returns true if key avaialble", (done) => {
       const expectedRequest: HttpRequest = {
         method,
         timeout,
@@ -34,16 +34,16 @@ describe("Client", () => {
 
       client
         .checkKeyUsability({ api_key })
-        .then(keyStatus => {
+        .then((keyStatus) => {
           assert.deepEqual(fixtures.check.available.body.result, keyStatus);
           sinon.assert.calledOnce(stub);
           sinon.assert.calledWithExactly(stub, expectedRequest);
           done();
         })
-        .catch(error => done(error));
+        .catch((error) => done(error));
     });
 
-    it("defaults to key defined in client", done => {
+    it("defaults to key defined in client", (done) => {
       const expectedRequest: HttpRequest = {
         method,
         timeout,
@@ -58,16 +58,16 @@ describe("Client", () => {
 
       client
         .checkKeyUsability({})
-        .then(keyStatus => {
+        .then((keyStatus) => {
           assert.deepEqual(fixtures.check.available.body.result, keyStatus);
           sinon.assert.calledOnce(stub);
           sinon.assert.calledWithExactly(stub, expectedRequest);
           done();
         })
-        .catch(error => done(error));
+        .catch((error) => done(error));
     });
 
-    it("applies licensee", done => {
+    it("applies licensee", (done) => {
       const licensee = "baz";
       const expectedRequest: HttpRequest = {
         method,
@@ -83,16 +83,16 @@ describe("Client", () => {
 
       client
         .checkKeyUsability({ licensee })
-        .then(keyStatus => {
+        .then((keyStatus) => {
           assert.deepEqual(fixtures.check.available.body.result, keyStatus);
           sinon.assert.calledOnce(stub);
           sinon.assert.calledWithExactly(stub, expectedRequest);
           done();
         })
-        .catch(error => done(error));
+        .catch((error) => done(error));
     });
 
-    it("applies timeout", done => {
+    it("applies timeout", (done) => {
       const t = 88;
       const expectedRequest: HttpRequest = {
         method,
@@ -108,16 +108,16 @@ describe("Client", () => {
 
       client
         .checkKeyUsability({ timeout: t })
-        .then(keyStatus => {
+        .then((keyStatus) => {
           assert.deepEqual(fixtures.check.available.body.result, keyStatus);
           sinon.assert.calledOnce(stub);
           sinon.assert.calledWithExactly(stub, expectedRequest);
           done();
         })
-        .catch(error => done(error));
+        .catch((error) => done(error));
     });
 
-    it("returns false if key is not available", done => {
+    it("returns false if key is not available", (done) => {
       const expectedRequest: HttpRequest = {
         method: "GET",
         timeout: client.timeout,
@@ -134,14 +134,14 @@ describe("Client", () => {
 
       client
         .checkKeyUsability({ api_key })
-        .then(keyStatus => {
+        .then((keyStatus) => {
           assert.isFalse(keyStatus.available);
           done();
         })
-        .catch(error => done(error));
+        .catch((error) => done(error));
     });
 
-    it("`catches` for all other errors", done => {
+    it("`catches` for all other errors", (done) => {
       const expectedRequest: HttpRequest = {
         method: "GET",
         timeout: client.timeout,
@@ -159,7 +159,7 @@ describe("Client", () => {
       client
         .checkKeyUsability({ api_key })
         .then(() => done(new Error("This test should throw")))
-        .catch(error => {
+        .catch((error) => {
           assert.instanceOf(error, IdpcKeyNotFoundError);
           done();
         });
