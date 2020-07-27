@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/ideal-postcodes/core-interface/compare/1.5.0...1.6.0) (2020-07-27)
+
+
+### Features
+
+* **Query:** Allow non-string query attributes ([2de56cb](https://github.com/ideal-postcodes/core-interface/commit/2de56cb1905e04b6376e5a2a4dc52a9b65aff7be))
+
 # [1.5.0](https://github.com/ideal-postcodes/core-interface/compare/1.4.0...1.5.0) (2020-02-05)
 
 
