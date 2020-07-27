@@ -30,7 +30,7 @@ describe("KeyResource", () => {
       });
 
       describe("contract", () => {
-        it("generates API request on agent", done => {
+        it("generates API request on agent", (done) => {
           const stub = sinon
             .stub(client.agent, "http")
             .resolves(toResponse(keys.check.available, expectedRequest));
@@ -43,29 +43,29 @@ describe("KeyResource", () => {
         });
       });
 
-      it("returns key available", done => {
+      it("returns key available", (done) => {
         sinon
           .stub(client.agent, "http")
           .resolves(toResponse(keys.check.available, expectedRequest));
 
-        resource.retrieve(key, { query }).then(response => {
+        resource.retrieve(key, { query }).then((response) => {
           assert.deepEqual(response.body, keys.check.available.body);
           done();
         });
       });
 
-      it("returns key unavailable", done => {
+      it("returns key unavailable", (done) => {
         sinon
           .stub(client.agent, "http")
           .resolves(toResponse(keys.check.unavailable, expectedRequest));
 
-        resource.retrieve(key, { query }).then(response => {
+        resource.retrieve(key, { query }).then((response) => {
           assert.deepEqual(response.body, keys.check.unavailable.body);
           done();
         });
       });
 
-      it("returns non API errors (e.g. connection error)", done => {
+      it("returns non API errors (e.g. connection error)", (done) => {
         sinon.stub(client.agent, "http").rejects(new Error("timeout!"));
 
         resource
@@ -73,13 +73,13 @@ describe("KeyResource", () => {
           .then(() => {
             done(new Error("Promise should be rejected"));
           })
-          .catch(error => {
+          .catch((error) => {
             assert.instanceOf(error, Error);
             done();
           });
       });
 
-      it("returns API errors", done => {
+      it("returns API errors", (done) => {
         sinon
           .stub(client.agent, "http")
           .resolves(toResponse(keys.check.invalid, expectedRequest));
@@ -87,7 +87,7 @@ describe("KeyResource", () => {
         resource
           .retrieve(key, { query })
           .then(() => done(new Error("Promise should be rejected")))
-          .catch(error => {
+          .catch((error) => {
             assert.instanceOf(error, IdpcKeyNotFoundError);
             done();
           });
@@ -116,7 +116,7 @@ describe("KeyResource", () => {
       });
 
       describe("contract", () => {
-        it("generates API request on agent", done => {
+        it("generates API request on agent", (done) => {
           const stub = sinon
             .stub(client.agent, "http")
             .resolves(toResponse(keys.private.success, expectedRequest));
@@ -129,18 +129,18 @@ describe("KeyResource", () => {
         });
       });
 
-      it("returns key available", done => {
+      it("returns key available", (done) => {
         sinon
           .stub(client.agent, "http")
           .resolves(toResponse(keys.private.success, expectedRequest));
 
-        resource.retrieve(key, { query }).then(response => {
+        resource.retrieve(key, { query }).then((response) => {
           assert.deepEqual(response.body, keys.private.success.body);
           done();
         });
       });
 
-      it("returns API errors", done => {
+      it("returns API errors", (done) => {
         sinon
           .stub(client.agent, "http")
           .resolves(toResponse(keys.check.invalid, expectedRequest));
@@ -148,7 +148,7 @@ describe("KeyResource", () => {
         resource
           .retrieve(key, { query })
           .then(() => done(new Error("Promise should be rejected")))
-          .catch(error => {
+          .catch((error) => {
             assert.instanceOf(error, IdpcKeyNotFoundError);
             done();
           });
@@ -175,7 +175,7 @@ describe("KeyResource", () => {
       });
 
       describe("contract", () => {
-        it("generates API request on agent", done => {
+        it("generates API request on agent", (done) => {
           const stub = sinon
             .stub(client.agent, "http")
             .resolves(toResponse(keys.usage.success, expectedRequest));
@@ -188,12 +188,12 @@ describe("KeyResource", () => {
         });
       });
 
-      it("returns key usage data", done => {
+      it("returns key usage data", (done) => {
         sinon
           .stub(client.agent, "http")
           .resolves(toResponse(keys.usage.success, expectedRequest));
 
-        resource.usage(key, { query }).then(response => {
+        resource.usage(key, { query }).then((response) => {
           assert.deepEqual(response.body, keys.usage.success.body);
           done();
         });

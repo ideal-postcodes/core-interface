@@ -14,7 +14,7 @@ describe("Client", () => {
   describe("lookupUdprn", () => {
     const client = new Client(newConfig());
 
-    it("returns an address", done => {
+    it("returns an address", (done) => {
       const expectedRequest: HttpRequest = {
         method: "GET",
         timeout: client.timeout,
@@ -34,16 +34,16 @@ describe("Client", () => {
 
       client
         .lookupUdprn({ udprn })
-        .then(addresses => {
+        .then((addresses) => {
           assert.deepEqual(fixtures.success.body.result, addresses);
           sinon.assert.calledOnce(stub);
           sinon.assert.calledWithExactly(stub, expectedRequest);
           done();
         })
-        .catch(error => done(error));
+        .catch((error) => done(error));
     });
 
-    it("accepts arguments laid out in HTTP API", done => {
+    it("accepts arguments laid out in HTTP API", (done) => {
       const sourceIp = "8.8.8.8";
       const filter: AddressKeys[] = ["line_1", "postcode"];
       const tags = ["foo", "bar"];
@@ -81,16 +81,16 @@ describe("Client", () => {
           tags,
           timeout,
         })
-        .then(address => {
+        .then((address) => {
           assert.deepEqual(fixtures.success.body.result, address);
           sinon.assert.calledOnce(stub);
           sinon.assert.calledWithExactly(stub, expectedRequest);
           done();
         })
-        .catch(error => done(error));
+        .catch((error) => done(error));
     });
 
-    it("returns null if UDPRN not found", done => {
+    it("returns null if UDPRN not found", (done) => {
       const expectedRequest: HttpRequest = {
         method: "GET",
         timeout: client.timeout,
@@ -110,14 +110,14 @@ describe("Client", () => {
 
       client
         .lookupUdprn({ udprn })
-        .then(address => {
+        .then((address) => {
           assert.isNull(address);
           done();
         })
-        .catch(error => done(error));
+        .catch((error) => done(error));
     });
 
-    it("`catches` for all other errors", done => {
+    it("`catches` for all other errors", (done) => {
       const expectedRequest: HttpRequest = {
         method: "GET",
         timeout: client.timeout,
@@ -138,7 +138,7 @@ describe("Client", () => {
       client
         .lookupUdprn({ udprn })
         .then(() => done(new Error("This test should throw")))
-        .catch(error => {
+        .catch((error) => {
           assert.instanceOf(error, IdpcInvalidKeyError);
           done();
         });
