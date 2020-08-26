@@ -119,7 +119,7 @@
     "karma-typescript": "~5.1.0",
     "mocha": "~8.1.0",
     "nyc": "~15.1.0",
-    "prettier": "~2.0.2",
+    "prettier": "~2.1.0",
     "puppeteer": "~5.2.0",
     "regenerator-runtime": "~0.13.3",
     "semantic-release": "~17.1.0",
