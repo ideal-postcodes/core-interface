@@ -128,7 +128,7 @@
     "ts-node": "~9.0.0",
     "tslint": "~6.1.2",
     "type-zoo": "~3.4.0",
-    "typedoc": "~0.18.0",
+    "typedoc": "~0.19.1",
     "typescript": "~3.9.3"
   }
 }
