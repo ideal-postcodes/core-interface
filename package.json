@@ -106,7 +106,7 @@
     "@types/puppeteer": "~3.0.0",
     "@types/sinon": "~9.0.1",
     "chai": "~4.2.0",
-    "codecov": "~3.7.0",
+    "codecov": "~3.8.0",
     "core-js": "~3.6.4",
     "dotenv": "~8.2.0",
     "eslint": "~7.9.0",
