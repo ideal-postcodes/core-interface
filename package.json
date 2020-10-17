@@ -119,7 +119,7 @@
     "karma-polyfill": "~1.1.0",
     "karma-sauce-launcher": "~1.2.0",
     "karma-typescript": "~5.2.0",
-    "mocha": "~8.1.0",
+    "mocha": "~8.2.0",
     "nyc": "~15.1.0",
     "prettier": "~2.1.0",
     "puppeteer": "~5.3.1",
