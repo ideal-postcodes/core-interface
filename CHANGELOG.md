@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/ideal-postcodes/core-interface/compare/1.6.0...1.7.0) (2020-10-21)
+
+
+### Features
+
+* **ESM:** Publish ESM build ([acf45bb](https://github.com/ideal-postcodes/core-interface/commit/acf45bbac2f4f0b3872115289e1d35071991abae))
+
 # [1.6.0](https://github.com/ideal-postcodes/core-interface/compare/1.5.0...1.6.0) (2020-07-27)
 
 
