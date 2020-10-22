@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/ideal-postcodes/core-interface/compare/1.7.0...1.8.0) (2020-10-22)
+
+
+### Features
+
+* **ESM:** Target ESNext in ESM builds ([d44f960](https://github.com/ideal-postcodes/core-interface/commit/d44f960b314a89881b6afd67f9c8f44cc0a7621a))
+
 # [1.7.0](https://github.com/ideal-postcodes/core-interface/compare/1.6.0...1.7.0) (2020-10-21)
 
 
