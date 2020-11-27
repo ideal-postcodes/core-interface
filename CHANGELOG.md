@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/ideal-postcodes/core-interface/compare/1.8.0...1.8.1) (2020-11-27)
+
+
+### Bug Fixes
+
+* **tsconfig:** Bump tsconfig ([37504cd](https://github.com/ideal-postcodes/core-interface/commit/37504cdc2e4ecf6a610d672bce60cfdbb61a2e86))
+
 # [1.8.0](https://github.com/ideal-postcodes/core-interface/compare/1.7.0...1.8.0) (2020-10-22)
 
 
