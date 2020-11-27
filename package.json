@@ -99,7 +99,7 @@
     "@cablanchard/tslint": "0.0.1",
     "@ideal-postcodes/api-fixtures": "~1.2.0",
     "@ideal-postcodes/api-typings": "~2.0.0",
-    "@ideal-postcodes/supported-browsers": "~2.4.0",
+    "@ideal-postcodes/supported-browsers": "~2.5.0",
     "@types/chai": "~4.2.0",
     "@types/dotenv": "~8.2.0",
     "@types/karma": "~5.0.0",
