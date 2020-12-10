@@ -129,7 +129,7 @@
     "semantic-release": "~17.3.0",
     "sinon": "~9.2.0",
     "source-map-support": "~0.5.10",
-    "ts-node": "~9.0.0",
+    "ts-node": "~9.1.1",
     "tslint": "~6.1.2",
     "type-zoo": "~3.4.0",
     "typedoc": "~0.19.1",
