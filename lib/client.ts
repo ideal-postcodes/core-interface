@@ -64,6 +64,12 @@ export interface Config {
    * String map specifying default headers
    */
   header: Header;
+  /**
+   * Append tags to helper requests like `lookupPostcode` and `lookupUDPRN`
+   *
+   * Tags attached to the client are overwritten on an request if it is also specified in the helper request options
+   */
+  tags: string[];
 }
 
 interface Defaults {
@@ -170,6 +176,7 @@ export class Client {
   readonly timeout: number;
   readonly agent: Agent;
   readonly header: Header;
+  readonly tags: string[];
   readonly postcodes: PostcodeResource;
   readonly addresses: AddressResource;
   readonly udprn: UdprnResource;
@@ -187,6 +194,7 @@ export class Client {
     this.strictAuthorisation = config.strictAuthorisation;
     this.timeout = config.timeout;
     this.agent = config.agent;
+    this.tags = config.tags;
     this.header = { ...Client.defaults.header, ...config.header };
     this.postcodes = createPostcodeResource(this);
     this.addresses = createAddressResource(this);
@@ -262,7 +270,7 @@ export class Client {
     appendAuthorization({ client: this, header, options });
     appendIp({ header, options });
     appendFilter({ query, options });
-    appendTags({ query, options });
+    appendTags({ client: this, query, options });
     appendPage({ query, options });
 
     const queryOptions: Request = { header, query };
@@ -287,7 +295,7 @@ export class Client {
     appendAuthorization({ client: this, header, options });
     appendIp({ header, options });
     appendFilter({ query, options });
-    appendTags({ query, options });
+    appendTags({ client: this, query, options });
 
     const request: Request = { header, query };
     if (options.timeout !== undefined) request.timeout = options.timeout;

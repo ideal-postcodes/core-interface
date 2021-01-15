@@ -219,19 +219,42 @@ describe("appendFilter", () => {
 });
 
 describe("appendTags", () => {
+  it("appends tags if configured on client", () => {
+    const tags = ["client"];
+    const client = new Client({ ...newConfig(), tags });
+    const query = {};
+    const options = { tags };
+    const result = appendTags({ client, query, options });
+    assert.equal(query, result);
+    assert.equal(result.tags, "client");
+  });
+
+  it("gives precendence to tags from options", () => {
+    const tags = ["client"];
+    const client = new Client({ ...newConfig(), tags });
+    const query = {};
+    const queryTags = ["foo", "bar"];
+    const options = { tags: queryTags };
+    const result = appendTags({ client, query, options });
+    assert.equal(query, result);
+    assert.equal(result.tags, "foo,bar");
+  });
+
   it("appends tags to query object", () => {
+    const client = new Client({ ...newConfig() });
     const query = {};
     const tags = ["foo", "bar"];
     const options = { tags };
-    const result = appendTags({ query, options });
+    const result = appendTags({ client, query, options });
     assert.equal(query, result);
     assert.equal(result.tags, "foo,bar");
   });
 
   it("does not change headers if left unspecified", () => {
+    const client = new Client({ ...newConfig() });
     const query = {};
     const options = {};
-    const result = appendTags({ query, options });
+    const result = appendTags({ client, query, options });
     assert.deepEqual(result, {});
   });
 });
