@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/ideal-postcodes/core-interface/compare/1.8.1...1.9.0) (2021-01-15)
+
+
+### Features
+
+* **Tagging:** Allow tags to be set by client ([5f40c0f](https://github.com/ideal-postcodes/core-interface/commit/5f40c0f98c8a19b46525d0c29aa9e37a339cf747))
+
 ## [1.8.1](https://github.com/ideal-postcodes/core-interface/compare/1.8.0...1.8.1) (2020-11-27)
 
 
