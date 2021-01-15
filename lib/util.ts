@@ -172,16 +172,20 @@ export const appendFilter = ({
 };
 
 interface AppendTagsOptions {
+  client: Client;
   query: StringMap;
   options: Taggable;
 }
 
 // Adds tags to query
 export const appendTags = ({
+  client,
   query,
   options,
 }: AppendTagsOptions): StringMap => {
-  const { tags } = options;
+  let tags: string[] | undefined;
+  if (client.tags.length) tags = client.tags;
+  if (options.tags) tags = options.tags;
   if (tags !== undefined) query.tags = tags.join(",");
   return query;
 };

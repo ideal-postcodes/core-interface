@@ -31,6 +31,7 @@ const defaultConfig: Config = Object.freeze({
   timeout: TIMEOUT,
   agent: new TestAgent(),
   header: {},
+  tags: [],
 });
 
 const TEN_SECONDS = 10000;
