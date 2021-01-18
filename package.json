@@ -37,6 +37,10 @@
     "dist",
     "esm"
   ],
+  "browserslist": [
+    "ie 11",
+    "last 2 versions"
+  ],
   "prettier": {
     "trailingComma": "es5"
   },
@@ -113,6 +117,7 @@
     "core-js": "~3.8.1",
     "dotenv": "~8.2.0",
     "eslint": "~7.17.0",
+    "eslint-plugin-compat": "~3.9.0",
     "karma": "~5.2.1",
     "karma-chrome-launcher": "~3.1.0",
     "karma-cli": "~2.0.0",
