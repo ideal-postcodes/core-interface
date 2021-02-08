@@ -109,7 +109,7 @@
     "@types/karma": "~6.1.0",
     "@types/mocha": "~8.2.0",
     "@types/node": "~14.14.3",
-    "@types/prettier": "~2.1.0",
+    "@types/prettier": "~2.2.0",
     "@types/puppeteer": "~5.4.0",
     "@types/sinon": "~9.0.1",
     "chai": "~4.3.0",
