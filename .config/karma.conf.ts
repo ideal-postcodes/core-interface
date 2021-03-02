@@ -1,8 +1,6 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 import { Config } from "karma";
-import { executablePath } from "puppeteer";
-process.env.CHROME_BIN = executablePath();
 
 import * as basic from "./config";
 
