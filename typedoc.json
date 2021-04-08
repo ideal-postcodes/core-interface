@@ -1,0 +1,9 @@
+{
+  "entryPoints": ["./lib/index.ts", "./lib/agent.ts", "./lib/client.ts", "./lib/error.ts", "./lib/types.ts", "./lib/util.ts"],
+  "hideGenerator": true,
+  "disableOutputCheck": true,
+  "out": "docs/",
+  "excludeNotDocumented": true,
+  "excludePrivate": true,
+  "theme": "./node_modules/@ideal-postcodes/doc-assets"
+}
