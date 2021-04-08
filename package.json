@@ -94,7 +94,6 @@
     "extends": "@cablanchard/semantic-release/dist/npm"
   },
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
     "@babel/polyfill": "~7.12.1",
     "@cablanchard/eslint-config": "~2.1.1",
@@ -111,6 +110,7 @@
     "@types/node": "~14.14.3",
     "@types/prettier": "~2.2.0",
     "@types/sinon": "~9.0.1",
+    "@typescript-eslint/eslint-plugin": "~3.0.2",
     "chai": "~4.3.0",
     "codecov": "~3.8.0",
     "core-js": "~3.10.0",
