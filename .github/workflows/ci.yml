@@ -1,12 +1,10 @@
-name: Release
+name: CI
 
 on:
   push:
-    branches:
-      - master
 
 jobs:
-  release:
+  ci:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,16 +25,16 @@ jobs:
         run: npm install
 
       - name: Test
+        run: npm run lint
+
+      - name: Test
         run: npm test
 
-      - name: Lint
-        run: npm run lint
+      - name: Coverage
+        run: npm run coverage
+
+      - name: Headless Tests
+        run: npm run test:browsers:headless
 
       - name: Build
         run: npm run build
-
-      - name: Semantic Release
-        run: npm run semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
