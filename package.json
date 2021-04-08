@@ -30,7 +30,7 @@
     "lint": "eslint lib/**/*.ts",
     "build": "tsc && tsc -p tsconfig.esm.json",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "docs": "typedoc --mode file --out docs/ --name 'Ideal Postcodes JS Client Interface' --theme minimal --excludePrivate --hideGenerator lib/",
+    "docs": "typedoc",
     "prepublishOnly": "npm run test && npm run build"
   },
   "files": [
@@ -102,6 +102,7 @@
     "@cablanchard/tslint": "0.0.1",
     "@ideal-postcodes/api-fixtures": "~1.2.0",
     "@ideal-postcodes/api-typings": "~2.0.0",
+    "@ideal-postcodes/doc-assets": "~1.0.3",
     "@ideal-postcodes/supported-browsers": "~2.5.0",
     "@types/chai": "~4.2.0",
     "@types/dotenv": "~8.2.0",
@@ -136,7 +137,7 @@
     "ts-node": "~9.1.1",
     "tslint": "~6.1.2",
     "type-zoo": "~3.4.0",
-    "typedoc": "~0.19.1",
+    "typedoc": "^0.20.35",
     "typescript": "~4.2.3"
   }
 }
