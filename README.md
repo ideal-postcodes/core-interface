@@ -4,7 +4,7 @@
 
 > JavaScript API for api.ideal-postcodes.co.uk
 
-[![CircleCI](https://circleci.com/gh/ideal-postcodes/core-interface/tree/master.svg?style=svg)](https://circleci.com/gh/ideal-postcodes/core-interface/tree/master)
+[![CI](https://github.com/ideal-postcodes/core-interface/actions/workflows/ci.yml/badge.svg)](https://github.com/ideal-postcodes/core-interface/actions/workflows/ci.yml)
 ![Cross Browser Testing](https://github.com/ideal-postcodes/core-interface/workflows/Cross%20Browser%20Testing/badge.svg?branch=saucelabs)
 [![Release](https://github.com/ideal-postcodes/core-interface/workflows/Release/badge.svg)](https://github.com/ideal-postcodes/core-interface/actions)
 [![codecov](https://codecov.io/gh/ideal-postcodes/core-interface/branch/master/graph/badge.svg)](https://codecov.io/gh/ideal-postcodes/core-interface)
