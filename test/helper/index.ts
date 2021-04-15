@@ -32,6 +32,7 @@ const defaultConfig: Config = Object.freeze({
   agent: new TestAgent(),
   header: {},
   tags: [],
+  filter: {},
 });
 
 const TEN_SECONDS = 10000;

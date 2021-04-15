@@ -108,3 +108,29 @@ export interface Paginateable {
  * QueryValue
  */
 export type QueryValue = undefined | number | string | (string | number)[];
+/**
+ *
+ * Filter searches
+ */
+export type SearchFilterKeys =
+  | "postcode_outward"
+  | "postcode"
+  | "post_town"
+  | "dependant_locality"
+  | "country"
+  | "thoroughfare"
+  | "dependant_thoroughfare"
+  | "building_number"
+  | "building_name"
+  | "sub_building_name"
+  | "organisation_name"
+  | "postcode_type"
+  | "su_organisation_indicator"
+  | "district"
+  | "ward"
+  | "postcode_sector"
+  | "postcode_area"
+  | "box"
+  | "uprn";
+
+export type SearchFilter = Partial<Record<SearchFilterKeys, string[]>>;

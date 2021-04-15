@@ -1,6 +1,7 @@
 import { Agent, HttpResponse, Header, StringMap } from "./agent";
 import {
   Authenticable,
+  SearchFilter,
   Filterable,
   Taggable,
   HttpOptions,
@@ -17,6 +18,7 @@ import {
   appendAuthorization,
   appendPage,
   appendIp,
+  appendResultFilter,
   appendFilter,
   appendTags,
 } from "./util";
@@ -70,6 +72,10 @@ export interface Config {
    * Tags attached to the client are overwritten on an request if it is also specified in the helper request options
    */
   tags: string[];
+  /**
+   * Appends search filter to helper requests like `lookupAddress` and `suggestAddress`
+   */
+  searchFilter: SearchFilter;
 }
 
 interface Defaults {
@@ -113,6 +119,7 @@ interface LookupAddressOptions
   extends Authenticable,
     Filterable,
     Taggable,
+    SearchFilter,
     Paginateable,
     HttpOptions {
   /**
@@ -177,6 +184,7 @@ export class Client {
   readonly agent: Agent;
   readonly header: Header;
   readonly tags: string[];
+  public searchFilter: SearchFilter;
   readonly postcodes: PostcodeResource;
   readonly addresses: AddressResource;
   readonly udprn: UdprnResource;
@@ -195,6 +203,7 @@ export class Client {
     this.timeout = config.timeout;
     this.agent = config.agent;
     this.tags = config.tags;
+    this.filter = config.filter;
     this.header = { ...Client.defaults.header, ...config.header };
     this.postcodes = createPostcodeResource(this);
     this.addresses = createAddressResource(this);
@@ -269,6 +278,7 @@ export class Client {
 
     appendAuthorization({ client: this, header, options });
     appendIp({ header, options });
+    appendResultFilter({ client: this, query, options });
     appendFilter({ query, options });
     appendTags({ client: this, query, options });
     appendPage({ query, options });
