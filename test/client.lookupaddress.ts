@@ -47,6 +47,7 @@ describe("Client", () => {
       const tags = ["foo", "bar"];
       const timeout = 3000;
       const licensee = "quux";
+      const postcode_outward = ["NW1", "NW2"];
       const api_key = "fooo";
       const page = 1;
       const limit = 10;
@@ -57,6 +58,7 @@ describe("Client", () => {
         query: {
           filter: "line_1,postcode",
           tags: "foo,bar",
+          postcode_outward: "NW1,NW2",
           page: "1",
           limit: "10",
           query: "10",
@@ -80,6 +82,7 @@ describe("Client", () => {
           api_key,
           sourceIp,
           filter,
+          postcode_outward,
           tags,
           limit,
           timeout,

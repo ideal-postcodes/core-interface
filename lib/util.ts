@@ -2,6 +2,8 @@ import { Client } from "./client";
 import { Header } from "./agent";
 import {
   Authenticable,
+  SearchFilter,
+  SearchFilterKeys,
   Paginateable,
   AdminAuthenticable,
   Taggable,
@@ -156,12 +158,33 @@ export const appendIp = ({ header, options }: AppendIpOptions): StringMap => {
   return header;
 };
 
+interface AppendResultFilterOptions {
+  client: Client;
+  query: StringMap;
+  options: SearchFilter;
+}
+
+// Filters search
+export const appendResultFilter = ({
+  client,
+  query,
+  options,
+}: AppendResultFilterOptions): StringMap => {
+  const filter = { ...client.filter, ...options };
+  if (filter === undefined) return query;
+  Object.keys(filter).forEach((f) => {
+    const value = filter[f as FilterableKeys];
+    if (isArray(value)) query[f] = value.join(",");
+  });
+  return query;
+};
+
 interface AppendFilterOptions {
   query: StringMap;
   options: Filterable;
 }
 
-// Adds filters to query
+// Adds filters to query to restrict payload size of result
 export const appendFilter = ({
   query,
   options,
