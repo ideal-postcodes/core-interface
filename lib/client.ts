@@ -29,6 +29,9 @@ interface Request extends BaseRequest {
 
 type Protocol = "http" | "https";
 
+/**
+ * Client Configuration Object
+ */
 export interface Config {
   /**
    * Use TLS. Defaults to `true`
@@ -160,6 +163,9 @@ interface CheckKeyUsabilityOptions extends HttpOptions {
   licensee?: string;
 }
 
+/**
+ * Client Class
+ */
 export class Client {
   static defaults: Defaults = {
     header: {
