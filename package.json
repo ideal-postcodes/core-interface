@@ -100,7 +100,7 @@
     "@cablanchard/semantic-release": "~1.3.1",
     "@cablanchard/tsconfig": "2.0.0",
     "@cablanchard/tslint": "0.0.1",
-    "@ideal-postcodes/api-fixtures": "~1.2.0",
+    "@ideal-postcodes/api-fixtures": "~1.3.0",
     "@ideal-postcodes/api-typings": "~2.0.0",
     "@ideal-postcodes/doc-assets": "~1.0.3",
     "@ideal-postcodes/supported-browsers": "~2.5.0",
