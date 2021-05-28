@@ -60,9 +60,7 @@ export interface HttpRequest {
   query: Query;
 }
 
-export interface StringMap {
-  [key: string]: string;
-}
+export type StringMap = Record<string, string>;
 
 /**
  * Header
