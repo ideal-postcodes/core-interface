@@ -75,6 +75,23 @@ export interface Config {
   tags: string[];
 }
 
+/**
+ * Default configuration
+ *
+ * @param Config
+ * @returns {undefined}
+ */
+const defaults: Omit<Config, "agent"> = {
+  tls: true,
+  api_key: "",
+  baseUrl: "api.ideal-postcodes.co.uk",
+  version: "v1",
+  strictAuthorisation: false,
+  timeout: 10000,
+  header: {},
+  tags: [],
+};
+
 interface Defaults {
   header: Header;
 }
