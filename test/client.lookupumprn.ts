@@ -1,9 +1,13 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { Client } from "../lib/client";
+import {
+  lookupUmprn,
+  HttpRequest,
+  AddressKeys,
+  Client,
+  defaults,
+} from "../lib/index";
 import { newConfig } from "./helper/index";
-import { AddressKeys } from "../lib/types";
-import { HttpRequest } from "../lib/agent";
 import { umprn as fixtures, errors } from "@ideal-postcodes/api-fixtures";
 import { toResponse } from "./helper/index";
 import { IdpcInvalidKeyError } from "../lib/error";
@@ -17,23 +21,22 @@ describe("Client", () => {
     it("returns an address", (done) => {
       const expectedRequest: HttpRequest = {
         method: "GET",
-        timeout: client.timeout,
+        timeout: client.config.timeout,
         query: {},
         header: {
-          ...Client.defaults.header,
-          Authorization: `IDEALPOSTCODES api_key="${client.api_key}"`,
+          ...defaults.header,
+          Authorization: `IDEALPOSTCODES api_key="${client.config.api_key}"`,
         },
         url: "https://api.ideal-postcodes.co.uk/v1/umprn/1",
       };
 
       const stub = sinon
-        .stub(client.agent, "http")
+        .stub(client.config.agent, "http")
         .resolves(toResponse(fixtures.success, expectedRequest));
 
       const umprn = 1;
 
-      client
-        .lookupUmprn({ umprn })
+      lookupUmprn({ client, umprn })
         .then((addresses) => {
           assert.deepEqual(fixtures.success.body.result, addresses);
           sinon.assert.calledOnce(stub);
@@ -60,7 +63,7 @@ describe("Client", () => {
           tags: "foo,bar",
         },
         header: {
-          ...Client.defaults.header,
+          ...defaults.header,
           Authorization: `IDEALPOSTCODES api_key="${api_key}" licensee="${licensee}"`,
           "IDPC-Source-IP": sourceIp,
         },
@@ -68,19 +71,19 @@ describe("Client", () => {
       };
 
       const stub = sinon
-        .stub(client.agent, "http")
+        .stub(client.config.agent, "http")
         .resolves(toResponse(fixtures.success, expectedRequest));
 
-      client
-        .lookupUmprn({
-          umprn,
-          licensee,
-          api_key,
-          sourceIp,
-          filter,
-          tags,
-          timeout,
-        })
+      lookupUmprn({
+        client,
+        umprn,
+        licensee,
+        api_key,
+        sourceIp,
+        filter,
+        tags,
+        timeout,
+      })
         .then((address) => {
           assert.deepEqual(fixtures.success.body.result, address);
           sinon.assert.calledOnce(stub);
@@ -93,23 +96,22 @@ describe("Client", () => {
     it("returns null if umprn not found", (done) => {
       const expectedRequest: HttpRequest = {
         method: "GET",
-        timeout: client.timeout,
+        timeout: client.config.timeout,
         query: {},
         header: {
-          ...Client.defaults.header,
-          Authorization: `IDEALPOSTCODES api_key="${client.api_key}"`,
+          ...defaults.header,
+          Authorization: `IDEALPOSTCODES api_key="${client.config.api_key}"`,
         },
         url: "https://api.ideal-postcodes.co.uk/v1/umprn/-1",
       };
 
       sinon
-        .stub(client.agent, "http")
+        .stub(client.config.agent, "http")
         .resolves(toResponse(fixtures.notFound, expectedRequest));
 
       const umprn = -1;
 
-      client
-        .lookupUmprn({ umprn })
+      lookupUmprn({ client, umprn })
         .then((address) => {
           assert.isNull(address);
           done();
@@ -120,23 +122,22 @@ describe("Client", () => {
     it("`catches` for all other errors", (done) => {
       const expectedRequest: HttpRequest = {
         method: "GET",
-        timeout: client.timeout,
+        timeout: client.config.timeout,
         query: {},
         header: {
-          ...Client.defaults.header,
-          Authorization: `IDEALPOSTCODES api_key="${client.api_key}"`,
+          ...defaults.header,
+          Authorization: `IDEALPOSTCODES api_key="${client.config.api_key}"`,
         },
         url: "https://api.ideal-postcodes.co.uk/v1/umprn/1",
       };
 
       sinon
-        .stub(client.agent, "http")
+        .stub(client.config.agent, "http")
         .resolves(toResponse(errors.invalidKey, expectedRequest));
 
       const umprn = 1;
 
-      client
-        .lookupUmprn({ umprn })
+      lookupUmprn({ client, umprn })
         .then(() => done(new Error("This test should throw")))
         .catch((error) => {
           assert.instanceOf(error, IdpcInvalidKeyError);

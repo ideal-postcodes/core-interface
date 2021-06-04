@@ -94,7 +94,7 @@ Invalid postcodes (i.e. postcode not found) return an empty array `[]`
 ```javascript
 const postcode = "id11qd";
 
-client.lookupPostcode({ postcode }).then(addresses => {
+lookupPostcode({ client, postcode }).then(addresses => {
   console.log(addresses);
   {
     postcode: "ID1 1QD",
@@ -104,9 +104,9 @@ client.lookupPostcode({ postcode }).then(addresses => {
 });
 ```
 
-`client.lookupPostcode` [docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookuppostcode)
+`lookupPostcode` [docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookuppostcode)
 
-`client.lookupPostcode` [options](https://core-interface.ideal-postcodes.dev/interfaces/lookuppostcodeoptions.html)
+`lookupPostcode` [options](https://core-interface.ideal-postcodes.dev/interfaces/lookuppostcodeoptions.html)
 
 #### Search for an Address
 
@@ -115,7 +115,7 @@ Return addresses associated with a given `query`
 ```javascript
 const query = "10 downing street sw1a";
 
-client.lookupAddress({ query }).then(addresses => {
+lookupAddress({ client, query }).then(addresses => {
   console.log(addresses);
   {
     postcode: "SW1A 2AA",
@@ -125,9 +125,9 @@ client.lookupAddress({ query }).then(addresses => {
 });
 ```
 
-`client.lookupAddress` [docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupaddress)
+`lookupAddress` [docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupaddress)
 
-`client.lookupAddress` [options](https://core-interface.ideal-postcodes.dev/interfaces/lookupaddressoptions.html)
+`lookupAddress` [options](https://core-interface.ideal-postcodes.dev/interfaces/lookupaddressoptions.html)
 
 #### Search for an Address by UDPRN
 
@@ -138,7 +138,7 @@ Invalid UDPRN will return `null`
 ```javascript
 const udprn = 23747771;
 
-client.lookupUdprn({ udprn }).then(address => {
+lookupUdprn({ client, udprn }).then(address => {
   console.log(address);
   {
     postcode: "SW1A 2AA",
@@ -148,9 +148,9 @@ client.lookupUdprn({ udprn }).then(address => {
 });
 ```
 
-`client.lookupUdprn` [docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupudprn)
+`lookupUdprn` [docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupudprn)
 
-`client.lookupUdprn` [options](https://core-interface.ideal-postcodes.dev/interfaces/lookupudprnoptions.html)
+`lookupUdprn` [options](https://core-interface.ideal-postcodes.dev/interfaces/lookupudprnoptions.html)
 
 #### Search for an Address by UMPRN
 
@@ -161,7 +161,7 @@ Invalid UMPRN will return `null`
 ```javascript
 const umprn = 50906066;
 
-client.lookupUmprn({ umprn }).then(address => {
+lookupUmprn({ client, umprn }).then(address => {
   console.log(address);
   {
     postcode: "CV4 7AL",
@@ -171,29 +171,29 @@ client.lookupUmprn({ umprn }).then(address => {
 });
 ```
 
-`client.lookupUmprn` [docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupumprn)
+`lookupUmprn` [docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupumprn)
 
-`client.lookupUmprn` [options](https://core-interface.ideal-postcodes.dev/interfaces/lookupumprnoptions.html)
+`lookupUmprn` [options](https://core-interface.ideal-postcodes.dev/interfaces/lookupumprnoptions.html)
 
 #### Check Key Usability
 
 Check if a key is currently usable
 
 ```javascript
-client.checkKeyUsability({}).then(key => {
+checkKeyUsability({ client }).then((key) => {
   console.log(key.available); // => true
 });
 ```
 
-`client.checkKeyUsability` [docs](https://core-interface.ideal-postcodes.dev/classes/client.html#checkkeyusability)
+`checkKeyUsability` [docs](https://core-interface.ideal-postcodes.dev/classes/client.html#checkkeyusability)
 
-`client.checkKeyUsability` [options](https://core-interface.ideal-postcodes.dev/interfaces/checkkeyusabilityoptions.html)
+`checkKeyUsability` [options](https://core-interface.ideal-postcodes.dev/interfaces/checkkeyusabilityoptions.html)
 
 ---
 
 #### Resources
 
-Resources defined in [the API documentation](https://ideal-postcodes.co.uk/documentation) are exposed on the client. Each resource exposes a method (`#retrieve`, `#list`, etc) which maps to a resource action.
+Resources defined in [the API documentation](https://ideal-postcodes.co.uk/documentation) are exported by the library. Each resource exposes a method (`#retrieve`, `#list`, etc) which maps to a resource action.
 
 These methods expose a low level interface to execute HTTP requests and observe HTTP responses. They are ideal if you have a more complex query or usecase where low level access would be useful.
 
@@ -206,7 +206,7 @@ Requesting a resource by ID (e.g. a postcode lookup for postcode with ID "SW1A 2
 The first argument is the resource ID. The second argument is an object which accepts `header` and `query` attributes that map to HTTP header and the request querystring.
 
 ```javascript
-client.resourceName.retrieve("id", {
+resourceName.retrieve("id", {
   query: {
     api_key: "foo",
     tags: "this,that,those",
@@ -224,10 +224,10 @@ client.resourceName.retrieve("id", {
 Requesting a resource endpoint (e.g. an address query to `/addresses`) maps to the `#list` method.
 
 ```javascript
-client.resourceName.list({
+resourceName.list({
   query: {
     api_key: "foo",
-    query: "10 downing street"
+    query: "10 downing street",
   },
   header: {
     "IDPC-Source-IP": "8.8.8.8",
@@ -245,9 +245,9 @@ Some endpoints are defined as custom actions, e.g. `/keys/:key/usage`. These can
 E.g. for [key usage data extraction](https://ideal-postcodes.co.uk/documentation/keys#usage)
 
 ```javascript
-client.keys.usage(api_key, {
+keys.usage(api_key, {
   query: {
-    tags: "checkout,production"
+    tags: "checkout,production",
   },
   header: {
     Authorization: 'IDEALPOSTCODES user_token="foo"',
@@ -274,13 +274,17 @@ Listed below are the available resources exposed by the client:
 Retrieve addresses for a postcode.
 
 ```javascript
-client.postcodes.retrieve("SW1A2AA", {
-  header: {
-    "Authorization": 'IDEALPOSTCODES api_key="iddqd"',
-  },
-}).then(response => {
-  const addresses = response.body.result;
-}).catch(error => logger(error));
+import { postcodes } from "@ideal-postcodes/core-browser";
+postcodes
+  .retrieve("SW1A2AA", {
+    header: {
+      Authorization: 'IDEALPOSTCODES api_key="iddqd"',
+    },
+  })
+  .then((response) => {
+    const addresses = response.body.result;
+  })
+  .catch((error) => logger(error));
 ```
 
 [Postcode resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/postcodes)
@@ -292,16 +296,21 @@ client.postcodes.retrieve("SW1A2AA", {
 Search for an address
 
 ```javascript
-client.addresses.list({
-  query: {
-    query: "10 Downing street",
-  },
-  header: {
-    "Authorization": 'IDEALPOSTCODES api_key="iddqd"',
-  },
-}).then(response => {
-  const addresses = response.body.result.hits;
-}).catch(error => logger(error));
+import { addresses } from "@ideal-postcodes/core-browser";
+
+addresses
+  .list({
+    query: {
+      query: "10 Downing street",
+    },
+    header: {
+      Authorization: 'IDEALPOSTCODES api_key="iddqd"',
+    },
+  })
+  .then((response) => {
+    const addresses = response.body.result.hits;
+  })
+  .catch((error) => logger(error));
 ```
 
 [Address resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/addresses)
@@ -313,16 +322,21 @@ client.addresses.list({
 Autocomplete an address given an address partial
 
 ```javascript
-client.autocomplete.list({
-  query: {
-    query: "10 Downing stre",
-  },
-  header: {
-    "Authorization": 'IDEALPOSTCODES api_key="iddqd"',
-  },
-}).then(response => {
-  const suggestions = response.body.result.hits;
-}).catch(error => logger(error));
+import { autocomplete } from "@ideal-postcodes/core-browser";
+
+autocomplete
+  .list({
+    query: {
+      query: "10 Downing stre",
+    },
+    header: {
+      Authorization: 'IDEALPOSTCODES api_key="iddqd"',
+    },
+  })
+  .then((response) => {
+    const suggestions = response.body.result.hits;
+  })
+  .catch((error) => logger(error));
 ```
 
 [Autocomplete resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/autocomplete)
@@ -334,13 +348,18 @@ client.autocomplete.list({
 Retrieve an address given a UDPRN
 
 ```javascript
-client.udprn.retrieve("12345678", {
-  header: {
-    "Authorization": 'IDEALPOSTCODES api_key="iddqd"',
-  },
-}).then(response => {
-  const address = response.body.result;
-}).catch(error => logger(error));
+import { udprn } from "@ideal-postcodes/core-browser";
+
+udprn
+  .retrieve("12345678", {
+    header: {
+      Authorization: 'IDEALPOSTCODES api_key="iddqd"',
+    },
+  })
+  .then((response) => {
+    const address = response.body.result;
+  })
+  .catch((error) => logger(error));
 ```
 
 [UDPRN resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/udprn)
@@ -352,13 +371,18 @@ client.udprn.retrieve("12345678", {
 Retrieve a multiple residence premise given a UMPRN
 
 ```javascript
-client.umprn.retrieve("87654321", {
-  header: {
-    "Authorization": 'IDEALPOSTCODES api_key="iddqd"',
-  },
-}).then(response => {
-  const address = response.body.result;
-}).catch(error => logger(error));
+import { umprn } from "@ideal-postcodes/core-browser";
+
+umprn
+  .retrieve("87654321", {
+    header: {
+      Authorization: 'IDEALPOSTCODES api_key="iddqd"',
+    },
+  })
+  .then((response) => {
+    const address = response.body.result;
+  })
+  .catch((error) => logger(error));
 ```
 
 [UMPRN resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/umprn)
@@ -370,10 +394,14 @@ client.umprn.retrieve("87654321", {
 Find out if a key is available
 
 ```javascript
-client.keys.retrieve("iddqd", {})
-  .then(response => {
+import { keys } from "@ideal-postcodes/core-browser";
+
+keys
+  .retrieve("iddqd", {})
+  .then((response) => {
     const { available } = response.body.result;
-  }).catch(error => logger(error));
+  })
+  .catch((error) => logger(error));
 ```
 
 [Method docs](https://core-interface.ideal-postcodes.dev/interfaces/keyresource.html#retrieve)
@@ -381,13 +409,18 @@ client.keys.retrieve("iddqd", {})
 Get private information on key (requires user_token)
 
 ```javascript
-client.keys.retrieve("iddqd", {
-  header: {
-    "Authorization": 'IDEALPOSTCODES user_token="secret-token"',
-  },
-}).then(response => {
-  const key = response.body.result;
-}).catch(error => logger(error));
+import { keys } from "@ideal-postcodes/core-browser";
+
+keys
+  .retrieve("iddqd", {
+    header: {
+      Authorization: 'IDEALPOSTCODES user_token="secret-token"',
+    },
+  })
+  .then((response) => {
+    const key = response.body.result;
+  })
+  .catch((error) => logger(error));
 ```
 
 [Method docs](https://core-interface.ideal-postcodes.dev/interfaces/keyresource.html#retrieve)
@@ -395,13 +428,18 @@ client.keys.retrieve("iddqd", {
 Get key usage data
 
 ```javascript
-client.keys.usage("iddqd", {
-  header: {
-    "Authorization": 'IDEALPOSTCODES user_token="secret-token"',
-  },
-}).then(response => {
-  const key = response.body.result;
-}).catch(error => logger(error));
+import { keys } from "@ideal-postcodes/core-browser";
+
+keys
+  .usage("iddqd", {
+    header: {
+      Authorization: 'IDEALPOSTCODES user_token="secret-token"',
+    },
+  })
+  .then((response) => {
+    const key = response.body.result;
+  })
+  .catch((error) => logger(error));
 ```
 
 [Method docs](https://core-interface.ideal-postcodes.dev/interfaces/keyresource.html#usage)
@@ -414,7 +452,7 @@ client.keys.usage("iddqd", {
 
 #### Error Handling
 
-`Client` exports a static variable `errors` which contains custom error constructors that wrap specific API errors. These constructors can be used to test for specific cases using the `instanceof` operator.
+This library exports a static variable `errors` which contains custom error constructors that wrap specific API errors. These constructors can be used to test for specific cases using the `instanceof` operator.
 
 For example:
 
@@ -435,10 +473,13 @@ Not all specific API errors will be caught. If a specific API error does not hav
 For example:
 
 ```javascript
-const { IdpcRequestFailedError } = Client.errors;
+import {
+  IdpcRequestFailedError,
+  lookupPostcode,
+} from "@ideal-postcodes/core-browser";
 
 try {
-  const addresses = client.lookupPostcode({ postcode: "SW1A2AA" });
+  const addresses = lookupPostcode({ client, postcode: "SW1A2AA" });
 } catch (error) {
   if (error instanceof IdpcRequestFailedError) {
     // IdpcRequestFailedError indicates a 402 response code
@@ -465,7 +506,7 @@ Aside from inspecting the HTTP request status code and/or JSON body response cod
 Errors that don't inherit from [`IdealPostcodesError`](https://core-interface.ideal-postcodes.dev/classes/idealpostcodeserror.html) would indicate some kind of error external to the API (e.g. bad network, request timeout).
 
 ```javascript
-import { errors } from "@ideal-postcodes/core-interface";
+import { errors } from "@ideal-postcodes/core-browser";
 const { IdpcPostcodeNotFoundError } = errors;
 
 // Handle a specific error
@@ -476,9 +517,9 @@ if (error instanceof IdpcPostcodeNotFoundError) {
 // Alternatively use a switch statement
 switch (true) {
   case error instanceof IdpcPostcodeNotFoundError:
-    // You got yourself an invalid API Key
+  // You got yourself an invalid API Key
   default:
-    // Default error handling path
+  // Default error handling path
 }
 ```
 
@@ -521,7 +562,7 @@ IdealPostcodesError < Error
 The error parser consumes a HTTP API response and returns the correct error instance.
 
 ```javascript
-import { errors } from "@ideal-postcodes/core-interface";
+import { errors } from "@ideal-postcodes/core-browser";
 const { parse, IdpcPostcodeNotFoundError } = errors;
 
 const invalidPostcodeUrl = "https://api.ideal-postcodes.co.uk/v1/postcodes/bad_postcode?api_key=iddqd"

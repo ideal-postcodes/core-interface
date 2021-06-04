@@ -5,14 +5,9 @@ import { Client } from "../client";
 import { HttpResponse } from "../agent";
 
 interface Query extends OptionalStringMap {
-  // Authentication
   api_key?: string;
   licensee?: string;
-
-  // Result Filtering
   filter?: string;
-
-  // Misc
   tags?: string;
 }
 
@@ -31,13 +26,15 @@ interface Response extends HttpResponse {
   body: UdprnResponse;
 }
 
-export interface UdprnResource {
-  retrieve(udprn: string, request: Request): Promise<Response>;
-}
-
 const resource = "udprn";
 
-export const create = (client: Client): UdprnResource => {
-  const retrieve = retrieveMethod<Request, UdprnResponse>({ resource, client });
-  return { retrieve };
-};
+export interface Retrieve {
+  (client: Client, udprn: string, request: Request): Promise<Response>;
+}
+
+export const retrieve: Retrieve = (
+  client: Client,
+  udprn: string,
+  request: Request
+) =>
+  retrieveMethod<Request, UdprnResponse>({ resource, client })(udprn, request);

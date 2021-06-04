@@ -1,12 +1,14 @@
 import { assert } from "chai";
 import {
-  API_URL,
-  TLS,
-  VERSION,
-  TIMEOUT,
-  STRICT_AUTHORISATION,
+  defaults,
   Client,
+  addresses,
   errors,
+  postcodes,
+  udprn,
+  umprn,
+  keys,
+  autocomplete,
 } from "../lib/index";
 import { Client as ApiClient } from "../lib/client";
 
@@ -14,11 +16,11 @@ const TEN_SECONDS = 10000;
 describe("Main", () => {
   it("exports constants", () => {
     // Verify default exports
-    assert.equal(API_URL, "api.ideal-postcodes.co.uk");
-    assert.isTrue(TLS);
-    assert.equal(VERSION, "v1");
-    assert.equal(TIMEOUT, TEN_SECONDS);
-    assert.isFalse(STRICT_AUTHORISATION);
+    assert.equal(defaults.baseUrl, "api.ideal-postcodes.co.uk");
+    assert.isTrue(defaults.tls);
+    assert.equal(defaults.version, "v1");
+    assert.equal(defaults.timeout, TEN_SECONDS);
+    assert.isFalse(defaults.strictAuthorisation);
   });
 
   it("exports API client", () => {
@@ -27,5 +29,14 @@ describe("Main", () => {
 
   it("exports errors module", () => {
     assert.isDefined(errors);
+  });
+
+  it("exports resources", () => {
+    assert.isDefined(addresses);
+    assert.isDefined(postcodes);
+    assert.isDefined(udprn);
+    assert.isDefined(umprn);
+    assert.isDefined(keys);
+    assert.isDefined(autocomplete);
   });
 });

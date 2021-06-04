@@ -1,7 +1,7 @@
 import * as sinon from "sinon";
 import { retrieveMethod, listMethod } from "../lib/resources/resource";
 import { HttpVerb } from "../lib/agent";
-import { Client } from "../lib/client";
+import { Client, defaults } from "../lib/client";
 import { assert } from "chai";
 import { newConfig } from "./helper/index";
 
@@ -16,7 +16,7 @@ describe("Resource", () => {
   const timeout = 5000;
   const genericRequest = Object.freeze({
     method: "GET" as HttpVerb,
-    header: { ...Client.defaults.header, ...header },
+    header: { ...defaults.header, ...header },
     query,
     timeout,
   });
@@ -44,7 +44,9 @@ describe("Resource", () => {
         httpRequest: expectedRequest,
       };
 
-      const stub = sinon.stub(client.agent, "http").resolves(expectedResponse);
+      const stub = sinon
+        .stub(client.config.agent, "http")
+        .resolves(expectedResponse);
 
       retrieveMethod(resourceOptions)(id, options).then((response) => {
         sinon.assert.calledOnce(stub);
@@ -68,7 +70,9 @@ describe("Resource", () => {
         httpRequest: expectedRequest,
       };
 
-      const stub = sinon.stub(client.agent, "http").resolves(expectedResponse);
+      const stub = sinon
+        .stub(client.config.agent, "http")
+        .resolves(expectedResponse);
 
       retrieveMethod(resourceOptions)(id, options).then(() => {
         sinon.assert.calledWithExactly(stub, expectedRequest);
@@ -90,7 +94,9 @@ describe("Resource", () => {
         httpRequest: expectedRequest,
       };
 
-      const stub = sinon.stub(client.agent, "http").resolves(expectedResponse);
+      const stub = sinon
+        .stub(client.config.agent, "http")
+        .resolves(expectedResponse);
 
       listMethod(resourceOptions)(options).then((response) => {
         sinon.assert.calledOnce(stub);

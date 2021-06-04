@@ -1,11 +1,14 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { Client } from "../lib/client";
-import { newConfig } from "./helper/index";
-import { AddressKeys } from "../lib/types";
-import { HttpRequest } from "../lib/agent";
+import {
+  HttpRequest,
+  lookupAddress,
+  AddressKeys,
+  Client,
+  defaults,
+} from "../lib/index";
 import { addresses, errors } from "@ideal-postcodes/api-fixtures";
-import { toResponse } from "./helper/index";
+import { toResponse, newConfig } from "./helper/index";
 import { IdpcInvalidKeyError } from "../lib/error";
 
 describe("Client", () => {
@@ -17,21 +20,20 @@ describe("Client", () => {
     it("returns a list of addresses", (done) => {
       const expectedRequest: HttpRequest = {
         method: "GET",
-        timeout: client.timeout,
+        timeout: client.config.timeout,
         query: { query: "10" },
         header: {
-          ...Client.defaults.header,
-          Authorization: `IDEALPOSTCODES api_key="${client.api_key}"`,
+          ...defaults.header,
+          Authorization: `IDEALPOSTCODES api_key="${client.config.api_key}"`,
         },
         url: "https://api.ideal-postcodes.co.uk/v1/addresses",
       };
 
       const stub = sinon
-        .stub(client.agent, "http")
+        .stub(client.config.agent, "http")
         .resolves(toResponse(addresses.success, expectedRequest));
 
-      client
-        .lookupAddress({ query: "10" })
+      lookupAddress({ client, query: "10" })
         .then((hits) => {
           assert.deepEqual(addresses.success.body.result.hits, hits);
           sinon.assert.calledOnce(stub);
@@ -62,7 +64,7 @@ describe("Client", () => {
           query: "10",
         },
         header: {
-          ...Client.defaults.header,
+          ...defaults.header,
           Authorization: `IDEALPOSTCODES api_key="${api_key}" licensee="${licensee}"`,
           "IDPC-Source-IP": sourceIp,
         },
@@ -70,21 +72,21 @@ describe("Client", () => {
       };
 
       const stub = sinon
-        .stub(client.agent, "http")
+        .stub(client.config.agent, "http")
         .resolves(toResponse(addresses.success, expectedRequest));
 
-      client
-        .lookupAddress({
-          query: "10",
-          licensee,
-          api_key,
-          sourceIp,
-          filter,
-          tags,
-          limit,
-          timeout,
-          page,
-        })
+      lookupAddress({
+        client,
+        query: "10",
+        licensee,
+        api_key,
+        sourceIp,
+        filter,
+        tags,
+        limit,
+        timeout,
+        page,
+      })
         .then((hits) => {
           assert.deepEqual(addresses.success.body.result.hits, hits);
           sinon.assert.calledOnce(stub);
@@ -97,21 +99,20 @@ describe("Client", () => {
     it("returns empty array if no match", (done) => {
       const expectedRequest: HttpRequest = {
         method: "GET",
-        timeout: client.timeout,
+        timeout: client.config.timeout,
         query: {},
         header: {
-          ...Client.defaults.header,
-          Authorization: `IDEALPOSTCODES api_key="${client.api_key}"`,
+          ...defaults.header,
+          Authorization: `IDEALPOSTCODES api_key="${client.config.api_key}"`,
         },
         url: "https://api.ideal-postcodes.co.uk/v1/addresses",
       };
 
       sinon
-        .stub(client.agent, "http")
+        .stub(client.config.agent, "http")
         .resolves(toResponse(addresses.empty, expectedRequest));
 
-      client
-        .lookupAddress({ query: "foo" })
+      lookupAddress({ client, query: "foo" })
         .then((results) => {
           assert.deepEqual(results, []);
           done();
@@ -122,21 +123,20 @@ describe("Client", () => {
     it("`catches` for all other errors", (done) => {
       const expectedRequest: HttpRequest = {
         method: "GET",
-        timeout: client.timeout,
+        timeout: client.config.timeout,
         query: { query: "foo" },
         header: {
-          ...Client.defaults.header,
-          Authorization: `IDEALPOSTCODES api_key="${client.api_key}"`,
+          ...defaults.header,
+          Authorization: `IDEALPOSTCODES api_key="${client.config.api_key}"`,
         },
         url: "https://api.ideal-postcodes.co.uk/v1/addresses",
       };
 
       sinon
-        .stub(client.agent, "http")
+        .stub(client.config.agent, "http")
         .resolves(toResponse(errors.invalidKey, expectedRequest));
 
-      client
-        .lookupAddress({ query: "foo" })
+      lookupAddress({ client, query: "foo" })
         .then(() => done(new Error("This test should throw")))
         .catch((error) => {
           assert.instanceOf(error, IdpcInvalidKeyError);
