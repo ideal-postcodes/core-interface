@@ -77,7 +77,7 @@ const client = new Client({ api_key: "iddqd" });
 
 #### Quick Methods
 
-The client exposes a number of simple methods to get at the most common tasks when interacting with the API
+The library exposes a number of simple methods to get at the most common tasks when interacting with the API
 
 - [Lookup a Postcode](#lookup-a-postcode)
 - [Search for an Address](#search-for-an-address)
@@ -92,6 +92,8 @@ Return addresses associated with a given `postcode`
 Invalid postcodes (i.e. postcode not found) return an empty array `[]`
 
 ```javascript
+import { lookupPostcode } from "@ideal-postcodes/core-browser";
+
 const postcode = "id11qd";
 
 lookupPostcode({ client, postcode }).then(addresses => {
@@ -113,6 +115,8 @@ lookupPostcode({ client, postcode }).then(addresses => {
 Return addresses associated with a given `query`
 
 ```javascript
+import { lookupAddress } from "@ideal-postcodes/core-browser";
+
 const query = "10 downing street sw1a";
 
 lookupAddress({ client, query }).then(addresses => {
@@ -136,6 +140,8 @@ Return address for a given `udprn`
 Invalid UDPRN will return `null`
 
 ```javascript
+import { lookupUdprn } from "@ideal-postcodes/core-browser";
+
 const udprn = 23747771;
 
 lookupUdprn({ client, udprn }).then(address => {
@@ -159,6 +165,8 @@ Return address for a given `umprn`
 Invalid UMPRN will return `null`
 
 ```javascript
+import { lookupUmprn } from "@ideal-postcodes/core-browser";
+
 const umprn = 50906066;
 
 lookupUmprn({ client, umprn }).then(address => {
@@ -260,7 +268,7 @@ keys.usage(api_key, {
 
 #### Resource Methods
 
-Listed below are the available resources exposed by the client:
+Listed below are the available resources exposed by the library:
 
 - [Postcodes](#postcodes)
 - [Addresses](#addresses)
