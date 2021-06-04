@@ -1,3 +1,7 @@
+/**
+ * @module Misc Types
+ */
+
 import { Address } from "@ideal-postcodes/api-typings";
 
 /**
@@ -28,6 +32,9 @@ export interface AdminAuthenticable {
   user_token: string;
 }
 
+/**
+ * Address object attributes
+ */
 export type AddressKeys = keyof Address;
 
 /**

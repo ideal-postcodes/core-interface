@@ -1,9 +1,5 @@
 /**
- * @module
- *
- * API Helper Methods
- *
- * Exports simple methods for common API tasks
+ * @module Helper Methods
  */
 
 import * as addresses from "./resources/addresses";
@@ -40,6 +36,9 @@ interface Request extends BaseRequest {
   header: StringMap;
 }
 
+/**
+ * ID lookup options interface
+ */
 export interface LookupIdOptions
   extends Authenticable,
     Filterable,
@@ -51,6 +50,9 @@ export interface LookupIdOptions
   client: Client;
 }
 
+/**
+ * Address search options
+ */
 export interface LookupAddressOptions
   extends Authenticable,
     Filterable,
@@ -62,11 +64,16 @@ export interface LookupAddressOptions
    */
   client: Client;
   /**
-   * Query for address
+   * Query string for address
+   *
+   * @example "10 downing street"
    */
   query: string;
 }
 
+/**
+ * Postcode lookup options
+ */
 export interface LookupPostcodeOptions extends LookupIdOptions {
   /**
    * Client instance
@@ -84,6 +91,9 @@ export interface LookupPostcodeOptions extends LookupIdOptions {
   page?: number;
 }
 
+/**
+ * UDPRN lookup options
+ */
 export interface LookupUdprnOptions extends LookupIdOptions {
   /**
    * Client instance
@@ -95,6 +105,9 @@ export interface LookupUdprnOptions extends LookupIdOptions {
   udprn: number;
 }
 
+/**
+ * UMPRN lookup options
+ */
 export interface LookupUmprnOptions extends LookupIdOptions {
   /**
    * Client instance
@@ -106,6 +119,9 @@ export interface LookupUmprnOptions extends LookupIdOptions {
   umprn: number;
 }
 
+/**
+ * Check key usab ility options
+ */
 export interface CheckKeyUsabilityOptions extends HttpOptions {
   /**
    * Client instance

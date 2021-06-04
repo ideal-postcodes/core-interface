@@ -1,3 +1,9 @@
+/**
+ * @module Errors
+ *
+ * @description Exports error classes which may be returned by this client
+ */
+
 import { HttpResponse } from "./agent";
 import { ApiErrorResponse } from "@ideal-postcodes/api-typings";
 

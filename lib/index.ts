@@ -1,6 +1,9 @@
 /**
- * Constants
+ * @module Exports
+ *
+ * @description Direct exports of core-interface
  */
+
 export { Client, Config, defaults } from "./client";
 export { Agent, HttpRequest, HttpResponse } from "./agent";
 export * as addresses from "./resources/addresses";

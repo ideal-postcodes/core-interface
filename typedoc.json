@@ -1,5 +1,12 @@
 {
-  "entryPoints": ["./lib/index.ts", "./lib/agent.ts", "./lib/client.ts", "./lib/error.ts", "./lib/types.ts", "./lib/util.ts"],
+  "entryPoints": [
+    "./lib/index.ts",
+    "./lib/agent.ts",
+    "./lib/client.ts",
+    "./lib/error.ts",
+    "./lib/helpers.ts",
+    "./lib/types.ts"
+  ],
   "hideGenerator": true,
   "disableOutputCheck": true,
   "out": "docs/",

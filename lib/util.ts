@@ -1,3 +1,7 @@
+/**
+ * @module Utils
+ */
+
 import { Client } from "./client";
 import { Header } from "./agent";
 import {
