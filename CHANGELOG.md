@@ -1,3 +1,30 @@
+# [2.0.0](https://github.com/ideal-postcodes/core-interface/compare/1.9.0...2.0.0) (2021-06-04)
+
+
+### Code Refactoring
+
+* **Defaults:** Export `defaults` object ([6b9b698](https://github.com/ideal-postcodes/core-interface/commit/6b9b6981abd517061621436a2afef0f4f62cddb7))
+
+
+### Features
+
+* **Version 2:** Reduce package size ([cfcae8a](https://github.com/ideal-postcodes/core-interface/commit/cfcae8a7087708820ec0ca1b2d97df3dabd056f5))
+
+
+### BREAKING CHANGES
+
+* **Version 2:** - Package now exports a `defaults` object
+- Client.defaults has been removed
+- All client config is now stored in `client.config`
+- All resources have been removed from the client. Instead retrieve
+these from the library and inject the client. E.g.
+`client.postcodes.retrieve` becomes `postcodes.retrieve(client, ...)`
+- Helper methods (like lookupPostcode, ping) have been removed from the client.
+Instead retrieve these from teh library and inject the client. E.g.
+`client.lookupPostcode` becomes `lookupPostcode(client, ...)`
+* **Defaults:** Uppercased default variables no longer exported.
+Instead `defaults` object is supplied
+
 # [1.9.0](https://github.com/ideal-postcodes/core-interface/compare/1.8.1...1.9.0) (2021-01-15)
 
 
