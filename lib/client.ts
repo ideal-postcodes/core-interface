@@ -1,3 +1,9 @@
+/**
+ * @module Client
+ *
+ * @description HTTP API Client
+ */
+
 import { Agent, Header } from "./agent";
 
 type Protocol = "http" | "https";

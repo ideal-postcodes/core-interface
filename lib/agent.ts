@@ -1,4 +1,10 @@
 /**
+ * @module Agent Interface
+ *
+ * @description Describes the interface which must be defined for an Agent to work with core-interface
+ */
+
+/**
  * Agent
  *
  * This module specifies the interface for the HTTP agent required by the bare
