@@ -58,10 +58,9 @@ export interface AutocompleteResource {
 
 const resource = "autocomplete/addresses";
 
-export const create = (client: Client): AutocompleteResource => {
-  const list = listMethod<Request, AddressSuggestionResponse>({
-    resource,
-    client,
-  });
-  return { list };
-};
+export interface List {
+  (client: Client, request: Request): Promise<Response>;
+}
+
+export const list: List = (client, request) =>
+  listMethod<Request, AddressSuggestionResponse>({ resource, client })(request);

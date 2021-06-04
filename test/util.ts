@@ -1,4 +1,4 @@
-import { Client } from "../lib/client";
+import { Client, defaults } from "../lib/client";
 import { newConfig } from "./helper/index";
 import { AddressKeys } from "../lib/types";
 import {
@@ -14,7 +14,7 @@ import {
 } from "../lib/util";
 import { assert } from "chai";
 
-const defaultHeader = Object.freeze({ ...Client.defaults.header });
+const defaultHeader = Object.freeze({ ...defaults.header });
 
 describe("toStringMap", () => {
   it("shallow clones an object omitting non string values", () => {
@@ -120,7 +120,7 @@ describe("toTimeout", () => {
   it("returns client timeout if not specified in request", () => {
     const client = new Client({ ...newConfig() });
     const request = {};
-    assert.equal(toTimeout(request, client), client.timeout);
+    assert.equal(toTimeout(request, client), client.config.timeout);
   });
 });
 
@@ -130,7 +130,7 @@ describe("toAuthHeader", () => {
   it("uses client api key by default", () => {
     assert.equal(
       toAuthHeader(client, {}),
-      `IDEALPOSTCODES api_key="${client.api_key}"`
+      `IDEALPOSTCODES api_key="${client.config.api_key}"`
     );
   });
 
@@ -146,7 +146,7 @@ describe("toAuthHeader", () => {
     const user_token = "foobar";
     assert.equal(
       toAuthHeader(client, { user_token }),
-      `IDEALPOSTCODES api_key="${client.api_key}" user_token="${user_token}"`
+      `IDEALPOSTCODES api_key="${client.config.api_key}" user_token="${user_token}"`
     );
   });
 
@@ -154,7 +154,7 @@ describe("toAuthHeader", () => {
     const licensee = "foobar";
     assert.equal(
       toAuthHeader(client, { licensee }),
-      `IDEALPOSTCODES api_key="${client.api_key}" licensee="${licensee}"`
+      `IDEALPOSTCODES api_key="${client.config.api_key}" licensee="${licensee}"`
     );
   });
 
@@ -179,7 +179,7 @@ describe("appendAuthorization", () => {
     assert.equal(header, result);
     assert.equal(
       result.Authorization,
-      `IDEALPOSTCODES api_key="${client.api_key}"`
+      `IDEALPOSTCODES api_key="${client.config.api_key}"`
     );
   });
 });

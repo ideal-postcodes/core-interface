@@ -43,24 +43,29 @@ interface UsageResponse extends HttpResponse {
   body: KeyUsageResponse;
 }
 
-export interface KeyResource {
-  retrieve(key: string, request: Request): Promise<Response>;
-  usage(postcode: string, request: UsageRequest): Promise<UsageResponse>;
-}
-
 const resource = "keys";
 
-export const create = (client: Client): KeyResource => {
-  const retrieve = retrieveMethod<Request, KeyResponse>({
+export interface Retrieve {
+  (client: Client, apiKey: string, request: Request): Promise<Response>;
+}
+
+export const retrieve: Retrieve = (client, apiKey, request) =>
+  retrieveMethod<Request, KeyResponse>({
     resource,
     client,
-  });
+  })(apiKey, request);
 
-  const usage = retrieveMethod<UsageRequest, KeyUsageResponse>({
+export interface Usage {
+  (
+    client: Client,
+    apiKey: string,
+    request: UsageRequest
+  ): Promise<UsageResponse>;
+}
+
+export const usage: Usage = (client, apiKey, request) =>
+  retrieveMethod<UsageRequest, KeyUsageResponse>({
     resource,
     client,
     action: "usage",
-  });
-
-  return { retrieve, usage };
-};
+  })(apiKey, request);

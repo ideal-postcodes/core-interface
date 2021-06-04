@@ -1,9 +1,9 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
+import { defaults, ping } from "../lib/index";
 import { Client } from "../lib/client";
 import { newConfig, defaultResponse } from "./helper/index";
 import { HttpVerb } from "../lib/agent";
-import * as errors from "../lib/error";
 
 describe("Client", () => {
   afterEach(() => sinon.restore());
@@ -11,18 +11,14 @@ describe("Client", () => {
   it("assigns instance variables", () => {
     const config = newConfig();
     const client = new Client(config);
-    assert.equal(client.api_key, config.api_key);
-    assert.equal(client.tls, config.tls);
-    assert.equal(client.baseUrl, config.baseUrl);
-    assert.equal(client.version, config.version);
-    assert.equal(client.strictAuthorisation, config.strictAuthorisation);
-    assert.equal(client.timeout, config.timeout);
-    assert.equal(client.agent, config.agent);
-    assert.deepEqual(client.header, Client.defaults.header);
-  });
-
-  it("exports all errors", () => {
-    assert.deepEqual(Client.errors, errors);
+    assert.equal(client.config.api_key, config.api_key);
+    assert.equal(client.config.tls, config.tls);
+    assert.equal(client.config.baseUrl, config.baseUrl);
+    assert.equal(client.config.version, config.version);
+    assert.equal(client.config.strictAuthorisation, config.strictAuthorisation);
+    assert.equal(client.config.timeout, config.timeout);
+    assert.equal(client.config.agent, config.agent);
+    assert.deepEqual(client.config.header, defaults.header);
   });
 
   it("allows headers to be overriden and appended", () => {
@@ -32,12 +28,12 @@ describe("Client", () => {
       bar: "baz",
     };
 
-    const { header } = new Client(config);
+    const { header } = new Client(config).config;
 
     assert.deepEqual(header, {
       Accept: "foo",
       bar: "baz",
-      "Content-Type": Client.defaults.header["Content-Type"],
+      "Content-Type": defaults.header["Content-Type"],
     });
   });
 
@@ -82,22 +78,10 @@ describe("Client", () => {
 
   describe("Client.defaults", () => {
     it("exports default header", () => {
-      assert.deepEqual(Client.defaults.header, {
+      assert.deepEqual(defaults.header, {
         "Content-Type": "application/json",
         Accept: "application/json",
       });
-    });
-  });
-
-  describe("Resoures", () => {
-    it("exposes API resources", () => {
-      const client = new Client({ ...newConfig() });
-      assert.isDefined(client.postcodes);
-      assert.isDefined(client.addresses);
-      assert.isDefined(client.udprn);
-      assert.isDefined(client.umprn);
-      assert.isDefined(client.keys);
-      assert.isDefined(client.autocomplete);
     });
   });
 
@@ -108,11 +92,13 @@ describe("Client", () => {
         method: "GET" as HttpVerb,
         header: {},
         query: {},
-        timeout: client.timeout,
-        url: `${client.protocol()}://${client.baseUrl}/`,
+        timeout: client.config.timeout,
+        url: `${client.protocol()}://${client.config.baseUrl}/`,
       };
-      const stub = sinon.stub(client.agent, "http").resolves(defaultResponse);
-      client.ping().then(() => {
+      const stub = sinon
+        .stub(client.config.agent, "http")
+        .resolves(defaultResponse);
+      ping(client).then(() => {
         sinon.assert.calledOnce(stub);
         sinon.assert.calledWithExactly(stub, expectedRequest);
         done();

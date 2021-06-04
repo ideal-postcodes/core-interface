@@ -66,7 +66,7 @@ export const toTimeout = (
   client: Client
 ): number => {
   if (isNumber(timeout)) return timeout;
-  return client.timeout;
+  return client.config.timeout;
 };
 
 interface OptionalHeader {
@@ -84,7 +84,7 @@ export const toHeader = (
   { header = {} }: OptionalHeader,
   client: Client
 ): Header => {
-  return { ...client.header, ...toStringMap(header) };
+  return { ...client.config.header, ...toStringMap(header) };
 };
 
 type Credentials = [string, string][];
@@ -102,7 +102,7 @@ export const toAuthHeader = (
 ): string => {
   const credentials: Credentials = [];
 
-  const api_key = options.api_key || client.api_key;
+  const api_key = options.api_key || client.config.api_key;
   credentials.push(["api_key", api_key]);
 
   const licensee = options.licensee;
@@ -184,7 +184,7 @@ export const appendTags = ({
   options,
 }: AppendTagsOptions): StringMap => {
   let tags: string[] | undefined;
-  if (client.tags.length) tags = client.tags;
+  if (client.config.tags.length) tags = client.config.tags;
   if (options.tags) tags = options.tags;
   if (tags !== undefined) query.tags = tags.join(",");
   return query;

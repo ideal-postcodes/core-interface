@@ -1,9 +1,9 @@
 import * as sinon from "sinon";
 import { IdpcRequestFailedError, IdpcBalanceDepletedError } from "../lib/error";
-import { addresses, errors } from "@ideal-postcodes/api-fixtures";
-import { create, AddressResource } from "../lib/resources/addresses";
+import { addresses as fixtures, errors } from "@ideal-postcodes/api-fixtures";
+import { list } from "../lib/resources/addresses";
 import { HttpVerb } from "../lib/agent";
-import { Client } from "../lib/client";
+import { Client, defaults } from "../lib/index";
 import { assert } from "chai";
 import { newConfig, toResponse } from "./helper/index";
 
@@ -16,25 +16,19 @@ describe("AddressesResource", () => {
   const client = new Client(newConfig());
   const expectedRequest = {
     method: "GET" as HttpVerb,
-    header: Client.defaults.header,
+    header: defaults.header,
     query,
-    timeout: client.timeout,
+    timeout: client.config.timeout,
     url: "https://api.ideal-postcodes.co.uk/v1/addresses",
   };
-
-  let resource: AddressResource;
-
-  beforeEach(() => {
-    resource = create(client);
-  });
 
   describe("contract", () => {
     it("generates API request on agent", (done) => {
       const stub = sinon
-        .stub(client.agent, "http")
-        .resolves(toResponse(addresses.success, expectedRequest));
+        .stub(client.config.agent, "http")
+        .resolves(toResponse(fixtures.success, expectedRequest));
 
-      resource.list({ query }).then(() => {
+      list(client, { query }).then(() => {
         sinon.assert.calledOnce(stub);
         sinon.assert.calledWithExactly(stub, expectedRequest);
         done();
@@ -44,20 +38,19 @@ describe("AddressesResource", () => {
 
   it("returns address data", (done) => {
     sinon
-      .stub(client.agent, "http")
-      .resolves(toResponse(addresses.success, expectedRequest));
+      .stub(client.config.agent, "http")
+      .resolves(toResponse(fixtures.success, expectedRequest));
 
-    resource.list({ query }).then((response) => {
-      assert.deepEqual(response.body, addresses.success.body);
+    list(client, { query }).then((response) => {
+      assert.deepEqual(response.body, fixtures.success.body);
       done();
     });
   });
 
   it("returns non API errors (e.g. connection error)", (done) => {
-    sinon.stub(client.agent, "http").rejects(new Error("timeout!"));
+    sinon.stub(client.config.agent, "http").rejects(new Error("timeout!"));
 
-    resource
-      .list({ query })
+    list(client, { query })
       .then(() => {
         done(new Error("Promise should be rejected"));
       })
@@ -69,11 +62,10 @@ describe("AddressesResource", () => {
 
   it("returns API errors", (done) => {
     sinon
-      .stub(client.agent, "http")
+      .stub(client.config.agent, "http")
       .resolves(toResponse(errors.balanceDepleted, expectedRequest));
 
-    resource
-      .list({ query })
+    list(client, { query })
       .then(() => done(new Error("Promise should be rejected")))
       .catch((error) => {
         assert.isTrue(error instanceof IdpcRequestFailedError);

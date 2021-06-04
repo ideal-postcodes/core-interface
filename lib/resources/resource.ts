@@ -35,7 +35,7 @@ const toRetrieveUrl = (options: Options, id: string): string =>
 export const retrieveMethod = <T extends Request, U>(options: Options) => {
   const { client } = options;
   return (id: string, request: T) =>
-    client.agent
+    client.config.agent
       .http({
         method: "GET",
         url: toRetrieveUrl(options, id),
@@ -53,7 +53,7 @@ export const retrieveMethod = <T extends Request, U>(options: Options) => {
 export const listMethod = <T extends Request, U>(options: Options) => {
   const { client, resource } = options;
   return (request: T) =>
-    client.agent
+    client.config.agent
       .http({
         method: "GET",
         url: `${client.url()}/${resource}`,

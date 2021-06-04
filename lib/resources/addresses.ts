@@ -56,13 +56,11 @@ interface Response extends HttpResponse {
   body: AddressQueryResponse;
 }
 
-export interface AddressResource {
-  list(request: Request): Promise<Response>;
-}
-
 const resource = "addresses";
 
-export const create = (client: Client): AddressResource => {
-  const list = listMethod<Request, AddressQueryResponse>({ resource, client });
-  return { list };
-};
+export interface List {
+  (client: Client, request: Request): Promise<Response>;
+}
+
+export const list: List = (client, request) =>
+  listMethod<Request, AddressQueryResponse>({ resource, client })(request);

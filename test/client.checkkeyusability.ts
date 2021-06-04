@@ -1,10 +1,10 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { Client } from "../lib/client";
-import { newConfig } from "./helper/index";
+import { Client, defaults } from "../lib/client";
+import { checkKeyUsability } from "../lib/index";
 import { HttpRequest } from "../lib/agent";
 import { keys as fixtures } from "@ideal-postcodes/api-fixtures";
-import { toResponse } from "./helper/index";
+import { toResponse, newConfig } from "./helper/index";
 import { IdpcKeyNotFoundError } from "../lib/error";
 
 describe("Client", () => {
@@ -12,8 +12,8 @@ describe("Client", () => {
 
   describe("checkKeyUsability", () => {
     const client = new Client(newConfig());
-    const timeout = client.timeout;
-    const header = { ...Client.defaults.header };
+    const timeout = client.config.timeout;
+    const header = { ...defaults.header };
     const query = {};
     const method = "GET";
 
@@ -27,13 +27,12 @@ describe("Client", () => {
       };
 
       const stub = sinon
-        .stub(client.agent, "http")
+        .stub(client.config.agent, "http")
         .resolves(toResponse(fixtures.check.available, expectedRequest));
 
       const api_key = "iddqd";
 
-      client
-        .checkKeyUsability({ api_key })
+      checkKeyUsability({ api_key, client })
         .then((keyStatus) => {
           assert.deepEqual(fixtures.check.available.body.result, keyStatus);
           sinon.assert.calledOnce(stub);
@@ -49,15 +48,14 @@ describe("Client", () => {
         timeout,
         query,
         header,
-        url: `https://api.ideal-postcodes.co.uk/v1/keys/${client.api_key}`,
+        url: `https://api.ideal-postcodes.co.uk/v1/keys/${client.config.api_key}`,
       };
 
       const stub = sinon
-        .stub(client.agent, "http")
+        .stub(client.config.agent, "http")
         .resolves(toResponse(fixtures.check.available, expectedRequest));
 
-      client
-        .checkKeyUsability({})
+      checkKeyUsability({ client })
         .then((keyStatus) => {
           assert.deepEqual(fixtures.check.available.body.result, keyStatus);
           sinon.assert.calledOnce(stub);
@@ -74,15 +72,14 @@ describe("Client", () => {
         timeout,
         query: { licensee },
         header,
-        url: `https://api.ideal-postcodes.co.uk/v1/keys/${client.api_key}`,
+        url: `https://api.ideal-postcodes.co.uk/v1/keys/${client.config.api_key}`,
       };
 
       const stub = sinon
-        .stub(client.agent, "http")
+        .stub(client.config.agent, "http")
         .resolves(toResponse(fixtures.check.available, expectedRequest));
 
-      client
-        .checkKeyUsability({ licensee })
+      checkKeyUsability({ client, licensee })
         .then((keyStatus) => {
           assert.deepEqual(fixtures.check.available.body.result, keyStatus);
           sinon.assert.calledOnce(stub);
@@ -99,15 +96,14 @@ describe("Client", () => {
         timeout: t,
         query,
         header,
-        url: `https://api.ideal-postcodes.co.uk/v1/keys/${client.api_key}`,
+        url: `https://api.ideal-postcodes.co.uk/v1/keys/${client.config.api_key}`,
       };
 
       const stub = sinon
-        .stub(client.agent, "http")
+        .stub(client.config.agent, "http")
         .resolves(toResponse(fixtures.check.available, expectedRequest));
 
-      client
-        .checkKeyUsability({ timeout: t })
+      checkKeyUsability({ client, timeout: t })
         .then((keyStatus) => {
           assert.deepEqual(fixtures.check.available.body.result, keyStatus);
           sinon.assert.calledOnce(stub);
@@ -120,20 +116,19 @@ describe("Client", () => {
     it("returns false if key is not available", (done) => {
       const expectedRequest: HttpRequest = {
         method: "GET",
-        timeout: client.timeout,
+        timeout: client.config.timeout,
         query: {},
-        header: { ...Client.defaults.header },
+        header: { ...defaults.header },
         url: "https://api.ideal-postcodes.co.uk/v1/keys/idkfa",
       };
 
       sinon
-        .stub(client.agent, "http")
+        .stub(client.config.agent, "http")
         .resolves(toResponse(fixtures.check.unavailable, expectedRequest));
 
       const api_key = "idkfa";
 
-      client
-        .checkKeyUsability({ api_key })
+      checkKeyUsability({ client, api_key })
         .then((keyStatus) => {
           assert.isFalse(keyStatus.available);
           done();
@@ -144,20 +139,19 @@ describe("Client", () => {
     it("`catches` for all other errors", (done) => {
       const expectedRequest: HttpRequest = {
         method: "GET",
-        timeout: client.timeout,
+        timeout: client.config.timeout,
         query: {},
-        header: { ...Client.defaults.header },
+        header: { ...defaults.header },
         url: "https://api.ideal-postcodes.co.uk/v1/keys/foo",
       };
 
       sinon
-        .stub(client.agent, "http")
+        .stub(client.config.agent, "http")
         .resolves(toResponse(fixtures.check.invalid, expectedRequest));
 
       const api_key = "foo";
 
-      client
-        .checkKeyUsability({ api_key })
+      checkKeyUsability({ client, api_key })
         .then(() => done(new Error("This test should throw")))
         .catch((error) => {
           assert.instanceOf(error, IdpcKeyNotFoundError);

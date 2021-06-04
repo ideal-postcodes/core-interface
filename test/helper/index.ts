@@ -1,14 +1,8 @@
 import { Fixture } from "@ideal-postcodes/api-fixtures";
 import { toStringMap } from "../../lib/util";
 import { HttpVerb, Agent, HttpRequest, HttpResponse } from "../../lib/agent";
-import { Config, Client } from "../../lib/client";
-import {
-  TIMEOUT,
-  STRICT_AUTHORISATION,
-  API_URL,
-  TLS,
-  VERSION,
-} from "../../lib/index";
+import { Config } from "../../lib/client";
+import { defaults } from "../../lib/index";
 
 // Exports default config
 export const newConfig = (): Config => {
@@ -23,15 +17,9 @@ export class TestAgent implements Agent {
 }
 
 const defaultConfig: Config = Object.freeze({
-  tls: TLS,
+  ...defaults,
   api_key: "api_key",
-  baseUrl: API_URL,
-  version: VERSION,
-  strictAuthorisation: STRICT_AUTHORISATION,
-  timeout: TIMEOUT,
   agent: new TestAgent(),
-  header: {},
-  tags: [],
 });
 
 const TEN_SECONDS = 10000;
@@ -65,9 +53,9 @@ export const toResponse = (
 };
 
 export const toRequest = (fixture: Fixture): HttpRequest => {
-  const { header } = Client.defaults;
+  const { header } = defaults;
   const { url, query, method } = fixture;
-  const timeout = TIMEOUT;
+  const timeout = defaults.timeout;
   return {
     timeout,
     method: method as HttpVerb,

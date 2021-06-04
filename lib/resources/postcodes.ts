@@ -33,10 +33,12 @@ export interface PostcodeResource {
 
 const resource = "postcodes";
 
-export const create = (client: Client): PostcodeResource => {
-  const retrieve = retrieveMethod<Request, PostcodesResponse>({
+export interface Retrieve {
+  (client: Client, postcode: string, request: Request): Promise<Response>;
+}
+
+export const retrieve: Retrieve = (client, postcode, request) =>
+  retrieveMethod<Request, PostcodesResponse>({
     resource,
     client,
-  });
-  return { retrieve };
-};
+  })(postcode, request);

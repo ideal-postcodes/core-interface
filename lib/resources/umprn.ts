@@ -31,13 +31,11 @@ interface Response extends HttpResponse {
   body: UmprnResponse;
 }
 
-export interface UmprnResource {
-  retrieve(umprn: string, request: Request): Promise<Response>;
-}
-
 const resource = "umprn";
 
-export const create = (client: Client): UmprnResource => {
-  const retrieve = retrieveMethod<Request, UmprnResponse>({ resource, client });
-  return { retrieve };
-};
+export interface Retrieve {
+  (client: Client, umprn: string, request: Request): Promise<Response>;
+}
+
+export const retrieve: Retrieve = (client, umprn, request) =>
+  retrieveMethod<Request, UmprnResponse>({ resource, client })(umprn, request);
