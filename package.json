@@ -118,7 +118,7 @@
     "dotenv": "~8.2.0",
     "eslint": "~7.25.0",
     "eslint-plugin-compat": "~3.9.0",
-    "karma": "~6.1.1",
+    "karma": "~6.3.3",
     "karma-chrome-launcher": "~3.1.0",
     "karma-cli": "~2.0.0",
     "karma-mocha": "~2.0.0",
