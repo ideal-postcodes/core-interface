@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/ideal-postcodes/core-interface/compare/2.0.0...2.0.1) (2021-06-04)
+
+
+### Bug Fixes
+
+* **Client Typings:** Make all but api_key config optional ([716cba1](https://github.com/ideal-postcodes/core-interface/commit/716cba155e4091450abfa82129ac938d61a32edd))
+
 # [2.0.0](https://github.com/ideal-postcodes/core-interface/compare/1.9.0...2.0.0) (2021-06-04)
 
 
