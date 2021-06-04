@@ -11,7 +11,7 @@ export interface Config {
    *
    * @default true
    */
-  tls: boolean;
+  tls?: boolean;
   /**
    * API Key. Used in API helper methods
    *
@@ -23,13 +23,13 @@ export interface Config {
    *
    * @default "api.ideal-postcodes.co.uk"
    */
-  baseUrl: string;
+  baseUrl?: string;
   /**
    * API version
    *
    * @default "v1"
    */
-  version: string;
+  version?: string;
   /**
    * Force autocomplete authorisation via HTTP headers only
    *
