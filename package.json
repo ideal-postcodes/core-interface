@@ -116,7 +116,7 @@
     "codecov": "~3.8.0",
     "core-js": "~3.14.0",
     "dotenv": "~8.2.0",
-    "eslint": "~7.27.0",
+    "eslint": "~7.28.0",
     "eslint-plugin-compat": "~3.9.0",
     "karma": "~6.3.3",
     "karma-chrome-launcher": "~3.1.0",
