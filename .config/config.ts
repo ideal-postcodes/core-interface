@@ -15,6 +15,7 @@ export const preprocessors = {
 export const karmaTypescriptConfig = {
   compilerOptions: {
     target: "ES3",
+    lib: ["dom"]
   },
   bundlerOptions: {
     exclude: ["@ideal-postcodes/api-typings"],
