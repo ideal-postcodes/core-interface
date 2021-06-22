@@ -9,4 +9,5 @@ module.exports = (config: Config): void =>
   config.set({
     ...basic,
     ...{ browsers },
+    ...{ logLevel: config.LOG_DEBUG }
   });
