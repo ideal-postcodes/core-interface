@@ -211,10 +211,10 @@ Resource methods return a promise with a [HTTP response object type](https://cor
 
 Requesting a resource by ID (e.g. a postcode lookup for postcode with ID "SW1A 2AA") maps to the `#retrieve` method.
 
-The first argument is the resource ID. The second argument is an object which accepts `header` and `query` attributes that map to HTTP header and the request querystring.
+The first argument is the client object. The second is the resource ID. The last argument is an object which accepts `header` and `query` attributes that map to HTTP header and the request querystring.
 
 ```javascript
-resourceName.retrieve("id", {
+resourceName.retrieve(client, "id", {
   query: {
     api_key: "foo",
     tags: "this,that,those",
@@ -232,7 +232,7 @@ resourceName.retrieve("id", {
 Requesting a resource endpoint (e.g. an address query to `/addresses`) maps to the `#list` method.
 
 ```javascript
-resourceName.list({
+resourceName.list(client, {
   query: {
     api_key: "foo",
     query: "10 downing street",
@@ -244,7 +244,7 @@ resourceName.list({
 });
 ```
 
-The first and only argument is an object which accepts `header` and `query` attributes that map to HTTP header and the request querystring.
+The first argument is the client. The second is an object which accepts `header` and `query` attributes that map to HTTP header and the request querystring.
 
 #### Custom Actions
 
@@ -253,7 +253,7 @@ Some endpoints are defined as custom actions, e.g. `/keys/:key/usage`. These can
 E.g. for [key usage data extraction](https://ideal-postcodes.co.uk/documentation/keys#usage)
 
 ```javascript
-keys.usage(api_key, {
+keys.usage(client, api_key, {
   query: {
     tags: "checkout,production",
   },
@@ -284,7 +284,7 @@ Retrieve addresses for a postcode.
 ```javascript
 import { postcodes } from "@ideal-postcodes/core-browser";
 postcodes
-  .retrieve("SW1A2AA", {
+  .retrieve(client, "SW1A2AA", {
     header: {
       Authorization: 'IDEALPOSTCODES api_key="iddqd"',
     },
@@ -307,7 +307,7 @@ Search for an address
 import { addresses } from "@ideal-postcodes/core-browser";
 
 addresses
-  .list({
+  .list(client, {
     query: {
       query: "10 Downing street",
     },
@@ -333,7 +333,7 @@ Autocomplete an address given an address partial
 import { autocomplete } from "@ideal-postcodes/core-browser";
 
 autocomplete
-  .list({
+  .list(client, {
     query: {
       query: "10 Downing stre",
     },
@@ -359,7 +359,7 @@ Retrieve an address given a UDPRN
 import { udprn } from "@ideal-postcodes/core-browser";
 
 udprn
-  .retrieve("12345678", {
+  .retrieve(client, "12345678", {
     header: {
       Authorization: 'IDEALPOSTCODES api_key="iddqd"',
     },
@@ -382,7 +382,7 @@ Retrieve a multiple residence premise given a UMPRN
 import { umprn } from "@ideal-postcodes/core-browser";
 
 umprn
-  .retrieve("87654321", {
+  .retrieve(client, "87654321", {
     header: {
       Authorization: 'IDEALPOSTCODES api_key="iddqd"',
     },
@@ -405,7 +405,7 @@ Find out if a key is available
 import { keys } from "@ideal-postcodes/core-browser";
 
 keys
-  .retrieve("iddqd", {})
+  .retrieve(client, "iddqd", {})
   .then((response) => {
     const { available } = response.body.result;
   })
@@ -420,7 +420,7 @@ Get private information on key (requires user_token)
 import { keys } from "@ideal-postcodes/core-browser";
 
 keys
-  .retrieve("iddqd", {
+  .retrieve(client, "iddqd", {
     header: {
       Authorization: 'IDEALPOSTCODES user_token="secret-token"',
     },
@@ -439,7 +439,7 @@ Get key usage data
 import { keys } from "@ideal-postcodes/core-browser";
 
 keys
-  .usage("iddqd", {
+  .usage(client, "iddqd", {
     header: {
       Authorization: 'IDEALPOSTCODES user_token="secret-token"',
     },
@@ -468,7 +468,7 @@ For example:
 const { IdpcInvalidKeyError } = Client.errors;
 
 try {
-  const addresses = client.lookupPostcode({ postcode: "SW1A2AA" });
+  const addresses = lookupPostcode({ client, postcode: "SW1A2AA" });
 } catch (error) {
   if (error instanceof IdpcInvalidKeyError) {
     // Handle an invalid key error
@@ -539,8 +539,8 @@ Errors are grouped by HTTP status code classes.
 
 Specific errors may be supplied for the following reasons:
 
-- Convenience: They are frequently tested for (e.g. invalid postcode, postcode not found)
-- Developer QoL. They are useful for debug purposes during the implementation stages
+- Convenience. They are frequently tested for (e.g. invalid postcode, postcode not found)
+- Useful for debug purposes during the implementation stages
 
 ```javascript
 Prototype Chain
