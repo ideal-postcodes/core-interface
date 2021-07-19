@@ -94,6 +94,9 @@
     "extends": "@cablanchard/semantic-release/dist/npm"
   },
   "license": "MIT",
+  "dependencies": {
+    "@ideal-postcodes/api-typings": "~2.1.0"
+  },
   "devDependencies": {
     "@babel/polyfill": "~7.12.1",
     "@cablanchard/eslint-config": "~2.1.1",
@@ -101,7 +104,6 @@
     "@cablanchard/tsconfig": "2.0.0",
     "@cablanchard/tslint": "0.0.1",
     "@ideal-postcodes/api-fixtures": "~1.3.0",
-    "@ideal-postcodes/api-typings": "~2.1.0",
     "@ideal-postcodes/doc-assets": "~1.0.3",
     "@ideal-postcodes/supported-browsers": "~2.5.0",
     "@types/chai": "~4.2.0",
