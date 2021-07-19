@@ -311,7 +311,7 @@ addresses
 
 [Address resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/addresses)
 
-[Address resource client docs](https://core-interface.ideal-postcodes.dev/interfaces/addressresource.html)
+[Address resource client docs](https://core-interface.ideal-postcodes.dev/modules/resources_addresses.html)
 
 #### Autocomplete
 
@@ -337,7 +337,7 @@ autocomplete
 
 [Autocomplete resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/autocomplete)
 
-[Autocomplete resource client docs](https://core-interface.ideal-postcodes.dev/interfaces/autocompleteresource.html)
+[Autocomplete resource client docs](https://core-interface.ideal-postcodes.dev/modules/resources_autocomplete.html)
 
 #### UDPRN
 
@@ -360,7 +360,7 @@ udprn
 
 [UDPRN resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/udprn)
 
-[UDPRN resource client docs](https://core-interface.ideal-postcodes.dev/interfaces/udprnresource.html)
+[UDPRN resource client docs](https://core-interface.ideal-postcodes.dev/modules/resources_udprn.html)
 
 #### UMPRN
 
@@ -383,7 +383,7 @@ umprn
 
 [UMPRN resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/umprn)
 
-[UMPRN resource client docs](https://core-interface.ideal-postcodes.dev/interfaces/umprnresource.html)
+[UMPRN resource client docs](https://core-interface.ideal-postcodes.dev/modules/resources_umprn.html)
 
 #### Keys
 
@@ -400,7 +400,7 @@ keys
   .catch((error) => logger(error));
 ```
 
-[Method docs](https://core-interface.ideal-postcodes.dev/interfaces/keyresource.html#retrieve)
+[Method docs](https://core-interface.ideal-postcodes.dev/modules/resources_keys.html#retrieve)
 
 Get private information on key (requires user_token)
 
@@ -419,7 +419,7 @@ keys
   .catch((error) => logger(error));
 ```
 
-[Method docs](https://core-interface.ideal-postcodes.dev/interfaces/keyresource.html#retrieve)
+[Method docs](https://core-interface.ideal-postcodes.dev/modules/resources_keys.html#retrieve)
 
 Get key usage data
 
@@ -438,11 +438,11 @@ keys
   .catch((error) => logger(error));
 ```
 
-[Method docs](https://core-interface.ideal-postcodes.dev/interfaces/keyresource.html#usage)
+[Method docs](https://core-interface.ideal-postcodes.dev/modules/resources_keys.html#usage)
 
 [Keys resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/keys)
 
-[Key resource client docs](https://core-interface.ideal-postcodes.dev/interfaces/keyresource.html)
+[Key resource client docs](https://core-interface.ideal-postcodes.dev/modules/resources_keys.html)
 
 ---
 
