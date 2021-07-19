@@ -3,7 +3,7 @@ import { parse } from "../error";
 import { Client } from "../client";
 import { HttpResponse } from "../agent";
 
-interface Options {
+export interface Options {
   // Name of resource, e.g. "postcodes"
   resource: string;
   // Resource action, e.g. "usage" maps to `/resource/:id/usage"
@@ -17,7 +17,7 @@ export interface Request {
   timeout?: number;
 }
 
-interface Response<U> extends HttpResponse {
+export interface Response<U> extends HttpResponse {
   body: U;
 }
 

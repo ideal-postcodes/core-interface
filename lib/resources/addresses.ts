@@ -7,7 +7,7 @@ import { HttpResponse } from "../agent";
 /**
  * Query
  */
-interface Query extends OptionalStringMap {
+export interface Query extends OptionalStringMap {
   // Authentication
   api_key?: string;
   licensee?: string;
@@ -46,13 +46,13 @@ interface Header extends OptionalStringMap {
   "IDPC-Source-IP"?: string;
 }
 
-interface Request {
+export interface Request {
   query?: Query;
   header?: Header;
   timeout?: number;
 }
 
-interface Response extends HttpResponse {
+export interface Response extends HttpResponse {
   body: AddressQueryResponse;
 }
 

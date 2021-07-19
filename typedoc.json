@@ -1,16 +1,22 @@
 {
   "entryPoints": [
-    "./lib/index.ts",
     "./lib/agent.ts",
     "./lib/client.ts",
     "./lib/error.ts",
     "./lib/helpers.ts",
-    "./lib/types.ts"
+    "./lib/types.ts",
+    "./lib/resources/addresses.ts",
+    "./lib/resources/autocomplete.ts",
+    "./lib/resources/postcodes.ts",
+    "./lib/resources/keys.ts",
+    "./lib/resources/udprn.ts",
+    "./lib/resources/umprn.ts",
+    "./lib/index.ts"
   ],
   "hideGenerator": true,
   "disableOutputCheck": true,
   "out": "docs/",
-  "excludeNotDocumented": true,
+  "excludeNotDocumented": false,
   "excludePrivate": true,
   "theme": "./node_modules/@ideal-postcodes/doc-assets"
 }
