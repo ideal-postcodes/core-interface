@@ -8,11 +8,11 @@ import { OptionalStringMap } from "../util";
 import { Client } from "../client";
 import { HttpResponse } from "../agent";
 
-interface RetrieveQuery extends OptionalStringMap {
+export interface RetrieveQuery extends OptionalStringMap {
   user_token?: string;
 }
 
-interface RetrieveUsageQuery extends RetrieveQuery {
+export interface RetrieveUsageQuery extends RetrieveQuery {
   start?: string;
   end?: string;
   tags?: string;
@@ -23,23 +23,23 @@ interface Header extends OptionalStringMap {
   Authorization?: string;
 }
 
-interface Request {
+export interface Request {
   query?: RetrieveQuery;
   header?: Header;
   timeout?: number;
 }
 
-interface UsageRequest extends Request {
+export interface UsageRequest extends Request {
   query?: RetrieveUsageQuery;
 }
 
-type KeyResponse = PublicKeyResponse | PrivateKeyResponse;
+export type KeyResponse = PublicKeyResponse | PrivateKeyResponse;
 
-interface Response extends HttpResponse {
+export interface Response extends HttpResponse {
   body: KeyResponse;
 }
 
-interface UsageResponse extends HttpResponse {
+export interface UsageResponse extends HttpResponse {
   body: KeyUsageResponse;
 }
 

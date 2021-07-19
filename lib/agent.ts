@@ -47,8 +47,6 @@ export interface Http {
 export type HttpVerb = "GET" | "POST" | "DELETE" | "PUT" | "PATCH" | "DELETE";
 
 /**
- * HttpRequest
- *
  * Describes HTTP request
  */
 export interface HttpRequest {
@@ -72,6 +70,7 @@ export type StringMap = Record<string, string>;
  * Header
  */
 export type Header = StringMap;
+
 export type Query = StringMap;
 
 /**

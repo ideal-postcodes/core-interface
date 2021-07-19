@@ -4,7 +4,7 @@ import { OptionalStringMap } from "../util";
 import { Client } from "../client";
 import { HttpResponse } from "../agent";
 
-interface Query extends OptionalStringMap {
+export interface Query extends OptionalStringMap {
   // Authentication
   api_key?: string;
   licensee?: string;
@@ -42,13 +42,13 @@ interface Header extends OptionalStringMap {
   Authorization?: string;
 }
 
-interface Request {
+export interface Request {
   query?: Query;
   header?: Header;
   timeout?: number;
 }
 
-interface Response extends HttpResponse {
+export interface Response extends HttpResponse {
   body: AddressSuggestionResponse;
 }
 

@@ -4,7 +4,7 @@ import { OptionalStringMap } from "../util";
 import { Client } from "../client";
 import { HttpResponse } from "../agent";
 
-interface Query extends OptionalStringMap {
+export interface Query extends OptionalStringMap {
   // Authentication
   api_key?: string;
   licensee?: string;
@@ -16,18 +16,18 @@ interface Query extends OptionalStringMap {
   tags?: string;
 }
 
-interface Header extends OptionalStringMap {
+export interface Header extends OptionalStringMap {
   Authorization?: string;
   "IDPC-Source-IP"?: string;
 }
 
-interface Request {
+export interface Request {
   query?: Query;
   header?: Header;
   timeout?: number;
 }
 
-interface Response extends HttpResponse {
+export interface Response extends HttpResponse {
   body: UmprnResponse;
 }
 
