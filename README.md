@@ -69,9 +69,7 @@ const client = new Client({ api_key: "iddqd" });
 // The agentless interface requires explicit configuration
 ```
 
-[Client class docs](https://core-interface.ideal-postcodes.dev/classes/client.html)
-
-[Client configuration options](https://core-interface.ideal-postcodes.dev/interfaces/config.html)
+[Client configuration options](https://core-interface.ideal-postcodes.dev/interfaces/client.config)
 
 ---
 
@@ -106,9 +104,7 @@ lookupPostcode({ client, postcode }).then(addresses => {
 });
 ```
 
-`lookupPostcode` [docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookuppostcode)
-
-`lookupPostcode` [options](https://core-interface.ideal-postcodes.dev/interfaces/lookuppostcodeoptions.html)
+`lookupPostcode` [docs](https://core-interface.ideal-postcodes.dev/modules/helper_methods#lookupPostcode)
 
 #### Search for an Address
 
@@ -129,9 +125,7 @@ lookupAddress({ client, query }).then(addresses => {
 });
 ```
 
-`lookupAddress` [docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupaddress)
-
-`lookupAddress` [options](https://core-interface.ideal-postcodes.dev/interfaces/lookupaddressoptions.html)
+`lookupAddress` [docs](https://core-interface.ideal-postcodes.dev/modules/helper_methods#lookupAddress)
 
 #### Search for an Address by UDPRN
 
@@ -154,9 +148,7 @@ lookupUdprn({ client, udprn }).then(address => {
 });
 ```
 
-`lookupUdprn` [docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupudprn)
-
-`lookupUdprn` [options](https://core-interface.ideal-postcodes.dev/interfaces/lookupudprnoptions.html)
+`lookupUdprn` [docs](https://core-interface.ideal-postcodes.dev/modules/helper_methods#lookupUdprn)
 
 #### Search for an Address by UMPRN
 
@@ -179,9 +171,7 @@ lookupUmprn({ client, umprn }).then(address => {
 });
 ```
 
-`lookupUmprn` [docs](https://core-interface.ideal-postcodes.dev/classes/client.html#lookupumprn)
-
-`lookupUmprn` [options](https://core-interface.ideal-postcodes.dev/interfaces/lookupumprnoptions.html)
+`lookupUmprn` [docs](https://core-interface.ideal-postcodes.dev/modules/helper_methods#lookupUmprn)
 
 #### Check Key Usability
 
@@ -193,9 +183,7 @@ checkKeyUsability({ client }).then((key) => {
 });
 ```
 
-`checkKeyUsability` [docs](https://core-interface.ideal-postcodes.dev/classes/client.html#checkkeyusability)
-
-`checkKeyUsability` [options](https://core-interface.ideal-postcodes.dev/interfaces/checkkeyusabilityoptions.html)
+`checkKeyUsability` [docs](https://core-interface.ideal-postcodes.dev/modules/helper_methods#checkKeyUsability)
 
 ---
 
@@ -504,14 +492,14 @@ You may view a [sketch of the error prototype chain](#error-prototype-chain).
 
 For more advanced use cases, this core-interface library provides:
 
-- Class implementations for [Ideal Postcodes API errors](https://core-interface.ideal-postcodes.dev/classes/idpcapierror.html) that inherit from `Error`
-- A [parser](https://core-interface.ideal-postcodes.dev/globals.html#parse) that converts raw error data into one of these error instances
+- Class implementations for [Ideal Postcodes API errors](https://core-interface.ideal-postcodes.dev/classes/errors.idpcapierror) that inherit from `Error`
+- A [parser](https://core-interface.ideal-postcodes.dev/modules/errors#parse) that converts raw error data into one of these error instances
 
 #### Error Usage
 
 Aside from inspecting the HTTP request status code and/or JSON body response codes, you may also test for specific error instances.
 
-Errors that don't inherit from [`IdealPostcodesError`](https://core-interface.ideal-postcodes.dev/classes/idealpostcodeserror.html) would indicate some kind of error external to the API (e.g. bad network, request timeout).
+Errors that don't inherit from [`IdealPostcodesError`](https://core-interface.ideal-postcodes.dev/classes/errors.idealpostcodeserror) would indicate some kind of error external to the API (e.g. bad network, request timeout).
 
 ```javascript
 import { errors } from "@ideal-postcodes/core-browser";
