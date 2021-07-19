@@ -468,7 +468,7 @@ For example:
 const { IdpcInvalidKeyError } = Client.errors;
 
 try {
-  const addresses = lookupPostcode({ client, postcode: "SW1A2AA" });
+  const addresses = await lookupPostcode({ client, postcode: "SW1A2AA" });
 } catch (error) {
   if (error instanceof IdpcInvalidKeyError) {
     // Handle an invalid key error
@@ -487,7 +487,7 @@ import {
 } from "@ideal-postcodes/core-browser";
 
 try {
-  const addresses = lookupPostcode({ client, postcode: "SW1A2AA" });
+  const addresses = await lookupPostcode({ client, postcode: "SW1A2AA" });
 } catch (error) {
   if (error instanceof IdpcRequestFailedError) {
     // IdpcRequestFailedError indicates a 402 response code
