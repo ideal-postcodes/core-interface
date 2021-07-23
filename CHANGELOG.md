@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/ideal-postcodes/core-interface/compare/2.0.2...2.0.3) (2021-07-23)
+
+
+### Bug Fixes
+
+* **ESM:** Pin target output to ES2020 ([78a8b74](https://github.com/ideal-postcodes/core-interface/commit/78a8b7464290710b69bb9d9abbff5413cfc7dca6))
+
 ## [2.0.2](https://github.com/ideal-postcodes/core-interface/compare/2.0.1...2.0.2) (2021-07-19)
 
 
