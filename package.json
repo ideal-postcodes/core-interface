@@ -116,7 +116,7 @@
     "@typescript-eslint/eslint-plugin": "~4.29.2",
     "chai": "~4.3.0",
     "codecov": "~3.8.0",
-    "core-js": "~3.16.2",
+    "core-js": "~3.17.3",
     "dotenv": "~8.2.0",
     "eslint": "~7.32.0",
     "eslint-plugin-compat": "~3.13.0",
