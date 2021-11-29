@@ -130,7 +130,7 @@
     "karma-typescript-es6-transform": "~5.5.2",
     "mocha": "~9.1.0",
     "nyc": "~15.1.0",
-    "prettier": "~2.4.0",
+    "prettier": "~2.5.0",
     "puppeteer": "~11.0.0",
     "regenerator-runtime": "~0.13.3",
     "semantic-release": "~17.4.1",
