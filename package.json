@@ -91,7 +91,14 @@
     "Ideal Postcodes"
   ],
   "release": {
-    "extends": "@cablanchard/semantic-release/dist/npm"
+    "extends": "@cablanchard/semantic-release/dist/npm",
+    "branches": [
+      "master",
+      {
+        "name": "beta",
+        "prerelease": true
+      }
+    ]
   },
   "license": "MIT",
   "dependencies": {
