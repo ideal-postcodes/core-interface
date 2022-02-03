@@ -1,5 +1,5 @@
-import { listMethod } from "./resource";
-import { AddressSuggestionResponse } from "@ideal-postcodes/api-typings";
+import { listMethod, retrieveMethod } from "./resource";
+import { AddressSuggestionResponse, GbrResolveResponse } from "../types";
 import { OptionalStringMap } from "../util";
 import { Client } from "../client";
 import { HttpResponse } from "../agent";
@@ -64,3 +64,19 @@ export interface List {
 
 export const list: List = (client, request) =>
   listMethod<Request, AddressSuggestionResponse>({ resource, client })(request);
+
+export interface GbrResponse extends HttpResponse {
+  body: GbrResolveResponse;
+}
+
+export interface Gbr {
+  (client: Client, id: string, request: Request): Promise<GbrResponse>;
+}
+
+// Resolves address to the GBR format
+export const gbr: Gbr = (client, id, request) =>
+  retrieveMethod<Request, GbrResolveResponse>({
+    resource,
+    client,
+    action: "gbr",
+  })(id, request);
