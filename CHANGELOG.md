@@ -1,3 +1,17 @@
+# [3.0.0-beta.1](https://github.com/ideal-postcodes/core-interface/compare/2.0.3...3.0.0-beta.1) (2022-02-03)
+
+
+### Features
+
+* **OpenAPI:** Migrate from api-typings to openapi spec ([06ce31d](https://github.com/ideal-postcodes/core-interface/commit/06ce31d6de53b65837fbb30ba44f88d343c51c90))
+* **Resolve:** Resolve address suggestions ([c2cfef7](https://github.com/ideal-postcodes/core-interface/commit/c2cfef7ee4fcc5ec8a66989278f4ab5dbf778723))
+
+
+### BREAKING CHANGES
+
+* **OpenAPI:** Core-Interface typings now uses
+@ideal-postcodes/openapi
+
 ## [2.0.3](https://github.com/ideal-postcodes/core-interface/compare/2.0.2...2.0.3) (2021-07-23)
 
 
