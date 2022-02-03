@@ -35,6 +35,7 @@ describe("Client", () => {
 
       lookupAddress({ client, query: "10" })
         .then((hits) => {
+          //@ts-ignore
           assert.deepEqual(addresses.success.body.result.hits, hits);
           sinon.assert.calledOnce(stub);
           sinon.assert.calledWithExactly(stub, expectedRequest);
@@ -88,6 +89,7 @@ describe("Client", () => {
         page,
       })
         .then((hits) => {
+          //@ts-ignore
           assert.deepEqual(addresses.success.body.result.hits, hits);
           sinon.assert.calledOnce(stub);
           sinon.assert.calledWithExactly(stub, expectedRequest);

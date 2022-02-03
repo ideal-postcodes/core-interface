@@ -43,6 +43,7 @@ describe("PostcodesResource", () => {
         .resolves(toResponse(fixtures.success, expectedRequest));
 
       retrieve(client, postcode, { query }).then((response) => {
+        //@ts-ignore
         assert.deepEqual(response.body, fixtures.success.body);
         done();
       });

@@ -38,6 +38,7 @@ describe("Client", () => {
 
       lookupUdprn({ client, udprn })
         .then((addresses) => {
+          //@ts-ignore
           assert.deepEqual(fixtures.success.body.result, addresses);
           sinon.assert.calledOnce(stub);
           sinon.assert.calledWithExactly(stub, expectedRequest);
@@ -85,6 +86,7 @@ describe("Client", () => {
         timeout,
       })
         .then((address) => {
+          //@ts-ignore
           assert.deepEqual(fixtures.success.body.result, address);
           sinon.assert.calledOnce(stub);
           sinon.assert.calledWithExactly(stub, expectedRequest);

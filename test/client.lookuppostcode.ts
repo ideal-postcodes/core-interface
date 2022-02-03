@@ -30,6 +30,7 @@ describe("Client", () => {
       const postcode = "id1 1qd";
       lookupPostcode({ client, postcode })
         .then((addresses) => {
+          //@ts-ignore
           assert.deepEqual(postcodes.success.body.result, addresses);
           sinon.assert.calledOnce(stub);
           sinon.assert.calledWithExactly(stub, expectedRequest);
@@ -80,6 +81,7 @@ describe("Client", () => {
         page,
       })
         .then((addresses) => {
+          //@ts-ignore
           assert.deepEqual(postcodes.success.body.result, addresses);
           sinon.assert.calledOnce(stub);
           sinon.assert.calledWithExactly(stub, expectedRequest);

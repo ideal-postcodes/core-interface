@@ -5,7 +5,9 @@
  */
 
 import { HttpResponse } from "./agent";
-import { ApiErrorResponse } from "@ideal-postcodes/api-typings";
+import { components } from "@ideal-postcodes/openapi";
+
+export type ApiErrorResponse = components["schemas"]["ErrorResponse"];
 
 /**
  * IdealPostcodesErrorOptions
