@@ -2,7 +2,44 @@
  * @module Misc Types
  */
 
-import { Address } from "@ideal-postcodes/api-typings";
+import { paths, components } from "@ideal-postcodes/openapi";
+
+export type AddressResponse =
+  paths["/addresses"]["get"]["responses"][200]["content"]["application/json"];
+
+export type AddressSuggestionResponse =
+  paths["/autocomplete/addresses"]["get"]["responses"][200]["content"]["application/json"];
+
+export type GbrResolveResponse =
+  paths["/autocomplete/addresses/{address}/gbr"]["get"]["responses"][200]["content"]["application/json"];
+
+export type PublicKeyResponse =
+  paths["/keys/{key}"]["get"]["responses"][200]["content"]["application/json"];
+
+export type PrivateKeyResponse =
+  paths["/keys/{key}/details"]["get"]["responses"][200]["content"]["application/json"];
+
+export type KeyUsageResponse =
+  paths["/keys/{key}/usage"]["get"]["responses"][200]["content"]["application/json"];
+
+export type PostcodesResponse =
+  paths["/postcodes/{postcode}"]["get"]["responses"][200]["content"]["application/json"];
+
+export type UdprnResponse =
+  paths["/udprn/{udprn}"]["get"]["responses"][200]["content"]["application/json"];
+
+export type UmprnResponse =
+  paths["/umprn/{umprn}"]["get"]["responses"][200]["content"]["application/json"];
+
+export type KeyStatus = components["schemas"]["ApiKey"];
+
+export type PafAddress = components["schemas"]["PafAddress"];
+
+export type MrAddress = components["schemas"]["MrAddress"];
+
+export type NybAddress = components["schemas"]["NybAddress"];
+
+export type UkAddress = PafAddress | MrAddress | NybAddress;
 
 /**
  * Authenticable
@@ -35,7 +72,7 @@ export interface AdminAuthenticable {
 /**
  * Address object attributes
  */
-export type AddressKeys = keyof Address;
+export type AddressKeys = keyof components["schemas"]["PafAddress"];
 
 /**
  * Filterable

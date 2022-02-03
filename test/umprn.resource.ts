@@ -43,6 +43,7 @@ describe("UmprnResource", () => {
         .resolves(toResponse(umprnFixtures.success, expectedRequest));
 
       retrieve(client, umprn.toString(), { query }).then((response) => {
+        //@ts-ignore
         assert.deepEqual(response.body, umprnFixtures.success.body);
         done();
       });

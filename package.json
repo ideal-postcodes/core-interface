@@ -22,7 +22,7 @@
   "scripts": {
     "semantic-release": "semantic-release --no-ci",
     "test-watch": "NODE_ENV=test mocha --watch",
-    "test": "npm run lint && NODE_ENV=test nyc mocha",
+    "test": "NODE_ENV=test nyc mocha",
     "test:browsers:headless": "karma start",
     "test:browsers": "npm run test:browsers:latest && npm run test:browsers:legacy",
     "test:browsers:latest": "karma start .config/latest.conf.ts",
@@ -102,7 +102,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@ideal-postcodes/api-typings": "~2.1.0"
+    "@ideal-postcodes/openapi": "~1.1.0-beta.4"
   },
   "devDependencies": {
     "@babel/polyfill": "~7.12.1",
@@ -112,7 +112,6 @@
     "@cablanchard/tslint": "0.0.1",
     "@ideal-postcodes/api-fixtures": "~1.3.0",
     "@ideal-postcodes/doc-assets": "~1.0.3",
-    "@ideal-postcodes/openapi": "~1.1.0-beta.2",
     "@ideal-postcodes/supported-browsers": "~2.5.0",
     "@types/chai": "~4.3.0",
     "@types/dotenv": "~8.2.0",

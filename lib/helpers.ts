@@ -21,7 +21,13 @@ import {
   IdpcUmprnNotFoundError,
   IdpcUdprnNotFoundError,
 } from "./error";
-import { Address, KeyStatus } from "@ideal-postcodes/api-typings";
+import {
+  UkAddress,
+  PafAddress,
+  NybAddress,
+  MrAddress,
+  KeyStatus,
+} from "./types";
 import {
   Authenticable,
   Filterable,
@@ -166,7 +172,7 @@ export const ping = (client: Client): Promise<HttpResponse> => {
  */
 export const lookupPostcode = (
   options: LookupPostcodeOptions
-): Promise<Address[]> => {
+): Promise<PafAddress[]> => {
   const queryOptions = toAddressIdQuery(options);
 
   const { page } = options;
@@ -190,7 +196,7 @@ export const lookupPostcode = (
  */
 export const lookupAddress = (
   options: LookupAddressOptions
-): Promise<Address[]> => {
+): Promise<UkAddress[]> => {
   const header: StringMap = {};
   const query: StringMap = { query: options.query };
   const { client } = options;
@@ -243,7 +249,7 @@ const toAddressIdQuery = (options: LookupIdOptions): Request => {
  */
 export const lookupUdprn = (
   options: LookupUdprnOptions
-): Promise<Address | null> => {
+): Promise<PafAddress | NybAddress | null> => {
   const queryOptions = toAddressIdQuery(options);
   return udprn
     .retrieve(options.client, options.udprn.toString(), queryOptions)
@@ -265,7 +271,7 @@ export const lookupUdprn = (
  */
 export const lookupUmprn = (
   options: LookupUmprnOptions
-): Promise<Address | null> => {
+): Promise<MrAddress | null> => {
   const queryOptions = toAddressIdQuery(options);
   return umprn
     .retrieve(options.client, options.umprn.toString(), queryOptions)

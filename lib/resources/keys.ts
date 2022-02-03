@@ -3,7 +3,7 @@ import {
   PublicKeyResponse,
   PrivateKeyResponse,
   KeyUsageResponse,
-} from "@ideal-postcodes/api-typings";
+} from "../types";
 import { OptionalStringMap } from "../util";
 import { Client } from "../client";
 import { HttpResponse } from "../agent";

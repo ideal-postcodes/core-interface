@@ -24,7 +24,7 @@ If you are looking for the browser or Node.js client which implements this inter
 - [API Documentation](https://core-interface.ideal-postcodes.dev/)
 - [npm Module](https://www.npmjs.com/package/@ideal-postcodes/core-interface)
 - [GitHub Repository](https://github.com/ideal-postcodes/core-interface)
-- [Typings Repository](https://github.com/ideal-postcodes/api-typings)
+- [Typings Repository](https://github.com/ideal-postcodes/openapi)
 - [Fixtures Repository](https://github.com/ideal-postcodes/api-fixtures)
 
 ## Downstream Clients

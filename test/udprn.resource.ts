@@ -43,6 +43,7 @@ describe("UdprnResource", () => {
         .resolves(toResponse(udprnFixtures.success, expectedRequest));
 
       retrieve(client, udprn.toString(), { query }).then((response) => {
+        //@ts-ignore
         assert.deepEqual(response.body, udprnFixtures.success.body);
         done();
       });

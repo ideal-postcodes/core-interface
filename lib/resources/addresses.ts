@@ -1,5 +1,5 @@
 import { listMethod } from "./resource";
-import { AddressQueryResponse } from "@ideal-postcodes/api-typings";
+import { AddressResponse } from "../types";
 import { OptionalStringMap } from "../util";
 import { Client } from "../client";
 import { HttpResponse } from "../agent";
@@ -53,7 +53,7 @@ export interface Request {
 }
 
 export interface Response extends HttpResponse {
-  body: AddressQueryResponse;
+  body: AddressResponse;
 }
 
 const resource = "addresses";
@@ -63,4 +63,4 @@ export interface List {
 }
 
 export const list: List = (client, request) =>
-  listMethod<Request, AddressQueryResponse>({ resource, client })(request);
+  listMethod<Request, AddressResponse>({ resource, client })(request);

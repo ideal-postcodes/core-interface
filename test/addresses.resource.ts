@@ -42,6 +42,7 @@ describe("AddressesResource", () => {
       .resolves(toResponse(fixtures.success, expectedRequest));
 
     list(client, { query }).then((response) => {
+      //@ts-ignore
       assert.deepEqual(response.body, fixtures.success.body);
       done();
     });

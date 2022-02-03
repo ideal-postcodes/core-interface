@@ -43,6 +43,7 @@ describe("KeyResource", () => {
           .resolves(toResponse(keys.check.available, expectedRequest));
 
         retrieve(client, key, { query }).then((response) => {
+          //@ts-ignore
           assert.deepEqual(response.body, keys.check.available.body);
           done();
         });
@@ -54,6 +55,7 @@ describe("KeyResource", () => {
           .resolves(toResponse(keys.check.unavailable, expectedRequest));
 
         retrieve(client, key, { query }).then((response) => {
+          //@ts-ignore
           assert.deepEqual(response.body, keys.check.unavailable.body);
           done();
         });
@@ -121,6 +123,7 @@ describe("KeyResource", () => {
           .resolves(toResponse(keys.private.success, expectedRequest));
 
         retrieve(client, key, { query }).then((response) => {
+          //@ts-ignore
           assert.deepEqual(response.body, keys.private.success.body);
           done();
         });
