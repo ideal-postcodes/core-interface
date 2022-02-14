@@ -1,6 +1,6 @@
 {
   "name": "@ideal-postcodes/core-interface",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0",
   "description": "Interface specification for javascript based API Clients to api.ideal-postcodes.co.uk",
   "author": {
     "name": "Ideal Postcodes",
