@@ -1,5 +1,9 @@
 import { listMethod, retrieveMethod } from "./resource";
-import { AddressSuggestionResponse, GbrResolveResponse } from "../types";
+import {
+  AddressSuggestionResponse,
+  GbrResolveResponse,
+  UsaResolveResponse,
+} from "../types";
 import { OptionalStringMap } from "../util";
 import { Client } from "../client";
 import { HttpResponse } from "../agent";
@@ -71,6 +75,22 @@ export interface GbrResponse extends HttpResponse {
 
 export interface Gbr {
   (client: Client, id: string, request: Request): Promise<GbrResponse>;
+}
+
+// Resolves address to the GBR format
+export const usa: Usa = (client, id, request) =>
+  retrieveMethod<Request, UsaResolveResponse>({
+    resource,
+    client,
+    action: "usa",
+  })(id, request);
+
+export interface UsaResponse extends HttpResponse {
+  body: UsaResolveResponse;
+}
+
+export interface Usa {
+  (client: Client, id: string, request: Request): Promise<UsaResponse>;
 }
 
 // Resolves address to the GBR format

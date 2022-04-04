@@ -10,6 +10,9 @@ export type AddressResponse =
 export type AddressSuggestionResponse =
   paths["/autocomplete/addresses"]["get"]["responses"][200]["content"]["application/json"];
 
+export type UsaResolveResponse =
+  paths["/autocomplete/addresses/{address}/usa"]["get"]["responses"][200]["content"]["application/json"];
+
 export type GbrResolveResponse =
   paths["/autocomplete/addresses/{address}/gbr"]["get"]["responses"][200]["content"]["application/json"];
 
