@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/ideal-postcodes/core-interface/compare/3.0.0...3.1.0) (2022-04-04)
+
+
+### Features
+
+* **USA:** Resolve addreses in US format ([76aff0c](https://github.com/ideal-postcodes/core-interface/commit/76aff0c9c462c7e53f890d04b48bdd764eab6acd))
+
 # [3.0.0](https://github.com/ideal-postcodes/core-interface/compare/2.0.3...3.0.0) (2022-02-14)
 
 
