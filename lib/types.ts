@@ -42,7 +42,11 @@ export type MrAddress = components["schemas"]["MrAddress"];
 
 export type NybAddress = components["schemas"]["NybAddress"];
 
-export type UkAddress = PafAddress | MrAddress | NybAddress;
+export type WelshAddress = components["schemas"]["WelshPafAddress"];
+
+export type AliasAddress = components["schemas"]["PafAliasAddress"];
+
+export type UkAddress = PafAddress | MrAddress | NybAddress | WelshAddress | AliasAddress;
 
 /**
  * Authenticable
