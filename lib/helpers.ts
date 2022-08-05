@@ -172,7 +172,7 @@ export const ping = (client: Client): Promise<HttpResponse> => {
  */
 export const lookupPostcode = (
   options: LookupPostcodeOptions
-): Promise<PafAddress[]> => {
+): Promise<UkAddress[]> => {
   const queryOptions = toAddressIdQuery(options);
 
   const { page } = options;
