@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/ideal-postcodes/core-interface/compare/3.1.0...3.2.0) (2022-08-05)
+
+
+### Features
+
+* **OpenAPI:** Update to 3.1.0 ([7f5c80b](https://github.com/ideal-postcodes/core-interface/commit/7f5c80bd9b98f70b44505dfde6236c1298205778))
+
 # [3.1.0](https://github.com/ideal-postcodes/core-interface/compare/3.0.0...3.1.0) (2022-04-04)
 
 
