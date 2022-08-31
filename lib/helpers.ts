@@ -197,21 +197,10 @@ export const lookupPostcode = (
 export const lookupAddress = (
   options: LookupAddressOptions
 ): Promise<UkAddress[]> => {
-  const header: StringMap = {};
-  const query: StringMap = { query: options.query };
-  const { client } = options;
-
-  appendAuthorization({ client, header, options });
-  appendIp({ header, options });
-  appendFilter({ query, options });
-  appendTags({ client, query, options });
-  appendPage({ query, options });
-
-  const queryOptions: Request = { header, query };
-  if (options.timeout !== undefined) queryOptions.timeout = options.timeout;
+  const queryOptions = toAddressLookupQuery(options)
 
   return addresses
-    .list(client, queryOptions)
+    .list(options.client, queryOptions)
     .then((response) => response.body.result.hits);
 };
 
@@ -222,7 +211,7 @@ export const lookupAddress = (
  * - Result filtering
  * - Tagging
  */
-const toAddressIdQuery = (options: LookupIdOptions): Request => {
+export const toAddressIdQuery = (options: LookupIdOptions): Request => {
   const header: StringMap = {};
   const query: StringMap = {};
   const { client } = options;
@@ -238,6 +227,23 @@ const toAddressIdQuery = (options: LookupIdOptions): Request => {
   return request;
 };
 
+
+export const toAddressLookupQuery = (options: LookupAddressOptions): Request => {
+  const header: StringMap = {};
+  const query: StringMap = { query: options.query }
+  const { client } = options;
+
+  appendAuthorization({ client, header, options });
+  appendIp({ header, options });
+  appendFilter({ query, options });
+  appendTags({ client, query, options });
+  appendPage({ query, options });
+
+  const queryOptions: Request = { header, query };
+  if (options.timeout !== undefined) queryOptions.timeout = options.timeout;
+
+  return queryOptions;
+};
 /**
  * Lookup UDPRN
  *
