@@ -1,3 +1,10 @@
+## [3.2.1](https://github.com/ideal-postcodes/core-interface/compare/3.2.0...3.2.1) (2022-08-31)
+
+
+### Bug Fixes
+
+* **Internal:** Export internal address lookup methods ([4965c73](https://github.com/ideal-postcodes/core-interface/commit/4965c739380e8a334ed72e9122c16f9b48413fbd))
+
 # [3.2.0](https://github.com/ideal-postcodes/core-interface/compare/3.1.0...3.2.0) (2022-08-05)
 
 
