@@ -135,7 +135,7 @@
     "karma-sauce-launcher": "~4.3.3",
     "karma-typescript": "~5.5.1",
     "karma-typescript-es6-transform": "~5.5.2",
-    "mocha": "~9.1.0",
+    "mocha": "~9.2.2",
     "nyc": "~15.1.0",
     "prettier": "~2.6.2",
     "puppeteer": "~13.0.1",
