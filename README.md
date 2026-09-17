@@ -21,7 +21,7 @@ If you are looking for the browser or Node.js client which implements this inter
 
 ## Links
 
-- [API Documentation](https://core-interface.ideal-postcodes.dev/)
+- [Documentation](#documentation)
 - [npm Module](https://www.npmjs.com/package/@ideal-postcodes/core-interface)
 - [GitHub Repository](https://github.com/ideal-postcodes/core-interface)
 - [Typings Repository](https://github.com/ideal-postcodes/openapi)
@@ -69,7 +69,7 @@ const client = new Client({ api_key: "iddqd" });
 // The agentless interface requires explicit configuration
 ```
 
-[Client configuration options](https://core-interface.ideal-postcodes.dev/interfaces/client.config)
+[Client configuration options](https://github.com/ideal-postcodes/core-interface/blob/master/lib/client.ts)
 
 ---
 
@@ -104,7 +104,7 @@ lookupPostcode({ client, postcode }).then(addresses => {
 });
 ```
 
-`lookupPostcode` [docs](https://core-interface.ideal-postcodes.dev/modules/helper_methods#lookupPostcode)
+`lookupPostcode` [docs](https://github.com/ideal-postcodes/core-interface/blob/master/lib/helpers.ts)
 
 #### Search for an Address
 
@@ -125,7 +125,7 @@ lookupAddress({ client, query }).then(addresses => {
 });
 ```
 
-`lookupAddress` [docs](https://core-interface.ideal-postcodes.dev/modules/helper_methods#lookupAddress)
+`lookupAddress` [docs](https://github.com/ideal-postcodes/core-interface/blob/master/lib/helpers.ts)
 
 #### Search for an Address by UDPRN
 
@@ -148,7 +148,7 @@ lookupUdprn({ client, udprn }).then(address => {
 });
 ```
 
-`lookupUdprn` [docs](https://core-interface.ideal-postcodes.dev/modules/helper_methods#lookupUdprn)
+`lookupUdprn` [docs](https://github.com/ideal-postcodes/core-interface/blob/master/lib/helpers.ts)
 
 #### Search for an Address by UMPRN
 
@@ -171,7 +171,7 @@ lookupUmprn({ client, umprn }).then(address => {
 });
 ```
 
-`lookupUmprn` [docs](https://core-interface.ideal-postcodes.dev/modules/helper_methods#lookupUmprn)
+`lookupUmprn` [docs](https://github.com/ideal-postcodes/core-interface/blob/master/lib/helpers.ts)
 
 #### Check Key Usability
 
@@ -183,7 +183,7 @@ checkKeyUsability({ client }).then((key) => {
 });
 ```
 
-`checkKeyUsability` [docs](https://core-interface.ideal-postcodes.dev/modules/helper_methods#checkKeyUsability)
+`checkKeyUsability` [docs](https://github.com/ideal-postcodes/core-interface/blob/master/lib/helpers.ts)
 
 ---
 
@@ -193,7 +193,7 @@ Resources defined in [the API documentation](https://ideal-postcodes.co.uk/docum
 
 These methods expose a low level interface to execute HTTP requests and observe HTTP responses. They are ideal if you have a more complex query or usecase where low level access would be useful.
 
-Resource methods return a promise with a [HTTP response object type](https://core-interface.ideal-postcodes.dev/interfaces/httpresponse.html).
+Resource methods return a promise with a [HTTP response object type](https://github.com/ideal-postcodes/core-interface/blob/master/lib/agent.ts).
 
 #### Retrieve
 
@@ -285,7 +285,7 @@ postcodes
 
 [Postcode resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/postcodes)
 
-[Postcode resource docs](https://core-interface.ideal-postcodes.dev/interfaces/postcoderesource.html)
+[Postcode resource docs](https://github.com/ideal-postcodes/core-interface/blob/master/lib/resources/postcodes.ts)
 
 #### Addresses
 
@@ -311,7 +311,7 @@ addresses
 
 [Address resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/addresses)
 
-[Address resource client docs](https://core-interface.ideal-postcodes.dev/modules/resources_addresses.html)
+[Address resource client docs](https://github.com/ideal-postcodes/core-interface/blob/master/lib/resources/addresses.ts)
 
 #### Autocomplete
 
@@ -337,7 +337,7 @@ autocomplete
 
 [Autocomplete resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/autocomplete)
 
-[Autocomplete resource client docs](https://core-interface.ideal-postcodes.dev/modules/resources_autocomplete.html)
+[Autocomplete resource client docs](https://github.com/ideal-postcodes/core-interface/blob/master/lib/resources/autocomplete.ts)
 
 #### UDPRN
 
@@ -360,7 +360,7 @@ udprn
 
 [UDPRN resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/udprn)
 
-[UDPRN resource client docs](https://core-interface.ideal-postcodes.dev/modules/resources_udprn.html)
+[UDPRN resource client docs](https://github.com/ideal-postcodes/core-interface/blob/master/lib/resources/udprn.ts)
 
 #### UMPRN
 
@@ -383,7 +383,7 @@ umprn
 
 [UMPRN resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/umprn)
 
-[UMPRN resource client docs](https://core-interface.ideal-postcodes.dev/modules/resources_umprn.html)
+[UMPRN resource client docs](https://github.com/ideal-postcodes/core-interface/blob/master/lib/resources/umprn.ts)
 
 #### Keys
 
@@ -400,7 +400,7 @@ keys
   .catch((error) => logger(error));
 ```
 
-[Method docs](https://core-interface.ideal-postcodes.dev/modules/resources_keys.html#retrieve)
+[Method docs](https://github.com/ideal-postcodes/core-interface/blob/master/lib/resources/keys.ts)
 
 Get private information on key (requires user_token)
 
@@ -419,7 +419,7 @@ keys
   .catch((error) => logger(error));
 ```
 
-[Method docs](https://core-interface.ideal-postcodes.dev/modules/resources_keys.html#retrieve)
+[Method docs](https://github.com/ideal-postcodes/core-interface/blob/master/lib/resources/keys.ts)
 
 Get key usage data
 
@@ -438,11 +438,11 @@ keys
   .catch((error) => logger(error));
 ```
 
-[Method docs](https://core-interface.ideal-postcodes.dev/modules/resources_keys.html#usage)
+[Method docs](https://github.com/ideal-postcodes/core-interface/blob/master/lib/resources/keys.ts)
 
 [Keys resource HTTP API documentation](https://ideal-postcodes.co.uk/documentation/keys)
 
-[Key resource client docs](https://core-interface.ideal-postcodes.dev/modules/resources_keys.html)
+[Key resource client docs](https://github.com/ideal-postcodes/core-interface/blob/master/lib/resources/keys.ts)
 
 ---
 
@@ -492,14 +492,14 @@ You may view a [sketch of the error prototype chain](#error-prototype-chain).
 
 For more advanced use cases, this core-interface library provides:
 
-- Class implementations for [Ideal Postcodes API errors](https://core-interface.ideal-postcodes.dev/classes/errors.idpcapierror) that inherit from `Error`
-- A [parser](https://core-interface.ideal-postcodes.dev/modules/errors#parse) that converts raw error data into one of these error instances
+- Class implementations for [Ideal Postcodes API errors](https://github.com/ideal-postcodes/core-interface/blob/master/lib/error.ts) that inherit from `Error`
+- A [parser](https://github.com/ideal-postcodes/core-interface/blob/master/lib/error.ts) that converts raw error data into one of these error instances
 
 #### Error Usage
 
 Aside from inspecting the HTTP request status code and/or JSON body response codes, you may also test for specific error instances.
 
-Errors that don't inherit from [`IdealPostcodesError`](https://core-interface.ideal-postcodes.dev/classes/errors.idealpostcodeserror) would indicate some kind of error external to the API (e.g. bad network, request timeout).
+Errors that don't inherit from [`IdealPostcodesError`](https://github.com/ideal-postcodes/core-interface/blob/master/lib/error.ts) would indicate some kind of error external to the API (e.g. bad network, request timeout).
 
 ```javascript
 import { errors } from "@ideal-postcodes/core-browser";
